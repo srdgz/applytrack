@@ -1,0 +1,20 @@
+{
+  "name": "@applytrack/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Dominio y casos de uso de ApplyTrack. Sin dependencias de runtime.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@applytrack/config": "workspace:*",
+    "@vitest/coverage-v8": "^5.0.3",
+    "vitest": "^5.0.3"
+  }
+}
