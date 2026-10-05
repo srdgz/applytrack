@@ -4,11 +4,13 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
 import { bumpDataVersion } from "../../composables/useDataVersion";
+import { useToast } from "../../composables/useToast";
 import { useUseCases } from "../../di/use-cases";
 
 const { t, locale } = useI18n();
 const { startDemo } = useUseCases();
 const router = useRouter();
+const toast = useToast();
 
 const starting = ref(false);
 
@@ -17,6 +19,10 @@ const tryDemo = async () => {
   try {
     await startDemo.execute(locale.value);
     bumpDataVersion();
+    toast.icon(t("notify.demoStartedTitle"), {
+      description: t("notify.demoStartedDescription"),
+      icon: "sparkles",
+    });
     await router.push({ name: "board" });
   } finally {
     starting.value = false;

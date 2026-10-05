@@ -3,6 +3,8 @@ import { watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterView, useRoute } from "vue-router";
 
+import ToastRegion from "./ui/toasts/ToastRegion.vue";
+
 const { t, locale } = useI18n();
 const route = useRoute();
 
@@ -16,4 +18,5 @@ watchEffect(() => {
 
 <template>
   <RouterView />
+  <ToastRegion />
 </template>

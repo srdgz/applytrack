@@ -100,13 +100,12 @@ const onSubmit = async () => {
     if (outcome === "saved") {
       form.markSaved();
       bumpDataVersion();
-      toast.success(t("form.saved"));
       await leave();
     } else if (outcome === "invalid") {
       await form.focusFirstError();
     } else {
       saveError.value = true;
-      toast.error(t("form.saveError"));
+      toast.error(t("notify.failedTitle"), { description: t("form.saveError") });
     }
   } catch {
     saveError.value = true;

@@ -29,7 +29,12 @@ export const useStatusChange = () => {
     const result = await changeApplicationStatus.execute({ id, to, note });
     if (result.ok) {
       bumpDataVersion();
-      toast.success(t("detail.statusChanged", { to: statusName(to) }));
+      toast.success(t("notify.statusTitle"), {
+        description: t("notify.statusDescription", {
+          company: result.value.company,
+          status: statusName(to),
+        }),
+      });
       return { ok: true, application: result.value };
     }
 
@@ -42,7 +47,7 @@ export const useStatusChange = () => {
       error.code === "INVALID_STATUS_TRANSITION"
         ? transitionMessage(error.from, statusName(error.to))
         : t(`errors.${error.code}`);
-    toast.error(message);
+    toast.error(t("notify.failedTitle"), { description: message });
     return { ok: false, message, issues: [] };
   };
 

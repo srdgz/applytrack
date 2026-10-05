@@ -14,6 +14,7 @@ export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | n
   const router = useRouter();
   const toast = useToast();
 
+  let archiveToast: string | undefined;
   const busy = ref(false);
   const error = ref("");
 
@@ -24,7 +25,7 @@ export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | n
       return await action();
     } catch {
       error.value = t("detail.actionError");
-      toast.error(error.value);
+      toast.error(t("notify.failedTitle"), { description: error.value });
       return undefined;
     } finally {
       busy.value = false;
@@ -40,12 +41,27 @@ export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | n
     if (!result.ok) {
       if (result.error.code === "UNAUTHENTICATED") await router.replace({ name: "start" });
       error.value = t(`errors.${result.error.code}`);
-      toast.error(error.value);
+      toast.error(t("notify.failedTitle"), { description: error.value });
       return false;
     }
     application.value = result.value;
     bumpDataVersion();
-    toast.success(t(archived ? "detail.archived" : "detail.unarchived"));
+    if (archived) {
+      archiveToast = toast.action(t("notify.archivedTitle"), {
+        description: t("notify.archivedDescription"),
+        icon: "archive",
+        action: {
+          label: t("notify.undo"),
+          onPress: () => {
+            void setArchived(false);
+          },
+        },
+      });
+    } else {
+      if (archiveToast !== undefined) toast.dismiss(archiveToast);
+      archiveToast = undefined;
+      toast.success(t("notify.unarchivedTitle"));
+    }
     return true;
   };
 
@@ -57,11 +73,11 @@ export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | n
     if (!result.ok) {
       if (result.error.code === "UNAUTHENTICATED") await router.replace({ name: "start" });
       error.value = t(`errors.${result.error.code}`);
-      toast.error(error.value);
+      toast.error(t("notify.failedTitle"), { description: error.value });
       return false;
     }
     bumpDataVersion();
-    toast.success(t("detail.deleted"));
+    toast.success(t("notify.deletedTitle"), { description: current.company, icon: "trash" });
     await router.replace({ name: "board" });
     return true;
   };

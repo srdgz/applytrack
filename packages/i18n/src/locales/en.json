@@ -28,8 +28,7 @@
     "banner": "Demo mode · data is only stored on this device",
     "reset": "Reset",
     "exit": "Exit",
-    "resetConfirm": "Your changes will be deleted and the sample data reloaded. Continue?",
-    "resetDone": "Sample data restored"
+    "resetConfirm": "Your changes will be deleted and the sample data reloaded. Continue?"
   },
   "status": {
     "wishlist": "Interested",
@@ -225,7 +224,6 @@
     "save": "Save",
     "saving": "Saving…",
     "cancel": "Cancel",
-    "saved": "Application saved",
     "saveError": "The application could not be saved. Please try again.",
     "unsavedConfirm": "You have unsaved changes. Leave without saving?",
     "notFound": "The application could not be found.",
@@ -248,18 +246,14 @@
     "historyChange": "From “{from}” to “{to}”",
     "openJobUrl": "View the job posting",
     "opensInNewTab": "(opens in a new tab)",
-    "statusChanged": "Status changed to “{to}”",
     "archive": "Archive",
     "unarchive": "Unarchive",
     "archivedNotice": "This application is archived: it does not appear on the board or in the list.",
-    "archived": "Application archived",
-    "unarchived": "Application unarchived",
     "delete": "Delete",
     "deleteTitle": "Delete the application for {company}?",
     "deleteWarning": "Its details and history will be deleted. This cannot be undone.",
     "deleteConfirm": "Delete permanently",
     "deleteCancel": "Cancel",
-    "deleted": "Application deleted",
     "actionError": "The action could not be completed.",
     "moreActions": "Other actions"
   },
@@ -289,6 +283,30 @@
     "success": "Done",
     "info": "Information",
     "error": "Error",
-    "region": "Notifications"
+    "region": "Notifications",
+    "warning": "Warning",
+    "action": "Action",
+    "icon": "Notice",
+    "loading": "Loading"
+  },
+  "notify": {
+    "demoStartedTitle": "Demo mode on",
+    "demoStartedDescription": "Data is only stored on this device.",
+    "createdTitle": "Application saved",
+    "createdDescription": "{company} · {position}",
+    "updatedTitle": "Changes saved",
+    "updatedDescription": "{company}",
+    "statusTitle": "Status updated",
+    "statusDescription": "{company} moves to “{status}”.",
+    "moveBlockedTitle": "Move not allowed",
+    "archivedTitle": "Application archived",
+    "archivedDescription": "It no longer appears on the board.",
+    "undo": "Undo",
+    "unarchivedTitle": "Application unarchived",
+    "deletedTitle": "Application deleted",
+    "deletedDescription": "{company}",
+    "restoringTitle": "Restoring data…",
+    "restoredTitle": "Sample data restored",
+    "failedTitle": "Could not complete the action"
   }
 }

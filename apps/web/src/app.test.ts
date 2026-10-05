@@ -346,7 +346,8 @@ describe("cambio de estado", () => {
     await waitFor(() => {
       expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cambiar estado" }));
     });
-    expect(screen.getByText("Estado cambiado a «Oferta»")).toBeTruthy();
+    expect(screen.getByText("Estado actualizado")).toBeTruthy();
+    expect(screen.getByText("Kraken Games pasa a «Oferta».")).toBeTruthy();
     expect(document.querySelector("main header")?.textContent).toContain("Oferta");
     expect(document.querySelector("#detail-history-title + ol > li")?.textContent).toContain(
       "Llamada de la CTO",
@@ -388,11 +389,12 @@ describe("cambio de estado", () => {
     });
 
     await drag("Nimbus Labs", "offer");
-    expect(
-      (await screen.findByText("No se puede pasar de «Me interesa» a «Oferta».")).closest(
-        "[role=alert]",
-      ),
-    ).not.toBeNull();
+    await waitFor(() => {
+      expect(document.querySelector("section[aria-label=Avisos] [role=alert]")?.textContent).toBe(
+        "Atención: Movimiento no permitido. No se puede pasar de «Me interesa» a «Oferta».",
+      );
+    });
+    expect(document.querySelector("[data-kind=warning]")).not.toBeNull();
     expect(columnHeadings()[0]).toBe("Me interesa 2");
 
     await drag("Brisa Health", "screening");
@@ -670,7 +672,7 @@ describe("archivar y eliminar", () => {
 
 describe("avisos", () => {
   const regions = () => {
-    const container = document.querySelector("[role=region][aria-label=Avisos]");
+    const container = document.querySelector("section[aria-label=Avisos]");
     return {
       status: container?.querySelector("[role=status]"),
       alert: container?.querySelector("[role=alert]"),
@@ -684,8 +686,8 @@ describe("avisos", () => {
     expect(status?.textContent.trim()).toBe("");
     expect(alert?.textContent.trim()).toBe("");
 
-    toasts.show("success", "Todo bien");
-    toasts.show("error", "Algo falló");
+    toasts.show("success", { title: "Todo bien" });
+    toasts.show("error", { title: "Algo falló" });
 
     await waitFor(() => {
       expect(regions().status?.textContent).toContain("Hecho: Todo bien");
@@ -695,26 +697,34 @@ describe("avisos", () => {
 
   it("CA-107-08 · se cierran con su botón y con Escape", async () => {
     const { toasts } = await startDemoApp("/board");
-    toasts.show("info", "Primero");
-    toasts.show("error", "Segundo");
+    toasts.show("info", { title: "Primero" });
+    toasts.show("error", { title: "Segundo" });
 
-    const [first] = await screen.findAllByRole("button", { name: "Cerrar aviso" });
-    if (!first) throw new Error("sin botón de cerrar");
-    await userEvent.click(first);
-    expect(screen.queryByText("Primero")).toBeNull();
+    const closeOf = async (title: string) => {
+      const toast = (await screen.findByText(title)).closest(".sileo-toast");
+      const button = toast?.querySelector<HTMLButtonElement>("button[aria-label='Cerrar aviso']");
+      if (!button) throw new Error(`sin botón de cerrar en ${title}`);
+      return button;
+    };
+    await userEvent.click(await closeOf("Primero"));
+    await waitFor(() => {
+      expect(screen.queryByText("Primero")).toBeNull();
+    });
 
-    screen.getByRole("button", { name: "Cerrar aviso" }).focus();
+    (await closeOf("Segundo")).focus();
     await userEvent.keyboard("{Escape}");
-    expect(screen.queryByText("Segundo")).toBeNull();
+    await waitFor(() => {
+      expect(screen.queryByText("Segundo")).toBeNull();
+    });
   });
 
   it("CA-107-09 · el tiempo se pausa con el puntero encima o el foco dentro", async () => {
     const { toasts } = await startDemoApp("/board");
     const pause = vi.spyOn(toasts, "pause");
     const resume = vi.spyOn(toasts, "resume");
-    const id = toasts.show("success", "Guardada");
+    const id = toasts.show("success", { title: "Guardada" });
 
-    const item = (await screen.findByText("Guardada")).closest("div");
+    const item = (await screen.findByText("Guardada")).closest(".sileo-toast");
     if (!item) throw new Error("sin aviso");
     await fireEvent.mouseEnter(item);
     await fireEvent.mouseLeave(item);
@@ -737,5 +747,66 @@ describe("avisos", () => {
     await waitFor(() => {
       expect(regions().status?.textContent).toContain("Datos de ejemplo restaurados");
     });
+  });
+});
+
+describe("avisos estilo Sileo", () => {
+  it("CA-107-11 · archivar muestra «Deshacer», no se cierra solo, se alcanza con Alt+T y desarchiva", async () => {
+    const { router } = await startDemoApp("/board");
+    await router.push("/applications/demo-03");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Archivar" }));
+    expect(await screen.findByText("Candidatura archivada")).toBeTruthy();
+    expect(document.querySelector("[data-kind=action]")).not.toBeNull();
+
+    await waitFor(() => {
+      expect(document.querySelector("[data-kind=action]")?.getAttribute("data-expanded")).toBe(
+        "true",
+      );
+    });
+    await userEvent.keyboard("{Alt>}t{/Alt}");
+    expect(document.activeElement?.textContent.trim()).toBe("Deshacer");
+
+    await userEvent.keyboard("{Enter}");
+
+    await waitFor(() => {
+      expect(screen.queryByText(/Esta candidatura está archivada/)).toBeNull();
+    });
+    expect(await screen.findByText("Candidatura desarchivada")).toBeTruthy();
+  });
+
+  it("desarchivar desde la página cierra el aviso con «Deshacer»", async () => {
+    await startDemoApp("/applications/demo-03");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Archivar" }));
+    await screen.findByText("Candidatura archivada");
+    await userEvent.click(screen.getByRole("button", { name: "Desarchivar" }));
+
+    await waitFor(() => {
+      expect(screen.queryByText("Candidatura archivada")).toBeNull();
+    });
+  });
+
+  it("empezar la demo muestra un aviso con icono propio", async () => {
+    await startApp("/");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Probar sin cuenta" }));
+
+    expect(await screen.findByText("Modo demo activado")).toBeTruthy();
+    expect(document.querySelector("[data-kind=icon]")).not.toBeNull();
+  });
+
+  it("los avisos de éxito al guardar llevan título y descripción", async () => {
+    const { router } = await startDemoApp("/board");
+    await router.push("/applications/new");
+
+    await userEvent.type(field("field-company"), "Nueva Empresa");
+    await userEvent.type(field("field-position"), "Desarrollo Vue");
+    await userEvent.selectOptions(field("field-source"), "referral");
+    await userEvent.selectOptions(field("field-workMode"), "remote");
+    await userEvent.click(screen.getByRole("button", { name: "Guardar" }));
+
+    expect(await screen.findByText("Candidatura guardada")).toBeTruthy();
+    expect(screen.getByText("Nueva Empresa · Desarrollo Vue")).toBeTruthy();
   });
 });

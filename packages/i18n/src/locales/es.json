@@ -28,8 +28,7 @@
     "banner": "Modo demo · los datos solo se guardan en este dispositivo",
     "reset": "Reiniciar",
     "exit": "Salir",
-    "resetConfirm": "Se borrarán tus cambios y se volverán a cargar los datos de ejemplo. ¿Continuar?",
-    "resetDone": "Datos de ejemplo restaurados"
+    "resetConfirm": "Se borrarán tus cambios y se volverán a cargar los datos de ejemplo. ¿Continuar?"
   },
   "status": {
     "wishlist": "Me interesa",
@@ -225,7 +224,6 @@
     "save": "Guardar",
     "saving": "Guardando…",
     "cancel": "Cancelar",
-    "saved": "Candidatura guardada",
     "saveError": "No se ha podido guardar. Inténtalo de nuevo.",
     "unsavedConfirm": "Tienes cambios sin guardar. ¿Quieres salir sin guardarlos?",
     "notFound": "No se ha encontrado la candidatura.",
@@ -248,18 +246,14 @@
     "historyChange": "De «{from}» a «{to}»",
     "openJobUrl": "Ver la oferta",
     "opensInNewTab": "(se abre en otra pestaña)",
-    "statusChanged": "Estado cambiado a «{to}»",
     "archive": "Archivar",
     "unarchive": "Desarchivar",
     "archivedNotice": "Esta candidatura está archivada: no aparece en el tablero ni en la lista.",
-    "archived": "Candidatura archivada",
-    "unarchived": "Candidatura desarchivada",
     "delete": "Eliminar",
     "deleteTitle": "¿Eliminar la candidatura de {company}?",
     "deleteWarning": "Se borrarán sus datos y su historial. Esta acción no se puede deshacer.",
     "deleteConfirm": "Eliminar definitivamente",
     "deleteCancel": "Cancelar",
-    "deleted": "Candidatura eliminada",
     "actionError": "No se ha podido completar la acción.",
     "moreActions": "Otras acciones"
   },
@@ -289,6 +283,30 @@
     "success": "Hecho",
     "info": "Información",
     "error": "Error",
-    "region": "Avisos"
+    "region": "Avisos",
+    "warning": "Atención",
+    "action": "Acción",
+    "icon": "Aviso",
+    "loading": "Cargando"
+  },
+  "notify": {
+    "demoStartedTitle": "Modo demo activado",
+    "demoStartedDescription": "Los datos solo se guardan en este dispositivo.",
+    "createdTitle": "Candidatura guardada",
+    "createdDescription": "{company} · {position}",
+    "updatedTitle": "Cambios guardados",
+    "updatedDescription": "{company}",
+    "statusTitle": "Estado actualizado",
+    "statusDescription": "{company} pasa a «{status}».",
+    "moveBlockedTitle": "Movimiento no permitido",
+    "archivedTitle": "Candidatura archivada",
+    "archivedDescription": "Ya no aparece en el tablero.",
+    "undo": "Deshacer",
+    "unarchivedTitle": "Candidatura desarchivada",
+    "deletedTitle": "Candidatura eliminada",
+    "deletedDescription": "{company}",
+    "restoringTitle": "Restaurando datos…",
+    "restoredTitle": "Datos de ejemplo restaurados",
+    "failedTitle": "No se ha podido completar"
   }
 }

@@ -13,9 +13,16 @@ export const useDemoActions = () => {
 
   const reset = async (): Promise<boolean> => {
     if (!window.confirm(t("demo.resetConfirm"))) return false;
-    await resetDemo.execute(locale.value);
+    try {
+      await toast.promise(resetDemo.execute(locale.value), {
+        loading: { title: t("notify.restoringTitle"), icon: "refresh" },
+        success: { title: t("notify.restoredTitle") },
+        error: { title: t("notify.failedTitle") },
+      });
+    } catch {
+      return false;
+    }
     bumpDataVersion();
-    toast.success(t("demo.resetDone"));
     return true;
   };
 

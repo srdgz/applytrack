@@ -1,4 +1,9 @@
-import type { ToastQueue } from "@applytrack/notifications";
+import type {
+  PromiseMessages,
+  ToastContent,
+  ToastKind,
+  ToastQueue,
+} from "@applytrack/notifications";
 import type { InjectionKey } from "vue";
 import { inject } from "vue";
 
@@ -10,11 +15,25 @@ export const useToastQueue = (): ToastQueue => {
   return queue;
 };
 
+type Extra = Omit<ToastContent, "title">;
+
 export const useToast = () => {
   const queue = useToastQueue();
+  const kind =
+    (toastKind: ToastKind) =>
+    (title: string, extra: Extra = {}) =>
+      queue.show(toastKind, { title, ...extra });
+
   return {
-    success: (message: string) => queue.show("success", message),
-    info: (message: string) => queue.show("info", message),
-    error: (message: string) => queue.show("error", message),
+    success: kind("success"),
+    info: kind("info"),
+    warning: kind("warning"),
+    error: kind("error"),
+    action: kind("action"),
+    icon: kind("icon"),
+    promise: <T>(task: Promise<T>, messages: PromiseMessages<T>) => queue.promise(task, messages),
+    dismiss: (id: string) => {
+      queue.dismiss(id);
+    },
   };
 };

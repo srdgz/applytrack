@@ -4,6 +4,7 @@ import { computed, ref, shallowRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink, useRouter } from "vue-router";
 
+import { useToast } from "../../composables/useToast";
 import { useUseCases } from "../../di/use-cases";
 import type { FormValues } from "../../form/form-values";
 import { toDetailsDraft, valuesFromSnapshot } from "../../form/form-values";
@@ -16,6 +17,7 @@ const props = defineProps<{ id: string }>();
 const { t } = useI18n();
 const router = useRouter();
 const { getApplication, updateApplicationDetails } = useUseCases();
+const toast = useToast();
 
 const detailRoute = computed(() => ({ name: "application", params: { id: props.id } }));
 
@@ -46,7 +48,12 @@ const save = async (values: FormValues): Promise<SaveOutcome> => {
     id: props.id,
     details: toDetailsDraft(values),
   });
-  if (result.ok) return "saved";
+  if (result.ok) {
+    toast.success(t("notify.updatedTitle"), {
+      description: t("notify.updatedDescription", { company: result.value.company }),
+    });
+    return "saved";
+  }
   if (result.error.code === "UNAUTHENTICATED") await router.replace({ name: "start" });
   return result.error.code === "VALIDATION_FAILED" ? "invalid" : "error";
 };

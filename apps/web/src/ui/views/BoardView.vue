@@ -154,7 +154,10 @@ const onDrop = async (event: DragEvent, column: BoardColumnId) => {
 
   const targets = statusesForColumn(column).filter((to) => canTransition(application.status, to));
   const [only] = targets;
-  if (!targets.length) toast.error(transitionMessage(application.status, columnTitle(column)));
+  if (!targets.length)
+    toast.warning(t("notify.moveBlockedTitle"), {
+      description: transitionMessage(application.status, columnTitle(column)),
+    });
   else if (targets.length === 1 && only) await move(application, only);
   else await openChooser(application, targets);
 };

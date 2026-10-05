@@ -2,6 +2,7 @@
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
+import { useToast } from "../../composables/useToast";
 import { useUseCases } from "../../di/use-cases";
 import type { FormValues } from "../../form/form-values";
 import { emptyValues, toDraft } from "../../form/form-values";
@@ -12,10 +13,19 @@ import ApplicationForm from "../form/ApplicationForm.vue";
 const { t } = useI18n();
 const router = useRouter();
 const { createApplication } = useUseCases();
+const toast = useToast();
 
 const save = async (values: FormValues): Promise<SaveOutcome> => {
   const result = await createApplication.execute(toDraft(values));
-  if (result.ok) return "saved";
+  if (result.ok) {
+    toast.success(t("notify.createdTitle"), {
+      description: t("notify.createdDescription", {
+        company: result.value.company,
+        position: result.value.position,
+      }),
+    });
+    return "saved";
+  }
   if (result.error.code === "UNAUTHENTICATED") await router.replace({ name: "start" });
   return result.error.code === "VALIDATION_FAILED" ? "invalid" : "error";
 };
