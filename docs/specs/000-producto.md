@@ -3,7 +3,7 @@
 | Campo   | Valor      |
 | ------- | ---------- |
 | Estado  | Aprobado   |
-| Versión | 0.2        |
+| Versión | 0.3        |
 | Fecha   | 2026-10-05 |
 
 ## 1. Visión
@@ -115,18 +115,22 @@ El segundo perfil condiciona una decisión de producto: hay un **modo demo** con
 
 El dominio no lanza mensajes de texto: devuelve **códigos de error** que la interfaz traduce. Así el núcleo no sabe nada del idioma.
 
-| Código                             | Cuándo                                      |
-| ---------------------------------- | ------------------------------------------- |
-| `REQUIRED_FIELD`                   | Falta un campo obligatorio.                 |
-| `FIELD_TOO_LONG`                   | Se supera la longitud máxima.               |
-| `INVALID_URL`                      | `jobUrl` no es una URL válida.              |
-| `INVALID_SALARY_RANGE`             | `min > max` o algún valor ≤ 0.              |
-| `UNSUPPORTED_CURRENCY`             | Moneda distinta de `EUR`, `GBP` o `USD`.    |
-| `FUTURE_DATE`                      | `appliedAt` es una fecha futura.            |
-| `TOO_MANY_TAGS` / `DUPLICATED_TAG` | Fallan las reglas de etiquetas.             |
-| `INVALID_STATUS_TRANSITION`        | Transición no permitida (ver 5.2).          |
-| `APPLICATION_NOT_FOUND`            | El id no existe o no pertenece al usuario.  |
-| `UNAUTHENTICATED`                  | Operación que exige sesión, hecha sin ella. |
+| Código                             | Cuándo                                                                                             |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------- |
+| `REQUIRED_FIELD`                   | Falta un campo obligatorio.                                                                        |
+| `FIELD_TOO_LONG`                   | Se supera la longitud máxima.                                                                      |
+| `INVALID_URL`                      | `jobUrl` no es una URL válida.                                                                     |
+| `INVALID_SALARY_RANGE`             | `min > max` o algún valor ≤ 0.                                                                     |
+| `UNSUPPORTED_CURRENCY`             | Moneda distinta de `EUR`, `GBP` o `USD`.                                                           |
+| `FUTURE_DATE`                      | `appliedAt` es una fecha futura.                                                                   |
+| `INVALID_DATE`                     | `appliedAt` no es una fecha real con formato `YYYY-MM-DD`.                                         |
+| `APPLIED_AT_NOT_ALLOWED`           | `appliedAt` con estado `wishlist`.                                                                 |
+| `INVALID_OPTION`                   | Valor fuera de una lista cerrada (fuente, modalidad, estado).                                      |
+| `TOO_MANY_TAGS` / `DUPLICATED_TAG` | Fallan las reglas de etiquetas.                                                                    |
+| `INVALID_STATUS_TRANSITION`        | Transición no permitida (ver 5.2).                                                                 |
+| `APPLICATION_NOT_FOUND`            | El id no existe o no pertenece al usuario.                                                         |
+| `UNAUTHENTICATED`                  | Operación que exige sesión, hecha sin ella.                                                        |
+| `VALIDATION_FAILED`                | Agrupa todos los errores de campo de un formulario (ver [100](100-crear-y-editar-candidatura.md)). |
 
 ## 6. Requisitos funcionales
 
