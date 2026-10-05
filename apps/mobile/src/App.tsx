@@ -1,7 +1,8 @@
 import { messages, resolveLocale } from "@applytrack/i18n";
+import type { ToastKind } from "@applytrack/notifications";
 import { StatusBar } from "expo-status-bar";
 import { Pressable, StyleSheet, Text, useColorScheme, View } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context";
 
 import type { ToastApi, ToastLabels } from "./notifications/ToastProvider";
 import { ToastProvider, useToast } from "./notifications/ToastProvider";
@@ -27,17 +28,20 @@ const wait = (ms: number) =>
     setTimeout(resolve, ms);
   });
 
-const samples: readonly { label: string; fire: (toast: ToastApi) => void }[] = [
+const samples: readonly { kind: ToastKind; label: string; fire: (toast: ToastApi) => void }[] = [
   {
+    kind: "success",
     label: catalog.toast.success,
     fire: (toast) => toast.success(catalog.notify.restoredTitle),
   },
   {
+    kind: "error",
     label: catalog.toast.error,
     fire: (toast) =>
       toast.error(catalog.notify.failedTitle, { description: catalog.form.saveError }),
   },
   {
+    kind: "warning",
     label: catalog.toast.warning,
     fire: (toast) =>
       toast.warning(catalog.notify.moveBlockedTitle, {
@@ -48,11 +52,13 @@ const samples: readonly { label: string; fire: (toast: ToastApi) => void }[] = [
       }),
   },
   {
+    kind: "info",
     label: catalog.toast.info,
     fire: (toast) =>
       toast.info(catalog.settings.demoTitle, { description: catalog.settings.demoDescription }),
   },
   {
+    kind: "action",
     label: catalog.toast.action,
     fire: (toast) =>
       toast.action(catalog.notify.archivedTitle, {
@@ -67,6 +73,7 @@ const samples: readonly { label: string; fire: (toast: ToastApi) => void }[] = [
       }),
   },
   {
+    kind: "icon",
     label: catalog.toast.icon,
     fire: (toast) =>
       toast.icon(catalog.notify.demoStartedTitle, {
@@ -75,6 +82,7 @@ const samples: readonly { label: string; fire: (toast: ToastApi) => void }[] = [
       }),
   },
   {
+    kind: "loading",
     label: catalog.toast.loading,
     fire: (toast) => {
       void toast.promise(wait(2500), {
@@ -95,9 +103,9 @@ const Preview = () => {
       <Text style={[styles.title, dark && styles.textDark]}>{catalog.app.name}</Text>
       <Text style={[styles.subtitle, dark && styles.subtitleDark]}>{catalog.app.tagline}</Text>
       <View style={styles.actions}>
-        {samples.map(({ label, fire }) => (
+        {samples.map(({ kind, label, fire }) => (
           <Pressable
-            key={label}
+            key={kind}
             accessibilityRole="button"
             onPress={() => {
               fire(toast);
@@ -115,7 +123,7 @@ const Preview = () => {
 
 export default function App() {
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
       <ToastProvider labels={labels}>
         <Preview />
       </ToastProvider>
