@@ -30,5 +30,5 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 3. [`102-tablero-y-lista.md`](102-tablero-y-lista.md) (RF-06, RF-07, RF-08), implementada (núcleo y web; la app móvil, en M4)
 4. [`103-modo-demo.md`](103-modo-demo.md) (RF-09), implementada (adaptador y datos)
 5. `104-autenticacion.md` (RF-01, RF-11)
-6. `105-panel-estadisticas.md` (RF-10)
+6. [`105-panel-estadisticas.md`](105-panel-estadisticas.md) (RF-10), implementada (núcleo y web; la app móvil, en M4)
 7. `106-archivar-y-eliminar.md` (RF-04)
