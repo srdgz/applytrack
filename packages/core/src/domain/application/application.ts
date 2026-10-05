@@ -121,6 +121,24 @@ export class Application {
     return ok(undefined);
   }
 
+  get archived(): boolean {
+    return this.state.archived;
+  }
+
+  archive(): boolean {
+    return this.setArchived(true);
+  }
+
+  unarchive(): boolean {
+    return this.setArchived(false);
+  }
+
+  private setArchived(archived: boolean): boolean {
+    if (this.state.archived === archived) return false;
+    this.state = { ...this.state, archived };
+    return true;
+  }
+
   toSnapshot(): ApplicationSnapshot {
     return copy(this.state);
   }

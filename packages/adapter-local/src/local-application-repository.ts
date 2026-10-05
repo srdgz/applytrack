@@ -40,6 +40,13 @@ export class LocalApplicationRepository implements ApplicationRepository {
     return { ...page, items: page.items.map((row) => Application.restore(row)) };
   }
 
+  delete(owner: UserId, id: ApplicationId): Promise<void> {
+    return this.storage.update((dataset) => ({
+      ...dataset,
+      applications: dataset.applications.filter((row) => !(row.id === id && row.ownerId === owner)),
+    }));
+  }
+
   async listTags(owner: UserId): Promise<readonly string[]> {
     return uniqueTags(await this.ownedBy(owner));
   }

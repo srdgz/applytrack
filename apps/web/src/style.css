@@ -13,6 +13,7 @@
   --color-warning: oklch(47% 0.137 46);
   --color-warning-soft: oklch(96% 0.059 95);
   --color-danger: oklch(50.5% 0.213 27);
+  --color-danger-ink: oklch(100% 0 0);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,6 +30,7 @@
     --color-warning: oklch(85% 0.17 84);
     --color-warning-soft: oklch(28% 0.077 46);
     --color-danger: oklch(71% 0.19 22);
+    --color-danger-ink: oklch(13% 0.028 262);
   }
 }
 

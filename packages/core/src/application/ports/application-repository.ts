@@ -7,4 +7,5 @@ export interface ApplicationRepository {
   save(application: Application): Promise<void>;
   search(owner: UserId, query: ApplicationQuery): Promise<Page<Application>>;
   listTags(owner: UserId): Promise<readonly string[]>;
+  delete(owner: UserId, id: ApplicationId): Promise<void>;
 }

@@ -73,7 +73,8 @@
     "stale": "Parada",
     "staleHint": "Más de {days} días sin cambios",
     "moreTags": "+{count}",
-    "linkLabel": "{company}, {position}. Estado: {status}"
+    "linkLabel": "{company}, {position}. Estado: {status}",
+    "archived": "Archivada"
   },
   "list": {
     "title": "Lista",
@@ -247,7 +248,20 @@
     "historyChange": "De «{from}» a «{to}»",
     "openJobUrl": "Ver la oferta",
     "opensInNewTab": "(se abre en otra pestaña)",
-    "statusChanged": "Estado cambiado a «{to}»"
+    "statusChanged": "Estado cambiado a «{to}»",
+    "archive": "Archivar",
+    "unarchive": "Desarchivar",
+    "archivedNotice": "Esta candidatura está archivada: no aparece en el tablero ni en la lista.",
+    "archived": "Candidatura archivada",
+    "unarchived": "Candidatura desarchivada",
+    "delete": "Eliminar",
+    "deleteTitle": "¿Eliminar la candidatura de {company}?",
+    "deleteWarning": "Se borrarán sus datos y su historial. Esta acción no se puede deshacer.",
+    "deleteConfirm": "Eliminar definitivamente",
+    "deleteCancel": "Cancelar",
+    "deleted": "Candidatura eliminada",
+    "actionError": "No se ha podido completar la acción.",
+    "moreActions": "Otras acciones"
   },
   "notFound": {
     "title": "Página no encontrada",

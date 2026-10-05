@@ -73,7 +73,8 @@
     "stale": "Stalled",
     "staleHint": "No changes for more than {days} days",
     "moreTags": "+{count}",
-    "linkLabel": "{company}, {position}. Status: {status}"
+    "linkLabel": "{company}, {position}. Status: {status}",
+    "archived": "Archived"
   },
   "list": {
     "title": "List",
@@ -247,7 +248,20 @@
     "historyChange": "From “{from}” to “{to}”",
     "openJobUrl": "View the job posting",
     "opensInNewTab": "(opens in a new tab)",
-    "statusChanged": "Status changed to “{to}”"
+    "statusChanged": "Status changed to “{to}”",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "archivedNotice": "This application is archived: it does not appear on the board or in the list.",
+    "archived": "Application archived",
+    "unarchived": "Application unarchived",
+    "delete": "Delete",
+    "deleteTitle": "Delete the application for {company}?",
+    "deleteWarning": "Its details and history will be deleted. This cannot be undone.",
+    "deleteConfirm": "Delete permanently",
+    "deleteCancel": "Cancel",
+    "deleted": "Application deleted",
+    "actionError": "The action could not be completed.",
+    "moreActions": "Other actions"
   },
   "notFound": {
     "title": "Page not found",

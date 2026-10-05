@@ -1,7 +1,9 @@
 import type {
+  ArchiveApplication,
   CalendarDate,
   ChangeApplicationStatus,
   CreateApplication,
+  DeleteApplication,
   ExitDemo,
   GetApplication,
   GetDashboardStats,
@@ -10,6 +12,7 @@ import type {
   ResetDemo,
   SearchApplications,
   StartDemo,
+  UnarchiveApplication,
   UpdateApplicationDetails,
   ValidateApplicationDraft,
 } from "@applytrack/core";
@@ -28,6 +31,9 @@ export interface UseCases {
   readonly createApplication: CreateApplication;
   readonly updateApplicationDetails: UpdateApplicationDetails;
   readonly changeApplicationStatus: ChangeApplicationStatus;
+  readonly archiveApplication: ArchiveApplication;
+  readonly unarchiveApplication: UnarchiveApplication;
+  readonly deleteApplication: DeleteApplication;
   readonly validateApplicationDraft: ValidateApplicationDraft;
   readonly today: () => CalendarDate;
 }

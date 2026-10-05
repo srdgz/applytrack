@@ -562,3 +562,104 @@ describe("estadísticas", () => {
     expect(screen.getByText("Todavía no hay respuestas.")).toBeTruthy();
   });
 });
+
+describe("archivar y eliminar", () => {
+  const polyfillDialog = () => {
+    HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
+      this.open = true;
+    };
+    HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
+      this.open = false;
+      this.dispatchEvent(new Event("close"));
+    };
+  };
+
+  const boardCompanies = () =>
+    [...document.querySelectorAll("section[data-column] h3")].map((heading) =>
+      heading.textContent.trim(),
+    );
+
+  it("CA-106-06 y 07 · archivar muestra el aviso y saca la candidatura del tablero; desarchivar la devuelve", async () => {
+    const { router } = await startDemoApp("/board");
+    await router.push("/applications/demo-03");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Archivar" }));
+
+    expect(
+      await screen.findByText(
+        "Esta candidatura está archivada: no aparece en el tablero ni en la lista.",
+      ),
+    ).toBeTruthy();
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Desarchivar" }));
+    expect(screen.getByText("Candidatura archivada")).toBeTruthy();
+
+    await router.push("/board");
+    await waitFor(() => {
+      expect(boardCompanies()).toContain("Nimbus Labs");
+    });
+    expect(boardCompanies()).not.toContain("Brisa Health");
+
+    await router.push("/applications/demo-03");
+    await userEvent.click(await screen.findByRole("button", { name: "Desarchivar" }));
+    await waitFor(() => {
+      expect(document.activeElement).toBe(screen.getByRole("button", { name: "Archivar" }));
+    });
+    expect(screen.queryByText(/Esta candidatura está archivada/)).toBeNull();
+
+    await router.push("/board");
+    await waitFor(() => {
+      expect(boardCompanies()).toContain("Brisa Health");
+    });
+  });
+
+  it("CA-106-08 · con el filtro de archivadas, tarjetas y filas muestran «Archivada»", async () => {
+    const { router } = await startDemoApp("/list?archived=only");
+
+    await waitFor(() => {
+      expect(document.querySelector("tbody tr")?.textContent).toContain("Archivada");
+    });
+
+    await router.push("/board?archived=only");
+    await waitFor(() => {
+      expect(document.querySelector("section[data-column] article")?.textContent).toContain(
+        "Archivada",
+      );
+    });
+  });
+
+  it("CA-106-09 · el diálogo de eliminar empieza en «Cancelar» y cancelar no borra", async () => {
+    polyfillDialog();
+    const { useCases } = await startDemoApp("/applications/demo-03");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Eliminar" }));
+
+    expect(screen.getByText("¿Eliminar la candidatura de Brisa Health?")).toBeTruthy();
+    await waitFor(() => {
+      expect(document.activeElement?.textContent.trim()).toBe("Cancelar");
+    });
+    await userEvent.click(screen.getByRole("button", { name: "Cancelar" }));
+
+    expect(document.querySelector("dialog")?.open).toBe(false);
+    expect(document.activeElement).toBe(screen.getByRole("button", { name: "Eliminar" }));
+    expect((await useCases.getApplication.execute({ id: "demo-03" })).ok).toBe(true);
+  });
+
+  it("CA-106-10 y 11 · eliminar lleva al tablero, avisa y deja de contar en las estadísticas", async () => {
+    polyfillDialog();
+    const { router, useCases } = await startDemoApp("/board");
+    await router.push("/applications/demo-10");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Eliminar" }));
+    await userEvent.click(screen.getByRole("button", { name: "Eliminar definitivamente" }));
+
+    await waitFor(() => {
+      expect(router.currentRoute.value.name).toBe("board");
+    });
+    expect(screen.getByText("Candidatura eliminada")).toBeTruthy();
+    expect((await useCases.getApplication.execute({ id: "demo-10" })).ok).toBe(false);
+    expect((window.history.state as { back?: string } | null)?.back).toBe("/board");
+
+    const stats = await useCases.getDashboardStats.execute();
+    expect(stats.ok && stats.value).toMatchObject({ total: 14, sent: 12, responded: 8 });
+  });
+});

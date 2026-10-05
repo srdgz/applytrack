@@ -246,6 +246,34 @@ export const describeApplicationRepositoryContract = (
       });
     });
 
+    describe("delete", () => {
+      it("CA-106-03 · lo eliminado deja de encontrarse, de buscarse y de listar sus etiquetas", async () => {
+        const repository = await createRepository();
+        for (const snapshot of searchFixtures) {
+          await repository.save(Application.restore(snapshot));
+        }
+
+        await repository.delete(owner, toApplicationId("s-03"));
+
+        expect(await repository.findById(owner, toApplicationId("s-03"))).toBeNull();
+        const page = await repository.search(owner, completeQuery({ archived: "include" }));
+        expect(page.items.map(({ id }) => id)).not.toContain("s-03");
+        expect(page.total).toBe(4);
+        expect(await repository.listTags(owner)).not.toContain("Java");
+      });
+
+      it("eliminar con otro propietario o un id inexistente no borra nada", async () => {
+        const repository = await createRepository();
+        const application = buildApplication("a-1");
+        await repository.save(application);
+
+        await repository.delete(otherOwner, application.id);
+        await repository.delete(owner, toApplicationId("missing"));
+
+        expect(await repository.findById(owner, application.id)).not.toBeNull();
+      });
+    });
+
     describe("listTags", () => {
       it("CA-102-11 · devuelve las etiquetas sin repetir, ordenadas y solo de la persona usuaria", async () => {
         const repository = await createRepository();

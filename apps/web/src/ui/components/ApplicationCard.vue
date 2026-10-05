@@ -66,6 +66,12 @@ const label = computed(() =>
 
     <div class="mt-3 flex flex-wrap items-center gap-1.5 text-xs">
       <StatusBadge v-if="showStatus" :status="application.status" />
+      <span
+        v-if="application.archived"
+        class="border-border text-ink-muted rounded-full border px-2 py-0.5 font-medium"
+      >
+        {{ t("card.archived") }}
+      </span>
       <span class="bg-surface-muted text-ink-muted rounded-full px-2 py-0.5">
         {{ t(`workMode.${application.workMode}`) }}
       </span>

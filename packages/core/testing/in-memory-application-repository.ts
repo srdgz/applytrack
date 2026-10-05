@@ -33,6 +33,11 @@ export class InMemoryApplicationRepository implements ApplicationRepository {
     return Promise.resolve(uniqueTags(this.ownedBy(owner)));
   }
 
+  delete(owner: UserId, id: ApplicationId): Promise<void> {
+    if (this.rows.get(id)?.ownerId === owner) this.rows.delete(id);
+    return Promise.resolve();
+  }
+
   all(): ApplicationSnapshot[] {
     return [...this.rows.values()];
   }

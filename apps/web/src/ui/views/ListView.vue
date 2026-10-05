@@ -161,7 +161,17 @@ const onSortSelect = (event: Event) => {
                 <p class="text-ink-muted lg:hidden">{{ application.position }}</p>
               </td>
               <td class="hidden px-3 py-2 lg:table-cell">{{ application.position }}</td>
-              <td class="px-3 py-2"><StatusBadge :status="application.status" /></td>
+              <td class="px-3 py-2">
+                <span class="flex flex-wrap items-center gap-1.5">
+                  <StatusBadge :status="application.status" />
+                  <span
+                    v-if="application.archived"
+                    class="border-border text-ink-muted rounded-full border px-2 py-0.5 text-xs font-medium"
+                  >
+                    {{ t("card.archived") }}
+                  </span>
+                </span>
+              </td>
               <td class="hidden px-3 py-2 lg:table-cell">
                 {{ t(`workMode.${application.workMode}`) }}
               </td>

@@ -5,6 +5,7 @@ import { computed, nextTick, ref, shallowRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink, useRouter } from "vue-router";
 
+import { useArchiveDelete } from "../../composables/useArchiveDelete";
 import { useFormat } from "../../composables/useFormat";
 import { useUseCases } from "../../di/use-cases";
 import AppIcon from "../components/AppIcon.vue";
@@ -67,6 +68,46 @@ const details = computed(() => {
     },
   ].filter((item): item is { label: string; value: string } => Boolean(item.value));
 });
+
+const { busy, error: actionError, archive, unarchive, remove } = useArchiveDelete(application);
+const archiveButton = ref<HTMLButtonElement | null>(null);
+const unarchiveButton = ref<HTMLButtonElement | null>(null);
+const deleteButton = ref<HTMLButtonElement | null>(null);
+const deleteDialog = ref<HTMLDialogElement | null>(null);
+const cancelDelete = ref<HTMLButtonElement | null>(null);
+
+const onArchive = async () => {
+  if (await archive()) {
+    await nextTick();
+    unarchiveButton.value?.focus();
+  }
+};
+
+const onUnarchive = async () => {
+  if (await unarchive()) {
+    await nextTick();
+    archiveButton.value?.focus();
+  }
+};
+
+const openDelete = async () => {
+  deleteDialog.value?.showModal();
+  await nextTick();
+  cancelDelete.value?.focus();
+};
+
+const closeDelete = () => {
+  deleteDialog.value?.close();
+};
+
+const onDeleteClosed = () => {
+  deleteButton.value?.focus();
+};
+
+const confirmDelete = async () => {
+  const deleted = await remove();
+  if (!deleted) deleteDialog.value?.close();
+};
 
 const closePanel = async () => {
   panelOpen.value = false;
@@ -159,7 +200,55 @@ const onSaved = async (updated: ApplicationSnapshot) => {
               {{ t("detail.edit") }}
             </RouterLink>
           </div>
+          <div
+            class="border-border flex flex-wrap gap-2 border-t pt-3"
+            role="group"
+            :aria-label="t('detail.moreActions')"
+          >
+            <button
+              v-if="!application.archived"
+              ref="archiveButton"
+              type="button"
+              class="hover:bg-surface-muted min-h-11 rounded-md px-3 text-sm font-medium"
+              :disabled="busy"
+              @click="onArchive"
+            >
+              {{ t("detail.archive") }}
+            </button>
+            <button
+              ref="deleteButton"
+              type="button"
+              class="text-danger hover:bg-surface-muted min-h-11 rounded-md px-3 text-sm font-medium"
+              :disabled="busy"
+              @click="openDelete"
+            >
+              {{ t("detail.delete") }}
+            </button>
+          </div>
         </header>
+
+        <div
+          v-if="application.archived"
+          class="bg-warning-soft text-ink flex flex-wrap items-center justify-between gap-3 rounded-lg p-4 text-sm"
+        >
+          <p>{{ t("detail.archivedNotice") }}</p>
+          <button
+            ref="unarchiveButton"
+            type="button"
+            class="border-ink/20 hover:bg-surface min-h-11 rounded-md border px-4 font-medium"
+            :disabled="busy"
+            @click="onUnarchive"
+          >
+            {{ t("detail.unarchive") }}
+          </button>
+        </div>
+
+        <p v-if="actionError" role="alert" class="text-danger text-sm font-medium">
+          {{ actionError }}
+          <RouterLink :to="{ name: 'board' }" class="ml-1 underline underline-offset-2">
+            {{ t("form.backToBoard") }}
+          </RouterLink>
+        </p>
 
         <div v-if="panelOpen" id="status-panel">
           <StatusChangePanel :application="application" @saved="onSaved" @cancel="closePanel" />
@@ -245,5 +334,39 @@ const onSaved = async (updated: ApplicationSnapshot) => {
         </ol>
       </section>
     </div>
+
+    <dialog
+      ref="deleteDialog"
+      class="bg-surface text-ink m-auto w-full max-w-md rounded-lg p-5 shadow-xl backdrop:bg-black/40"
+      aria-labelledby="delete-title"
+      aria-describedby="delete-warning"
+      @close="onDeleteClosed"
+    >
+      <div v-if="application" class="flex flex-col gap-4">
+        <h2 id="delete-title" class="text-lg font-semibold">
+          {{ t("detail.deleteTitle", { company: application.company }) }}
+        </h2>
+        <p id="delete-warning" class="text-ink-muted text-sm">{{ t("detail.deleteWarning") }}</p>
+        <div class="flex flex-wrap justify-end gap-3">
+          <button
+            ref="cancelDelete"
+            type="button"
+            class="border-border hover:bg-surface-muted min-h-11 rounded-md border px-4 font-medium"
+            @click="closeDelete"
+          >
+            {{ t("detail.deleteCancel") }}
+          </button>
+          <button
+            type="button"
+            class="bg-danger text-danger-ink min-h-11 rounded-md px-4 font-semibold disabled:opacity-70"
+            :disabled="busy"
+            :aria-busy="busy"
+            @click="confirmDelete"
+          >
+            {{ t("detail.deleteConfirm") }}
+          </button>
+        </div>
+      </div>
+    </dialog>
   </div>
 </template>

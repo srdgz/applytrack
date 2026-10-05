@@ -9,8 +9,10 @@ import {
 } from "@applytrack/adapter-local";
 import type { Clock, IdGenerator } from "@applytrack/core";
 import {
+  ArchiveApplication,
   ChangeApplicationStatus,
   CreateApplication,
+  DeleteApplication,
   ExitDemo,
   GetApplication,
   GetDashboardStats,
@@ -19,6 +21,7 @@ import {
   ResetDemo,
   SearchApplications,
   StartDemo,
+  UnarchiveApplication,
   UpdateApplicationDetails,
   ValidateApplicationDraft,
 } from "@applytrack/core";
@@ -55,6 +58,9 @@ export const createContainer = ({
     createApplication: new CreateApplication({ repository, session, clock, ids }),
     updateApplicationDetails: new UpdateApplicationDetails({ repository, session, clock }),
     changeApplicationStatus: new ChangeApplicationStatus({ repository, session, clock }),
+    archiveApplication: new ArchiveApplication({ repository, session }),
+    unarchiveApplication: new UnarchiveApplication({ repository, session }),
+    deleteApplication: new DeleteApplication({ repository, session }),
     validateApplicationDraft: new ValidateApplicationDraft({ clock }),
     today: () => clock.today(),
   };

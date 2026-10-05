@@ -91,12 +91,22 @@ export type { Clock } from "./application/ports/clock";
 export type { DemoData } from "./application/ports/demo-data";
 export type { IdGenerator } from "./application/ports/id-generator";
 export type { SessionProvider } from "./application/ports/session-provider";
+export {
+  ArchiveApplication,
+  UnarchiveApplication,
+} from "./application/use-cases/archive-application";
+export type {
+  ApplicationIdInput,
+  ArchiveApplicationDeps,
+} from "./application/use-cases/archive-application";
 export { ChangeApplicationStatus } from "./application/use-cases/change-application-status";
 export type {
   ChangeApplicationStatusDeps,
   ChangeApplicationStatusInput,
 } from "./application/use-cases/change-application-status";
 export { CreateApplication } from "./application/use-cases/create-application";
+export { DeleteApplication } from "./application/use-cases/delete-application";
+export type { DeleteApplicationDeps } from "./application/use-cases/delete-application";
 export { ExitDemo, IsDemoActive, ResetDemo, StartDemo } from "./application/use-cases/demo";
 export { GetApplication } from "./application/use-cases/get-application";
 export type { GetApplicationDeps } from "./application/use-cases/get-application";
