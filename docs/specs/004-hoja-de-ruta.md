@@ -32,4 +32,4 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 5. `104-autenticacion.md` (RF-01, RF-11)
 6. [`105-panel-estadisticas.md`](105-panel-estadisticas.md) (RF-10), implementada (núcleo y web; la app móvil, en M4)
 7. [`106-archivar-y-eliminar.md`](106-archivar-y-eliminar.md) (RF-04), implementada (núcleo y web; la app móvil, en M4)
-8. [`107-notificaciones.md`](107-notificaciones.md) (transversal), implementada (web y componente móvil)
+8. [`107-notificaciones.md`](107-notificaciones.md) (transversal), implementada con estilo Sileo (web y componente móvil)
