@@ -8,6 +8,7 @@ import { RouterLink, useRouter } from "vue-router";
 import { useFormat } from "../../composables/useFormat";
 import { useUseCases } from "../../di/use-cases";
 import AppIcon from "../components/AppIcon.vue";
+import BackButton from "../components/BackButton.vue";
 import StatusBadge from "../components/StatusBadge.vue";
 import StatusChangePanel from "../detail/StatusChangePanel.vue";
 
@@ -81,6 +82,7 @@ const onSaved = async (updated: ApplicationSnapshot) => {
 
 <template>
   <div class="mx-auto flex w-full max-w-6xl flex-col gap-4 p-4 lg:p-6">
+    <BackButton :fallback="{ name: 'board' }" />
     <div v-if="status === 'loading'" aria-busy="true" class="flex flex-col gap-4">
       <span class="sr-only">{{ t("feedback.loading") }}</span>
       <div aria-hidden="true" class="bg-surface-muted h-32 animate-pulse rounded-lg" />

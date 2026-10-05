@@ -9,9 +9,10 @@ import {
 } from "@applytrack/core";
 import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
+import type { RouteLocationRaw } from "vue-router";
 
 import { bumpDataVersion } from "../../composables/useDataVersion";
+import { useGoBack } from "../../composables/useGoBack";
 import { useLeaveGuard } from "../../composables/useLeaveGuard";
 import { showToast } from "../../composables/useToast";
 import type { FormValues } from "../../form/form-values";
@@ -29,10 +30,11 @@ const props = defineProps<{
   initial: FormValues;
   currentStatus?: ApplicationStatus;
   save: (values: FormValues) => Promise<SaveOutcome>;
+  fallback: RouteLocationRaw;
 }>();
 
 const { t, locale } = useI18n();
-const router = useRouter();
+const goBack = useGoBack();
 
 const form = useApplicationForm({
   initial: props.initial,
@@ -80,11 +82,7 @@ const notesCount = computed(() =>
   }),
 );
 
-const leave = async () => {
-  const back = router.options.history.state.back;
-  if (typeof back === "string") router.back();
-  else await router.push({ name: "board" });
-};
+const leave = () => goBack(props.fallback);
 
 const onSubmit = async () => {
   submitted.value = true;

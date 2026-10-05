@@ -6,6 +6,7 @@ import { useUseCases } from "../../di/use-cases";
 import type { FormValues } from "../../form/form-values";
 import { emptyValues, toDraft } from "../../form/form-values";
 import type { SaveOutcome } from "../form/ApplicationForm.vue";
+import BackButton from "../components/BackButton.vue";
 import ApplicationForm from "../form/ApplicationForm.vue";
 
 const { t } = useI18n();
@@ -22,7 +23,8 @@ const save = async (values: FormValues): Promise<SaveOutcome> => {
 
 <template>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-4 p-4 lg:p-6">
+    <BackButton :fallback="{ name: 'board' }" />
     <h1 class="text-2xl font-bold tracking-tight">{{ t("application.newTitle") }}</h1>
-    <ApplicationForm :initial="emptyValues()" :save="save" />
+    <ApplicationForm :initial="emptyValues()" :save="save" :fallback="{ name: 'board' }" />
   </div>
 </template>

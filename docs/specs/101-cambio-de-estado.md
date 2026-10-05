@@ -74,6 +74,8 @@ Ruta `/applications/:id`. Sustituye a la redirección provisional al formulario 
 
 ### 3.1 Contenido
 
+Encima de todo, un botón **«Volver»**: vuelve a la pantalla anterior (tablero o lista) o, si se entró directamente por URL, al tablero.
+
 | Bloque    | Contenido                                                                                                                                                                                                                                                 |
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Cabecera  | Empresa (título), puesto, estado actual, indicador «Parada» si procede. Acciones: «Editar» (spec 100) y «Cambiar estado».                                                                                                                                 |

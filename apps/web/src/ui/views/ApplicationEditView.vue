@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ApplicationSnapshot } from "@applytrack/core";
-import { ref, shallowRef, watch } from "vue";
+import { computed, ref, shallowRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink, useRouter } from "vue-router";
 
@@ -8,6 +8,7 @@ import { useUseCases } from "../../di/use-cases";
 import type { FormValues } from "../../form/form-values";
 import { toDetailsDraft, valuesFromSnapshot } from "../../form/form-values";
 import type { SaveOutcome } from "../form/ApplicationForm.vue";
+import BackButton from "../components/BackButton.vue";
 import ApplicationForm from "../form/ApplicationForm.vue";
 
 const props = defineProps<{ id: string }>();
@@ -15,6 +16,8 @@ const props = defineProps<{ id: string }>();
 const { t } = useI18n();
 const router = useRouter();
 const { getApplication, updateApplicationDetails } = useUseCases();
+
+const detailRoute = computed(() => ({ name: "application", params: { id: props.id } }));
 
 const status = ref<"loading" | "ready" | "not-found" | "error">("loading");
 const application = shallowRef<ApplicationSnapshot | null>(null);
@@ -51,6 +54,7 @@ const save = async (values: FormValues): Promise<SaveOutcome> => {
 
 <template>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-4 p-4 lg:p-6">
+    <BackButton :fallback="detailRoute" />
     <h1 class="text-2xl font-bold tracking-tight">{{ t("application.editTitle") }}</h1>
 
     <div v-if="status === 'loading'" aria-busy="true" class="flex flex-col gap-4">
@@ -98,6 +102,7 @@ const save = async (values: FormValues): Promise<SaveOutcome> => {
       :initial="valuesFromSnapshot(application)"
       :current-status="application.status"
       :save="save"
+      :fallback="detailRoute"
     />
   </div>
 </template>

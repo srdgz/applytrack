@@ -202,6 +202,7 @@ Los campos se agrupan en `<fieldset>` con su `<legend>`:
 
 ### 8.4 Guardar, cancelar y salir
 
+- **Botón «Volver»** encima del título, en crear y en editar. Vuelve a la pantalla anterior si se llegó navegando por la app; si se entró directamente por URL, va al tablero (crear) o al detalle de la candidatura (editar). «Cancelar» y la vuelta tras guardar siguen la misma regla. Si hay cambios sin guardar, se pide confirmación igual que al salir de cualquier otra forma.
 - **Botones:** «Guardar» (principal) y «Cancelar». En < `md` van en una barra fija sobre la navegación inferior; a partir de `md`, al final del formulario. En las pantallas del formulario no se muestra el botón flotante de «Nueva candidatura».
 - **Mientras se guarda,** «Guardar» se desactiva y lleva `aria-busy`.
 - **Al guardar correctamente,** se vuelve a la pantalla anterior (o al tablero si se entró directamente por URL) y aparece un aviso breve «Candidatura guardada» (`role="status"`, se cierra solo a los 5 segundos).

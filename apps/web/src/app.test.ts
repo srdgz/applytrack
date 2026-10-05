@@ -4,7 +4,7 @@ import { aSnapshot, FixedClock } from "@applytrack/core/testing";
 import { fireEvent, screen, waitFor } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createMemoryHistory } from "vue-router";
+import { createWebHistory } from "vue-router";
 
 import { createApplyTrackApp } from "./app";
 import { createContainer } from "./di/container";
@@ -13,9 +13,10 @@ const mounted: (() => void)[] = [];
 
 const startApp = async (path: string, store = new MemoryKeyValueStore()) => {
   const useCases = createContainer({ store, clock: new FixedClock("2026-10-05T12:00:00.000Z") });
+  window.history.replaceState(null, "", "/");
   const { app, router } = createApplyTrackApp({
     useCases,
-    history: createMemoryHistory(),
+    history: createWebHistory(),
     locale: "es",
   });
   const container = document.createElement("div");
@@ -25,7 +26,7 @@ const startApp = async (path: string, store = new MemoryKeyValueStore()) => {
     app.unmount();
     container.remove();
   });
-  await router.push(path);
+  await router.replace(path);
   await router.isReady();
   return { router, useCases, store };
 };
@@ -258,7 +259,7 @@ describe("formulario de candidatura", () => {
     await waitFor(() => {
       expect(router.currentRoute.value.name).toBe("board");
     });
-    expect(screen.getAllByText("Tejo Cloud Labs").length).toBeGreaterThan(0);
+    expect((await screen.findAllByText("Tejo Cloud Labs")).length).toBeGreaterThan(0);
   });
 
   it("CA-100-21 · con un id inexistente muestra que no se ha encontrado", async () => {
@@ -444,6 +445,39 @@ describe("cambio de estado", () => {
     await userEvent.click(await screen.findByRole("link", { name: "Editar" }));
     await waitFor(() => {
       expect(router.currentRoute.value.name).toBe("application-edit");
+    });
+  });
+});
+
+describe("botón Volver", () => {
+  it("vuelve a la pantalla anterior si se llegó navegando", async () => {
+    const { router } = await startDemoApp("/list");
+    await router.push("/applications/demo-03");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Volver" }));
+
+    await waitFor(() => {
+      expect(router.currentRoute.value.name).toBe("list");
+    });
+  });
+
+  it("entrando directamente, desde «Nueva candidatura» va al tablero", async () => {
+    const { router } = await startDemoApp("/applications/new");
+
+    await userEvent.click(screen.getByRole("button", { name: "Volver" }));
+
+    await waitFor(() => {
+      expect(router.currentRoute.value.name).toBe("board");
+    });
+  });
+
+  it("entrando directamente, desde editar va al detalle de esa candidatura", async () => {
+    const { router } = await startDemoApp("/applications/demo-03/edit");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Volver" }));
+
+    await waitFor(() => {
+      expect(router.currentRoute.value.fullPath).toBe("/applications/demo-03");
     });
   });
 });
