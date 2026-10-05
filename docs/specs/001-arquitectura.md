@@ -184,7 +184,7 @@ Se usa `dependency-cruiser` con estas reglas, que hacen fallar la CI:
 | `ui-no-adapters`          | Cualquier archivo de `apps/*/src` fuera de `di/` importa `adapter-*`.               |
 | `no-circular`             | Dependencias circulares en cualquier paquete.                                       |
 
-Los archivos `*.test.ts` quedan fuera de las reglas `domain-is-pure`, `application-only-domain` y `core-no-frameworks`: los tests pueden usar Vitest y los dobles de `@applytrack/core/testing`.
+Los archivos `*.test.ts` quedan fuera de las reglas `domain-is-pure`, `application-only-domain`, `core-no-frameworks` y `ui-no-adapters`: los tests pueden usar Vitest y los dobles de `@applytrack/core/testing`, y los de las apps montan la aplicación con adaptadores igual que una raíz de composición.
 
 ## 7. Datos (Supabase)
 
