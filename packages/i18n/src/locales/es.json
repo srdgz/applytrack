@@ -153,6 +153,54 @@
     "newTitle": "Nueva candidatura",
     "editTitle": "Editar candidatura"
   },
+  "form": {
+    "requiredHint": "Los campos con * son obligatorios.",
+    "groups": {
+      "offer": "Oferta",
+      "process": "Proceso",
+      "salary": "Salario",
+      "tags": "Etiquetas",
+      "notes": "Notas"
+    },
+    "fields": {
+      "company": "Empresa",
+      "position": "Puesto",
+      "jobUrl": "URL de la oferta",
+      "source": "Fuente",
+      "workMode": "Modalidad",
+      "location": "Ubicación",
+      "status": "Estado inicial",
+      "appliedAt": "Fecha de candidatura",
+      "salaryMin": "Mínimo",
+      "salaryMax": "Máximo",
+      "currency": "Moneda",
+      "tags": "Añadir etiqueta",
+      "notes": "Notas"
+    },
+    "placeholders": {
+      "jobUrl": "https://",
+      "location": "Madrid, remoto…",
+      "tags": "Vue, TypeScript…"
+    },
+    "hints": {
+      "salary": "Bruto anual.",
+      "tags": "Pulsa Intro o escribe una coma para añadirla.",
+      "tagsCount": "{count} de {max}",
+      "notesCount": "{count} / {max}"
+    },
+    "currentStatus": "Estado",
+    "statusHint": "El estado se cambia desde el detalle de la candidatura.",
+    "chooseOption": "Elige una opción",
+    "removeTag": "Quitar etiqueta {tag}",
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "cancel": "Cancelar",
+    "saved": "Candidatura guardada",
+    "saveError": "No se ha podido guardar. Inténtalo de nuevo.",
+    "unsavedConfirm": "Tienes cambios sin guardar. ¿Quieres salir sin guardarlos?",
+    "notFound": "No se ha encontrado la candidatura.",
+    "backToBoard": "Volver al tablero"
+  },
   "notFound": {
     "title": "Página no encontrada",
     "back": "Ir al inicio"

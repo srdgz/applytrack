@@ -5,15 +5,20 @@ import {
   LocalApplicationRepository,
   LocalDemoData,
   SystemClock,
+  UuidGenerator,
 } from "@applytrack/adapter-local";
-import type { Clock } from "@applytrack/core";
+import type { Clock, IdGenerator } from "@applytrack/core";
 import {
+  CreateApplication,
   ExitDemo,
+  GetApplication,
   IsDemoActive,
   ListTags,
   ResetDemo,
   SearchApplications,
   StartDemo,
+  UpdateApplicationDetails,
+  ValidateApplicationDraft,
 } from "@applytrack/core";
 
 import type { UseCases } from "./use-cases";
@@ -22,12 +27,14 @@ export interface ContainerOptions {
   readonly store: KeyValueStore;
   readonly warn?: Warn;
   readonly clock?: Clock;
+  readonly ids?: IdGenerator;
 }
 
 export const createContainer = ({
   store,
   warn,
   clock = new SystemClock(),
+  ids = new UuidGenerator(() => crypto.randomUUID()),
 }: ContainerOptions): UseCases => {
   const storage = new DemoStorage(store, warn);
   const repository = new LocalApplicationRepository(storage);
@@ -41,5 +48,10 @@ export const createContainer = ({
     exitDemo: new ExitDemo({ demo }),
     searchApplications: new SearchApplications({ repository, session, clock }),
     listTags: new ListTags({ repository, session }),
+    getApplication: new GetApplication({ repository, session }),
+    createApplication: new CreateApplication({ repository, session, clock, ids }),
+    updateApplicationDetails: new UpdateApplicationDetails({ repository, session, clock }),
+    validateApplicationDraft: new ValidateApplicationDraft({ clock }),
+    today: () => clock.today(),
   };
 };

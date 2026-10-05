@@ -3,6 +3,8 @@ import { createRouter } from "vue-router";
 
 import type { UseCases } from "../di/use-cases";
 import AppLayout from "../ui/layouts/AppLayout.vue";
+import ApplicationEditView from "../ui/views/ApplicationEditView.vue";
+import ApplicationNewView from "../ui/views/ApplicationNewView.vue";
 import BoardView from "../ui/views/BoardView.vue";
 import ListView from "../ui/views/ListView.vue";
 import NotFoundView from "../ui/views/NotFoundView.vue";
@@ -15,6 +17,7 @@ declare module "vue-router" {
     requiresSession?: boolean;
     guestOnly?: boolean;
     titleKey?: string;
+    hideFab?: boolean;
   }
 }
 
@@ -55,8 +58,8 @@ export const createAppRouter = (useCases: UseCases, history: RouterHistory) => {
           {
             path: "applications/new",
             name: "application-new",
-            component: PlaceholderView,
-            meta: { titleKey: "application.newTitle" },
+            component: ApplicationNewView,
+            meta: { titleKey: "application.newTitle", hideFab: true },
           },
           {
             path: "applications/:id",
@@ -66,8 +69,9 @@ export const createAppRouter = (useCases: UseCases, history: RouterHistory) => {
           {
             path: "applications/:id/edit",
             name: "application-edit",
-            component: PlaceholderView,
-            meta: { titleKey: "application.editTitle" },
+            component: ApplicationEditView,
+            props: true,
+            meta: { titleKey: "application.editTitle", hideFab: true },
           },
         ],
       },

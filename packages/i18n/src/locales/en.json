@@ -153,6 +153,54 @@
     "newTitle": "New application",
     "editTitle": "Edit application"
   },
+  "form": {
+    "requiredHint": "Fields marked with * are required.",
+    "groups": {
+      "offer": "Opening",
+      "process": "Process",
+      "salary": "Salary",
+      "tags": "Tags",
+      "notes": "Notes"
+    },
+    "fields": {
+      "company": "Company",
+      "position": "Position",
+      "jobUrl": "Job posting URL",
+      "source": "Source",
+      "workMode": "Work mode",
+      "location": "Location",
+      "status": "Initial status",
+      "appliedAt": "Applied on",
+      "salaryMin": "Minimum",
+      "salaryMax": "Maximum",
+      "currency": "Currency",
+      "tags": "Add tag",
+      "notes": "Notes"
+    },
+    "placeholders": {
+      "jobUrl": "https://",
+      "location": "London, remote…",
+      "tags": "Vue, TypeScript…"
+    },
+    "hints": {
+      "salary": "Gross per year.",
+      "tags": "Press Enter or type a comma to add it.",
+      "tagsCount": "{count} of {max}",
+      "notesCount": "{count} / {max}"
+    },
+    "currentStatus": "Status",
+    "statusHint": "The status is changed from the application details.",
+    "chooseOption": "Choose an option",
+    "removeTag": "Remove tag {tag}",
+    "save": "Save",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "saved": "Application saved",
+    "saveError": "The application could not be saved. Please try again.",
+    "unsavedConfirm": "You have unsaved changes. Leave without saving?",
+    "notFound": "The application could not be found.",
+    "backToBoard": "Back to the board"
+  },
   "notFound": {
     "title": "Page not found",
     "back": "Go to the start page"

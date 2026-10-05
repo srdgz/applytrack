@@ -1,10 +1,15 @@
 import type {
+  CalendarDate,
+  CreateApplication,
   ExitDemo,
+  GetApplication,
   IsDemoActive,
   ListTags,
   ResetDemo,
   SearchApplications,
   StartDemo,
+  UpdateApplicationDetails,
+  ValidateApplicationDraft,
 } from "@applytrack/core";
 import type { InjectionKey } from "vue";
 import { inject } from "vue";
@@ -16,6 +21,11 @@ export interface UseCases {
   readonly exitDemo: ExitDemo;
   readonly searchApplications: SearchApplications;
   readonly listTags: ListTags;
+  readonly getApplication: GetApplication;
+  readonly createApplication: CreateApplication;
+  readonly updateApplicationDetails: UpdateApplicationDetails;
+  readonly validateApplicationDraft: ValidateApplicationDraft;
+  readonly today: () => CalendarDate;
 }
 
 export const USE_CASES: InjectionKey<UseCases> = Symbol("UseCases");

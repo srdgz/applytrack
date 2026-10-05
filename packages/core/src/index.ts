@@ -83,6 +83,8 @@ export type { IdGenerator } from "./application/ports/id-generator";
 export type { SessionProvider } from "./application/ports/session-provider";
 export { CreateApplication } from "./application/use-cases/create-application";
 export { ExitDemo, IsDemoActive, ResetDemo, StartDemo } from "./application/use-cases/demo";
+export { GetApplication } from "./application/use-cases/get-application";
+export type { GetApplicationDeps } from "./application/use-cases/get-application";
 export type { DemoDeps } from "./application/use-cases/demo";
 export type { CreateApplicationDeps } from "./application/use-cases/create-application";
 export { ListTags } from "./application/use-cases/list-tags";

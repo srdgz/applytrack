@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { RouterLink, RouterView } from "vue-router";
+import { RouterLink, RouterView, useRoute } from "vue-router";
 
 import { useSidebar } from "../../composables/useSidebar";
 import AppIcon from "../components/AppIcon.vue";
 import AppNav from "../components/AppNav.vue";
+import AppToast from "../components/AppToast.vue";
 import DemoBanner from "../components/DemoBanner.vue";
 
 const { t } = useI18n();
 const { collapsed, expanded, toggle } = useSidebar();
+const route = useRoute();
 </script>
 
 <template>
@@ -71,11 +73,14 @@ const { collapsed, expanded, toggle } = useSidebar();
     </div>
 
     <RouterLink
+      v-if="!route.meta.hideFab"
       :to="{ name: 'application-new' }"
       class="bg-accent text-accent-ink fixed right-4 bottom-20 z-30 inline-flex size-14 items-center justify-center rounded-full shadow-lg md:hidden"
       :aria-label="t('nav.newApplication')"
     >
       <AppIcon name="plus" class="size-6" />
     </RouterLink>
+
+    <AppToast />
   </div>
 </template>
