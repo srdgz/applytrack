@@ -26,7 +26,7 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 ## Funcionalidades por especificar (en orden)
 
 1. [`100-crear-y-editar-candidatura.md`](100-crear-y-editar-candidatura.md) (RF-02, RF-03), implementada (núcleo y formulario web)
-2. `101-cambio-de-estado.md` (RF-05)
+2. [`101-cambio-de-estado.md`](101-cambio-de-estado.md) (RF-05), implementada (núcleo y web; la app móvil, en M4)
 3. [`102-tablero-y-lista.md`](102-tablero-y-lista.md) (RF-06, RF-07, RF-08), implementada (núcleo y web; la app móvil, en M4)
 4. [`103-modo-demo.md`](103-modo-demo.md) (RF-09), implementada (adaptador y datos)
 5. `104-autenticacion.md` (RF-01, RF-11)

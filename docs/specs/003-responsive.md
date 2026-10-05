@@ -3,7 +3,7 @@
 | Campo   | Valor      |
 | ------- | ---------- |
 | Estado  | Aprobado   |
-| Versión | 0.2        |
+| Versión | 0.3        |
 | Fecha   | 2026-10-05 |
 
 ## 1. Principios
@@ -33,7 +33,7 @@ En pantallas muy anchas el contenido se limita con un `max-width` y se centra. L
 | **Navegación**            | Barra inferior con 4 accesos                                                                                    | Barra lateral solo con iconos, con tooltips                             | Barra lateral que se contrae (iconos con tooltips) o se expande (iconos y textos); ver 3.1 |
 | **Tablero**               | Una columna cada vez, con pestañas de estado deslizables y contador; cambio de estado con un menú en la tarjeta | Columnas con scroll horizontal **dentro del tablero** (no de la página) | Todas las columnas visibles                                                                |
 | **Lista**                 | Tarjetas apiladas                                                                                               | Tabla con columnas reducidas                                            | Tabla completa                                                                             |
-| **Detalle**               | Pantalla completa                                                                                               | Panel lateral sobre la lista                                            | Panel lateral con el historial al lado                                                     |
+| **Detalle**               | Página completa en una columna                                                                                  | Página completa en una columna                                          | Página en dos columnas: datos a la izquierda e historial a la derecha (ver spec 101)       |
 | **Formulario**            | Una columna, botón de guardar fijo abajo                                                                        | Dos columnas                                                            | Dos columnas en una página centrada (ver spec 100, sección 8)                              |
 | **Panel de estadísticas** | Tarjetas en una columna; gráficos a ancho completo                                                              | Rejilla de 2 columnas                                                   | Rejilla de 4 columnas                                                                      |
 | **Filtros**               | Hoja inferior (bottom sheet)                                                                                    | Barra plegable                                                          | Barra siempre visible                                                                      |
