@@ -1,6 +1,3 @@
-// Reglas de dependencia de la arquitectura hexagonal.
-// Ver docs/specs/001-arquitectura.md, sección 6.
-
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
   forbidden: [

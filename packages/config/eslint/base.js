@@ -1,17 +1,14 @@
 // @ts-check
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-/**
- * Configuración base para todos los paquetes TypeScript del monorepo.
- * Cada app la amplía con las reglas de su framework.
- */
-export default tseslint.config(
+export default defineConfig(
   { ignores: ["dist/**", "coverage/**", ".turbo/**"] },
   js.configs.recommended,
-  ...tseslint.configs.strictTypeChecked,
+  tseslint.configs.strictTypeChecked,
   {
     languageOptions: {
       globals: { ...globals.es2022 },
@@ -34,7 +31,7 @@ export default tseslint.config(
   },
   {
     files: ["**/*.js", "**/*.cjs", "**/*.mjs"],
-    ...tseslint.configs.disableTypeChecked,
+    extends: [tseslint.configs.disableTypeChecked],
   },
   prettier,
 );
