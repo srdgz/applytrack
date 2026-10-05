@@ -43,7 +43,7 @@ module.exports = {
       name: "ui-no-adapters",
       comment: "En las apps, solo la raíz de composición (src/di) importa adaptadores.",
       severity: "error",
-      from: { path: "^apps/[^/]+/src/", pathNot: "^apps/[^/]+/src/di/" },
+      from: { path: "^apps/[^/]+/src/", pathNot: ["^apps/[^/]+/src/di/", "\.test\.ts$"] },
       to: { path: ["^packages/adapter-", "node_modules/@applytrack/adapter-"] },
     },
     {

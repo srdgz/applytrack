@@ -1,0 +1,174 @@
+{
+  "app": {
+    "name": "ApplyTrack",
+    "tagline": "All your job applications in one place",
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "board": "Board",
+    "list": "List",
+    "stats": "Statistics",
+    "settings": "Settings",
+    "newApplication": "New application"
+  },
+  "start": {
+    "title": "Organise your job search",
+    "description": "Log every opening, see where each one stands and never miss a follow-up.",
+    "tryDemo": "Try without an account",
+    "tryDemoHint": "With sample data. Everything is stored on this device only.",
+    "signIn": "Sign in",
+    "signInSoon": "Coming soon",
+    "starting": "Preparing the demo…"
+  },
+  "demo": {
+    "banner": "Demo mode · data is only stored on this device",
+    "reset": "Reset",
+    "exit": "Exit",
+    "resetConfirm": "Your changes will be deleted and the sample data reloaded. Continue?",
+    "resetDone": "Sample data restored"
+  },
+  "status": {
+    "wishlist": "Interested",
+    "applied": "Applied",
+    "screening": "Screening",
+    "interviewing": "Interviewing",
+    "offer": "Offer",
+    "accepted": "Accepted",
+    "rejected": "Rejected",
+    "withdrawn": "Withdrawn",
+    "no_response": "No response"
+  },
+  "workMode": {
+    "remote": "Remote",
+    "hybrid": "Hybrid",
+    "onsite": "On-site"
+  },
+  "source": {
+    "linkedin": "LinkedIn",
+    "infojobs": "InfoJobs",
+    "tecnoempleo": "Tecnoempleo",
+    "company_site": "Company website",
+    "referral": "Referral",
+    "recruiter": "Recruiter",
+    "other": "Other"
+  },
+  "board": {
+    "title": "Board",
+    "columnsLabel": "Board columns",
+    "closed": "Closed",
+    "emptyColumn": "No applications",
+    "tooMany": "There are {total} applications and the board shows the 500 most recent. Use the list to see them all."
+  },
+  "card": {
+    "updated": "Updated {when}",
+    "stale": "Stalled",
+    "staleHint": "No changes for more than {days} days",
+    "moreTags": "+{count}",
+    "linkLabel": "{company}, {position}. Status: {status}"
+  },
+  "list": {
+    "title": "List",
+    "caption": "Applications",
+    "showing": "Showing {shown} of {total}",
+    "loadMore": "Load more",
+    "noDate": "No date",
+    "sortBy": "Sort by",
+    "sortByColumn": "Sort by {column}",
+    "columns": {
+      "company": "Company",
+      "position": "Position",
+      "companyAndPosition": "Company and position",
+      "status": "Status",
+      "workMode": "Work mode",
+      "source": "Source",
+      "appliedAt": "Applied on",
+      "updatedAt": "Last updated"
+    }
+  },
+  "sort": {
+    "company": "Company",
+    "appliedAt": "Applied on",
+    "updatedAt": "Last updated",
+    "asc": "Ascending",
+    "desc": "Descending"
+  },
+  "filters": {
+    "title": "Filters",
+    "open": "Filters",
+    "close": "Close",
+    "showResults": "Show results",
+    "search": "Search",
+    "searchPlaceholder": "Company, position or tag",
+    "status": "Status",
+    "workMode": "Work mode",
+    "source": "Source",
+    "tags": "Tags",
+    "noTags": "No tags yet",
+    "archived": "Archived",
+    "archivedOptions": {
+      "exclude": "Hide archived",
+      "only": "Archived only",
+      "include": "All"
+    },
+    "selectedCount": "{count, plural, =0 {All} one {# selected} other {# selected}}",
+    "clear": "{count, plural, one {Clear # filter} other {Clear # filters}}"
+  },
+  "results": {
+    "count": "{count, plural, =0 {No applications} one {# application} other {# applications}}"
+  },
+  "empty": {
+    "noneTitle": "You have no applications yet",
+    "noneDescription": "Add your first one to start tracking it.",
+    "noneAction": "Add application",
+    "filteredTitle": "No applications match the filters",
+    "filteredAction": "Clear filters"
+  },
+  "feedback": {
+    "loading": "Loading…",
+    "errorTitle": "Something went wrong",
+    "errorDescription": "The applications could not be loaded.",
+    "retry": "Try again"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageNames": {
+      "es": "Español",
+      "en": "English"
+    },
+    "demoTitle": "Demo mode",
+    "demoDescription": "Data is only stored on this device."
+  },
+  "placeholder": {
+    "soon": "This screen is coming soon.",
+    "back": "Back to the board"
+  },
+  "stats": {
+    "title": "Statistics"
+  },
+  "application": {
+    "newTitle": "New application",
+    "editTitle": "Edit application"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Go to the start page"
+  },
+  "errors": {
+    "REQUIRED_FIELD": "This field is required.",
+    "FIELD_TOO_LONG": "Maximum {max} characters.",
+    "INVALID_OPTION": "Choose an option from the list.",
+    "INVALID_URL": "Enter a URL starting with http:// or https://.",
+    "INVALID_SALARY_RANGE": "The minimum salary cannot be higher than the maximum, and amounts must be positive.",
+    "UNSUPPORTED_CURRENCY": "Unsupported currency. Use EUR, GBP or USD.",
+    "INVALID_DATE": "Invalid date.",
+    "FUTURE_DATE": "The date cannot be in the future.",
+    "APPLIED_AT_NOT_ALLOWED": "An application marked as “Interested” has no application date yet.",
+    "TOO_MANY_TAGS": "Maximum {max} tags.",
+    "DUPLICATED_TAG": "The tag “{tag}” is repeated.",
+    "VALIDATION_FAILED": "Check the highlighted fields.",
+    "APPLICATION_NOT_FOUND": "The application could not be found.",
+    "UNAUTHENTICATED": "Your session has ended. Please sign in again."
+  }
+}

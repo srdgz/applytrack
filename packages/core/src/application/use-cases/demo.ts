@@ -4,6 +4,14 @@ export interface DemoDeps {
   readonly demo: DemoData;
 }
 
+export class IsDemoActive {
+  constructor(private readonly deps: DemoDeps) {}
+
+  execute(): Promise<boolean> {
+    return this.deps.demo.isActive();
+  }
+}
+
 export class StartDemo {
   constructor(private readonly deps: DemoDeps) {}
 

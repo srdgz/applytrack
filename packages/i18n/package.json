@@ -1,0 +1,20 @@
+{
+  "name": "@applytrack/i18n",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@applytrack/config": "workspace:*",
+    "@applytrack/core": "workspace:*",
+    "intl-messageformat": "^12.1.2",
+    "vitest": "^5.0.3"
+  }
+}

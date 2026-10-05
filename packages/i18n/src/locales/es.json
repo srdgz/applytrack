@@ -1,0 +1,174 @@
+{
+  "app": {
+    "name": "ApplyTrack",
+    "tagline": "Tus candidaturas de empleo, en un solo sitio",
+    "skipToContent": "Saltar al contenido"
+  },
+  "nav": {
+    "label": "Navegación principal",
+    "board": "Tablero",
+    "list": "Lista",
+    "stats": "Estadísticas",
+    "settings": "Ajustes",
+    "newApplication": "Nueva candidatura"
+  },
+  "start": {
+    "title": "Organiza tu búsqueda de empleo",
+    "description": "Registra cada oferta, sigue en qué punto está y no pierdas ningún seguimiento.",
+    "tryDemo": "Probar sin cuenta",
+    "tryDemoHint": "Con datos de ejemplo. Todo se guarda solo en este dispositivo.",
+    "signIn": "Iniciar sesión",
+    "signInSoon": "Disponible próximamente",
+    "starting": "Preparando la demo…"
+  },
+  "demo": {
+    "banner": "Modo demo · los datos solo se guardan en este dispositivo",
+    "reset": "Reiniciar",
+    "exit": "Salir",
+    "resetConfirm": "Se borrarán tus cambios y se volverán a cargar los datos de ejemplo. ¿Continuar?",
+    "resetDone": "Datos de ejemplo restaurados"
+  },
+  "status": {
+    "wishlist": "Me interesa",
+    "applied": "Aplicada",
+    "screening": "Primer contacto",
+    "interviewing": "Entrevistas",
+    "offer": "Oferta",
+    "accepted": "Aceptada",
+    "rejected": "Descartada",
+    "withdrawn": "Retirada",
+    "no_response": "Sin respuesta"
+  },
+  "workMode": {
+    "remote": "Remoto",
+    "hybrid": "Híbrido",
+    "onsite": "Presencial"
+  },
+  "source": {
+    "linkedin": "LinkedIn",
+    "infojobs": "InfoJobs",
+    "tecnoempleo": "Tecnoempleo",
+    "company_site": "Web de la empresa",
+    "referral": "Referido",
+    "recruiter": "Reclutador/a",
+    "other": "Otra"
+  },
+  "board": {
+    "title": "Tablero",
+    "columnsLabel": "Columnas del tablero",
+    "closed": "Cerradas",
+    "emptyColumn": "Sin candidaturas",
+    "tooMany": "Hay {total} candidaturas y el tablero muestra las 500 más recientes. Usa la lista para verlas todas."
+  },
+  "card": {
+    "updated": "Actualizada {when}",
+    "stale": "Parada",
+    "staleHint": "Más de {days} días sin cambios",
+    "moreTags": "+{count}",
+    "linkLabel": "{company}, {position}. Estado: {status}"
+  },
+  "list": {
+    "title": "Lista",
+    "caption": "Candidaturas",
+    "showing": "Mostrando {shown} de {total}",
+    "loadMore": "Cargar más",
+    "noDate": "Sin fecha",
+    "sortBy": "Ordenar por",
+    "sortByColumn": "Ordenar por {column}",
+    "columns": {
+      "company": "Empresa",
+      "position": "Puesto",
+      "companyAndPosition": "Empresa y puesto",
+      "status": "Estado",
+      "workMode": "Modalidad",
+      "source": "Fuente",
+      "appliedAt": "Fecha de candidatura",
+      "updatedAt": "Última actualización"
+    }
+  },
+  "sort": {
+    "company": "Empresa",
+    "appliedAt": "Fecha de candidatura",
+    "updatedAt": "Última actualización",
+    "asc": "Ascendente",
+    "desc": "Descendente"
+  },
+  "filters": {
+    "title": "Filtros",
+    "open": "Filtros",
+    "close": "Cerrar",
+    "showResults": "Ver resultados",
+    "search": "Buscar",
+    "searchPlaceholder": "Empresa, puesto o etiqueta",
+    "status": "Estado",
+    "workMode": "Modalidad",
+    "source": "Fuente",
+    "tags": "Etiquetas",
+    "noTags": "Todavía no hay etiquetas",
+    "archived": "Archivadas",
+    "archivedOptions": {
+      "exclude": "Ocultar archivadas",
+      "only": "Solo archivadas",
+      "include": "Todas"
+    },
+    "selectedCount": "{count, plural, =0 {Todos} one {# seleccionado} other {# seleccionados}}",
+    "clear": "{count, plural, one {Quitar # filtro} other {Quitar # filtros}}"
+  },
+  "results": {
+    "count": "{count, plural, =0 {Ninguna candidatura} one {# candidatura} other {# candidaturas}}"
+  },
+  "empty": {
+    "noneTitle": "Todavía no tienes candidaturas",
+    "noneDescription": "Añade la primera para empezar a seguirla.",
+    "noneAction": "Añadir candidatura",
+    "filteredTitle": "Ninguna candidatura coincide con los filtros",
+    "filteredAction": "Quitar filtros"
+  },
+  "feedback": {
+    "loading": "Cargando…",
+    "errorTitle": "Algo ha ido mal",
+    "errorDescription": "No se han podido cargar las candidaturas.",
+    "retry": "Reintentar"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "languageNames": {
+      "es": "Español",
+      "en": "English"
+    },
+    "demoTitle": "Modo demo",
+    "demoDescription": "Los datos solo se guardan en este dispositivo."
+  },
+  "placeholder": {
+    "soon": "Esta pantalla llegará pronto.",
+    "back": "Volver al tablero"
+  },
+  "stats": {
+    "title": "Estadísticas"
+  },
+  "application": {
+    "newTitle": "Nueva candidatura",
+    "editTitle": "Editar candidatura"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "back": "Ir al inicio"
+  },
+  "errors": {
+    "REQUIRED_FIELD": "Este campo es obligatorio.",
+    "FIELD_TOO_LONG": "Máximo {max} caracteres.",
+    "INVALID_OPTION": "Elige una opción de la lista.",
+    "INVALID_URL": "Introduce una URL que empiece por http:// o https://.",
+    "INVALID_SALARY_RANGE": "El salario mínimo no puede ser mayor que el máximo, y las cifras deben ser positivas.",
+    "UNSUPPORTED_CURRENCY": "Moneda no admitida. Usa EUR, GBP o USD.",
+    "INVALID_DATE": "Fecha no válida.",
+    "FUTURE_DATE": "La fecha no puede ser futura.",
+    "APPLIED_AT_NOT_ALLOWED": "Una candidatura en «Me interesa» todavía no tiene fecha de candidatura.",
+    "TOO_MANY_TAGS": "Máximo {max} etiquetas.",
+    "DUPLICATED_TAG": "La etiqueta «{tag}» está repetida.",
+    "VALIDATION_FAILED": "Revisa los campos marcados.",
+    "APPLICATION_NOT_FOUND": "No se ha encontrado la candidatura.",
+    "UNAUTHENTICATED": "Tu sesión ha terminado. Vuelve a entrar."
+  }
+}

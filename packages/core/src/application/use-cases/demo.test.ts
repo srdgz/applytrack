@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { FakeDemoData } from "../../../testing";
-import { ExitDemo, ResetDemo, StartDemo } from "./demo";
+import { ExitDemo, IsDemoActive, ResetDemo, StartDemo } from "./demo";
 
 describe("casos de uso de la demo", () => {
   it("StartDemo activa la demo con el idioma indicado", async () => {
@@ -19,6 +19,15 @@ describe("casos de uso de la demo", () => {
     await new ResetDemo({ demo }).execute("en");
 
     expect(demo.calls).toEqual(["reset:en"]);
+  });
+
+  it("IsDemoActive indica si la demo está activa", async () => {
+    const demo = new FakeDemoData();
+    const isDemoActive = new IsDemoActive({ demo });
+
+    expect(await isDemoActive.execute()).toBe(false);
+    demo.active = true;
+    expect(await isDemoActive.execute()).toBe(true);
   });
 
   it("ExitDemo sale de la demo", async () => {

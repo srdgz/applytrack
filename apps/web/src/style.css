@@ -1,1 +1,56 @@
 @import "tailwindcss";
+
+@theme {
+  --color-canvas: oklch(98.5% 0.002 247);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-muted: oklch(96.7% 0.003 265);
+  --color-border: oklch(90% 0.008 265);
+  --color-ink: oklch(21% 0.034 265);
+  --color-ink-muted: oklch(44.6% 0.03 257);
+  --color-accent: oklch(51.1% 0.262 277);
+  --color-accent-ink: oklch(100% 0 0);
+  --color-accent-soft: oklch(95% 0.025 272);
+  --color-warning: oklch(47% 0.137 46);
+  --color-warning-soft: oklch(96% 0.059 95);
+  --color-danger: oklch(50.5% 0.213 27);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-canvas: oklch(13% 0.028 262);
+    --color-surface: oklch(20.8% 0.042 265);
+    --color-surface-muted: oklch(26% 0.041 260);
+    --color-border: oklch(35% 0.044 257);
+    --color-ink: oklch(96.8% 0.007 247);
+    --color-ink-muted: oklch(75% 0.035 256);
+    --color-accent: oklch(72% 0.16 276);
+    --color-accent-ink: oklch(13% 0.028 262);
+    --color-accent-soft: oklch(27% 0.09 281);
+    --color-warning: oklch(85% 0.17 84);
+    --color-warning-soft: oklch(28% 0.077 46);
+    --color-danger: oklch(71% 0.19 22);
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+
+  body {
+    @apply bg-canvas text-ink antialiased;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

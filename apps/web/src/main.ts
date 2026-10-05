@@ -1,6 +1,12 @@
-import { createApp } from "vue";
+import { createWebHistory } from "vue-router";
 
-import App from "./App.vue";
+import { createApplyTrackApp } from "./app";
+import { createBrowserContainer } from "./di/browser";
 import "./style.css";
 
-createApp(App).mount("#app");
+const { app } = createApplyTrackApp({
+  useCases: createBrowserContainer(),
+  history: createWebHistory(),
+});
+
+app.mount("#app");

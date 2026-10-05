@@ -6,6 +6,7 @@ export type {
   SalaryDraft,
 } from "./domain/application/application-draft";
 export type { ApplicationDetails, SalaryRange } from "./domain/application/application-details";
+export { FIELD_ERROR_CODES } from "./domain/application/field-issue";
 export type { FieldErrorCode, FieldIssue } from "./domain/application/field-issue";
 export { LIMITS } from "./domain/application/limits";
 export {
@@ -73,6 +74,7 @@ export type { ApplicationId, UserId } from "./domain/shared/ids";
 export { combine, err, ok } from "./domain/shared/result";
 export type { Err, Ok, Result } from "./domain/shared/result";
 
+export { USE_CASE_ERROR_CODES } from "./application/errors";
 export type { ApplicationUseCaseError } from "./application/errors";
 export type { ApplicationRepository } from "./application/ports/application-repository";
 export type { Clock } from "./application/ports/clock";
@@ -80,7 +82,7 @@ export type { DemoData } from "./application/ports/demo-data";
 export type { IdGenerator } from "./application/ports/id-generator";
 export type { SessionProvider } from "./application/ports/session-provider";
 export { CreateApplication } from "./application/use-cases/create-application";
-export { ExitDemo, ResetDemo, StartDemo } from "./application/use-cases/demo";
+export { ExitDemo, IsDemoActive, ResetDemo, StartDemo } from "./application/use-cases/demo";
 export type { DemoDeps } from "./application/use-cases/demo";
 export type { CreateApplicationDeps } from "./application/use-cases/create-application";
 export { ListTags } from "./application/use-cases/list-tags";
