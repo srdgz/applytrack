@@ -14,7 +14,7 @@ const mounted: (() => void)[] = [];
 const startApp = async (path: string, store = new MemoryKeyValueStore()) => {
   const useCases = createContainer({ store, clock: new FixedClock("2026-10-05T12:00:00.000Z") });
   window.history.replaceState(null, "", "/");
-  const { app, router } = createApplyTrackApp({
+  const { app, router, toasts } = createApplyTrackApp({
     useCases,
     history: createWebHistory(),
     locale: "es",
@@ -28,7 +28,7 @@ const startApp = async (path: string, store = new MemoryKeyValueStore()) => {
   });
   await router.replace(path);
   await router.isReady();
-  return { router, useCases, store };
+  return { router, useCases, store, toasts };
 };
 
 const columnHeadings = () =>
@@ -359,7 +359,7 @@ describe("cambio de estado", () => {
     await userEvent.click(await screen.findByRole("button", { name: "Cambiar estado" }));
     await userEvent.click(screen.getByRole("button", { name: "Guardar cambio" }));
 
-    expect(screen.getByRole("alert").textContent).toContain("Elige el nuevo estado.");
+    expect(screen.getByText("Elige el nuevo estado.").getAttribute("role")).toBe("alert");
   });
 
   it("CA-101-11 · el menú «Mover a…» del tablero funciona solo con teclado", async () => {
@@ -388,7 +388,11 @@ describe("cambio de estado", () => {
     });
 
     await drag("Nimbus Labs", "offer");
-    expect(await screen.findByText("No se puede pasar de «Me interesa» a «Oferta».")).toBeTruthy();
+    expect(
+      (await screen.findByText("No se puede pasar de «Me interesa» a «Oferta».")).closest(
+        "[role=alert]",
+      ),
+    ).not.toBeNull();
     expect(columnHeadings()[0]).toBe("Me interesa 2");
 
     await drag("Brisa Health", "screening");
@@ -661,5 +665,77 @@ describe("archivar y eliminar", () => {
 
     const stats = await useCases.getDashboardStats.execute();
     expect(stats.ok && stats.value).toMatchObject({ total: 14, sent: 12, responded: 8 });
+  });
+});
+
+describe("avisos", () => {
+  const regions = () => {
+    const container = document.querySelector("[role=region][aria-label=Avisos]");
+    return {
+      status: container?.querySelector("[role=status]"),
+      alert: container?.querySelector("[role=alert]"),
+    };
+  };
+
+  it("CA-107-07 · las dos regiones existen desde el principio y cada tipo va a la suya", async () => {
+    const { toasts } = await startDemoApp("/board");
+
+    const { status, alert } = regions();
+    expect(status?.textContent.trim()).toBe("");
+    expect(alert?.textContent.trim()).toBe("");
+
+    toasts.show("success", "Todo bien");
+    toasts.show("error", "Algo falló");
+
+    await waitFor(() => {
+      expect(regions().status?.textContent).toContain("Hecho: Todo bien");
+      expect(regions().alert?.textContent).toContain("Error: Algo falló");
+    });
+  });
+
+  it("CA-107-08 · se cierran con su botón y con Escape", async () => {
+    const { toasts } = await startDemoApp("/board");
+    toasts.show("info", "Primero");
+    toasts.show("error", "Segundo");
+
+    const [first] = await screen.findAllByRole("button", { name: "Cerrar aviso" });
+    if (!first) throw new Error("sin botón de cerrar");
+    await userEvent.click(first);
+    expect(screen.queryByText("Primero")).toBeNull();
+
+    screen.getByRole("button", { name: "Cerrar aviso" }).focus();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByText("Segundo")).toBeNull();
+  });
+
+  it("CA-107-09 · el tiempo se pausa con el puntero encima o el foco dentro", async () => {
+    const { toasts } = await startDemoApp("/board");
+    const pause = vi.spyOn(toasts, "pause");
+    const resume = vi.spyOn(toasts, "resume");
+    const id = toasts.show("success", "Guardada");
+
+    const item = (await screen.findByText("Guardada")).closest("div");
+    if (!item) throw new Error("sin aviso");
+    await fireEvent.mouseEnter(item);
+    await fireEvent.mouseLeave(item);
+    screen.getByRole("button", { name: "Cerrar aviso" }).focus();
+
+    expect(pause).toHaveBeenCalledWith(id);
+    expect(resume).toHaveBeenCalledWith(id);
+    expect(pause).toHaveBeenCalledTimes(2);
+  });
+
+  it("CA-107-10 · restaurar los datos de ejemplo avisa con un éxito", async () => {
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    await startDemoApp("/settings");
+
+    const buttons = await screen.findAllByRole("button", { name: "Reiniciar" });
+    const settingsReset = buttons.at(-1);
+    if (!settingsReset) throw new Error("sin botón");
+    await userEvent.click(settingsReset);
+
+    await waitFor(() => {
+      expect(regions().status?.textContent).toContain("Datos de ejemplo restaurados");
+    });
   });
 });

@@ -1,16 +1,20 @@
-import { readonly, ref } from "vue";
+import type { ToastQueue } from "@applytrack/notifications";
+import type { InjectionKey } from "vue";
+import { inject } from "vue";
 
-const TOAST_MS = 5000;
+export const TOASTS: InjectionKey<ToastQueue> = Symbol("Toasts");
 
-const message = ref<string | null>(null);
-let timer: ReturnType<typeof setTimeout> | undefined;
-
-export const showToast = (text: string): void => {
-  clearTimeout(timer);
-  message.value = text;
-  timer = setTimeout(() => {
-    message.value = null;
-  }, TOAST_MS);
+export const useToastQueue = (): ToastQueue => {
+  const queue = inject(TOASTS);
+  if (!queue) throw new Error("ToastQueue was not provided");
+  return queue;
 };
 
-export const useToast = () => readonly(message);
+export const useToast = () => {
+  const queue = useToastQueue();
+  return {
+    success: (message: string) => queue.show("success", message),
+    info: (message: string) => queue.show("info", message),
+    error: (message: string) => queue.show("error", message),
+  };
+};

@@ -14,7 +14,7 @@ import type { RouteLocationRaw } from "vue-router";
 import { bumpDataVersion } from "../../composables/useDataVersion";
 import { useGoBack } from "../../composables/useGoBack";
 import { useLeaveGuard } from "../../composables/useLeaveGuard";
-import { showToast } from "../../composables/useToast";
+import { useToast } from "../../composables/useToast";
 import type { FormValues } from "../../form/form-values";
 import { showsAppliedAt } from "../../form/form-values";
 import { useApplicationForm } from "../../form/useApplicationForm";
@@ -35,6 +35,7 @@ const props = defineProps<{
 
 const { t, locale } = useI18n();
 const goBack = useGoBack();
+const toast = useToast();
 
 const form = useApplicationForm({
   initial: props.initial,
@@ -99,12 +100,13 @@ const onSubmit = async () => {
     if (outcome === "saved") {
       form.markSaved();
       bumpDataVersion();
-      showToast(t("form.saved"));
+      toast.success(t("form.saved"));
       await leave();
     } else if (outcome === "invalid") {
       await form.focusFirstError();
     } else {
       saveError.value = true;
+      toast.error(t("form.saveError"));
     }
   } catch {
     saveError.value = true;

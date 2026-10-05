@@ -6,12 +6,13 @@ import { useRouter } from "vue-router";
 
 import { useUseCases } from "../di/use-cases";
 import { bumpDataVersion } from "./useDataVersion";
-import { showToast } from "./useToast";
+import { useToast } from "./useToast";
 
 export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | null>) => {
   const { archiveApplication, unarchiveApplication, deleteApplication } = useUseCases();
   const { t } = useI18n();
   const router = useRouter();
+  const toast = useToast();
 
   const busy = ref(false);
   const error = ref("");
@@ -23,6 +24,7 @@ export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | n
       return await action();
     } catch {
       error.value = t("detail.actionError");
+      toast.error(error.value);
       return undefined;
     } finally {
       busy.value = false;
@@ -38,11 +40,12 @@ export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | n
     if (!result.ok) {
       if (result.error.code === "UNAUTHENTICATED") await router.replace({ name: "start" });
       error.value = t(`errors.${result.error.code}`);
+      toast.error(error.value);
       return false;
     }
     application.value = result.value;
     bumpDataVersion();
-    showToast(t(archived ? "detail.archived" : "detail.unarchived"));
+    toast.success(t(archived ? "detail.archived" : "detail.unarchived"));
     return true;
   };
 
@@ -54,10 +57,11 @@ export const useArchiveDelete = (application: ShallowRef<ApplicationSnapshot | n
     if (!result.ok) {
       if (result.error.code === "UNAUTHENTICATED") await router.replace({ name: "start" });
       error.value = t(`errors.${result.error.code}`);
+      toast.error(error.value);
       return false;
     }
     bumpDataVersion();
-    showToast(t("detail.deleted"));
+    toast.success(t("detail.deleted"));
     await router.replace({ name: "board" });
     return true;
   };

@@ -283,5 +283,12 @@
     "APPLICATION_NOT_FOUND": "No se ha encontrado la candidatura.",
     "UNAUTHENTICATED": "Tu sesión ha terminado. Vuelve a entrar.",
     "INVALID_STATUS_TRANSITION": "No se puede pasar de «{from}» a «{to}»."
+  },
+  "toast": {
+    "close": "Cerrar aviso",
+    "success": "Hecho",
+    "info": "Información",
+    "error": "Error",
+    "region": "Avisos"
   }
 }

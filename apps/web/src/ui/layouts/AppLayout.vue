@@ -5,7 +5,7 @@ import { RouterLink, RouterView, useRoute } from "vue-router";
 import { useSidebar } from "../../composables/useSidebar";
 import AppIcon from "../components/AppIcon.vue";
 import AppNav from "../components/AppNav.vue";
-import AppToast from "../components/AppToast.vue";
+import ToastRegion from "../components/ToastRegion.vue";
 import DemoBanner from "../components/DemoBanner.vue";
 
 const { t } = useI18n();
@@ -81,6 +81,6 @@ const route = useRoute();
       <AppIcon name="plus" class="size-6" />
     </RouterLink>
 
-    <AppToast />
+    <ToastRegion />
   </div>
 </template>

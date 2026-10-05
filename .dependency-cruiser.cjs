@@ -47,6 +47,20 @@ module.exports = {
       to: { path: ["^packages/adapter-", "node_modules/@applytrack/adapter-"] },
     },
     {
+      name: "notifications-is-pure",
+      comment: "La cola de avisos no depende de ningún paquete ni de otras partes del monorepo.",
+      severity: "error",
+      from: { path: "^packages/notifications/src/", pathNot: "\.test\.ts$" },
+      to: { pathNot: "^packages/notifications/src/" },
+    },
+    {
+      name: "core-no-notifications",
+      comment: "Los avisos son cosa de la interfaz: core no los importa.",
+      severity: "error",
+      from: { path: "^packages/core/" },
+      to: { path: ["^packages/notifications/", "@applytrack/notifications"] },
+    },
+    {
       name: "no-circular",
       severity: "error",
       from: {},
@@ -55,7 +69,9 @@ module.exports = {
   ],
   options: {
     doNotFollow: { path: "node_modules" },
-    exclude: { path: ["(^|/)(dist|coverage|\.turbo)/", "\.config\.(ts|js|cjs)$"] },
+    exclude: {
+      path: ["^(apps|packages)/[^/]+/(dist|coverage|\.turbo)/", "\.config\.(ts|js|cjs)$"],
+    },
     tsPreCompilationDeps: true,
     combinedDependencies: true,
     preserveSymlinks: false,

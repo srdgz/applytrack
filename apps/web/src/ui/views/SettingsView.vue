@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { SUPPORTED_LOCALES } from "@applytrack/i18n";
-import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useDemoActions } from "../../composables/useDemoActions";
@@ -11,14 +10,8 @@ const { t, locale } = useI18n();
 const i18n = useAppI18n();
 const { reset, exit } = useDemoActions();
 
-const resetDone = ref(false);
-
 const onLocaleChange = (event: Event) => {
   applyLocale(i18n, (event.target as HTMLSelectElement).value);
-};
-
-const onReset = async () => {
-  resetDone.value = await reset();
 };
 </script>
 
@@ -47,7 +40,7 @@ const onReset = async () => {
         <button
           type="button"
           class="border-border hover:bg-surface-muted min-h-10 rounded-md border px-4 text-sm font-medium"
-          @click="onReset"
+          @click="reset"
         >
           {{ t("demo.reset") }}
         </button>
@@ -59,9 +52,6 @@ const onReset = async () => {
           {{ t("demo.exit") }}
         </button>
       </div>
-      <p v-if="resetDone" class="text-ink-muted mt-3 text-sm" role="status">
-        {{ t("demo.resetDone") }}
-      </p>
     </section>
   </div>
 </template>

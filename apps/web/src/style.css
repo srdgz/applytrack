@@ -14,6 +14,16 @@
   --color-warning-soft: oklch(96% 0.059 95);
   --color-danger: oklch(50.5% 0.213 27);
   --color-danger-ink: oklch(100% 0 0);
+  --color-success: oklch(52.7% 0.154 150);
+
+  --animate-toast-in: toast-in 150ms ease-out;
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,6 +41,7 @@
     --color-warning-soft: oklch(28% 0.077 46);
     --color-danger: oklch(71% 0.19 22);
     --color-danger-ink: oklch(13% 0.028 262);
+    --color-success: oklch(79.2% 0.209 152);
   }
 }
 

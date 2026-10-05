@@ -9,23 +9,23 @@ import {
   MAX_LIMIT,
   statusesForColumn,
 } from "@applytrack/core";
-import { computed, nextTick, onBeforeUnmount, ref, shallowRef, watch } from "vue";
+import { computed, nextTick, ref, shallowRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useFilters } from "../../composables/useFilters";
 import { useMediaQuery } from "../../composables/useMediaQuery";
 import { usePagedSearch } from "../../composables/usePagedSearch";
 import { useStatusChange } from "../../composables/useStatusChange";
+import { useToast } from "../../composables/useToast";
 import { toApplicationQuery } from "../../query/url-query";
 import ApplicationCard from "../components/ApplicationCard.vue";
 import FilterBar from "../components/FilterBar.vue";
 import ResultState from "../components/ResultState.vue";
 
-const ALERT_MS = 6000;
-
 const { t } = useI18n();
 const { filters } = useFilters();
 const { change, statusName, transitionMessage } = useStatusChange();
+const toast = useToast();
 const canDrag = useMediaQuery("(min-width: 48rem) and (pointer: fine)");
 
 const search = usePagedSearch(
@@ -75,24 +75,8 @@ const onTabKeydown = async (event: KeyboardEvent, index: number) => {
   tabs.value[target]?.focus();
 };
 
-const alertMessage = ref("");
-let alertTimer: ReturnType<typeof setTimeout> | undefined;
-
-const showAlert = (message: string) => {
-  clearTimeout(alertTimer);
-  alertMessage.value = message;
-  alertTimer = setTimeout(() => {
-    alertMessage.value = "";
-  }, ALERT_MS);
-};
-
-onBeforeUnmount(() => {
-  clearTimeout(alertTimer);
-});
-
 const move = async (application: ApplicationSummary, to: ApplicationStatus) => {
-  const outcome = await change(application.id, to);
-  if (!outcome.ok) showAlert(outcome.message);
+  await change(application.id, to);
 };
 
 const dragging = shallowRef<ApplicationSummary | null>(null);
@@ -170,7 +154,7 @@ const onDrop = async (event: DragEvent, column: BoardColumnId) => {
 
   const targets = statusesForColumn(column).filter((to) => canTransition(application.status, to));
   const [only] = targets;
-  if (!targets.length) showAlert(transitionMessage(application.status, columnTitle(column)));
+  if (!targets.length) toast.error(transitionMessage(application.status, columnTitle(column)));
   else if (targets.length === 1 && only) await move(application, only);
   else await openChooser(application, targets);
 };
@@ -188,12 +172,6 @@ const onDrop = async (event: DragEvent, column: BoardColumnId) => {
     >
       {{ t("board.tooMany", { total }) }}
     </p>
-
-    <div role="alert">
-      <p v-if="alertMessage" class="bg-warning-soft text-ink rounded-md p-3 text-sm font-medium">
-        {{ alertMessage }}
-      </p>
-    </div>
 
     <ResultState
       :status="status"

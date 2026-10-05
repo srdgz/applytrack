@@ -283,5 +283,12 @@
     "APPLICATION_NOT_FOUND": "The application could not be found.",
     "UNAUTHENTICATED": "Your session has ended. Please sign in again.",
     "INVALID_STATUS_TRANSITION": "It is not possible to move from “{from}” to “{to}”."
+  },
+  "toast": {
+    "close": "Dismiss notification",
+    "success": "Done",
+    "info": "Information",
+    "error": "Error",
+    "region": "Notifications"
   }
 }
