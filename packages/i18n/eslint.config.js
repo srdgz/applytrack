@@ -1,1 +1,3 @@
-export { default } from "@applytrack/config/eslint/base";
+import { createBaseConfig } from "@applytrack/config/eslint/base";
+
+export default createBaseConfig({ tsconfigRootDir: import.meta.dirname });

@@ -1,14 +1,17 @@
 // @ts-check
-import base from "@applytrack/config/eslint/base";
+import { createBaseConfig } from "@applytrack/config/eslint/base";
 import pluginVue from "eslint-plugin-vue";
 import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import vueParser from "vue-eslint-parser";
 
+const project = ["./tsconfig.app.json", "./tsconfig.node.json"];
+const tsconfigRootDir = import.meta.dirname;
+
 export default defineConfig(
   pluginVue.configs["flat/recommended"],
-  base,
+  createBaseConfig({ tsconfigRootDir, project }),
   {
     languageOptions: {
       globals: { ...globals.browser },
@@ -20,7 +23,8 @@ export default defineConfig(
       parser: vueParser,
       parserOptions: {
         parser: tseslint.parser,
-        projectService: true,
+        project,
+        tsconfigRootDir,
         extraFileExtensions: [".vue"],
       },
     },
