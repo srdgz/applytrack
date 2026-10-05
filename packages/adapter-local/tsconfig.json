@@ -1,0 +1,7 @@
+{
+  "extends": "@applytrack/config/tsconfig/library.json",
+  "compilerOptions": {
+    "types": []
+  },
+  "include": ["src", "*.config.ts"]
+}

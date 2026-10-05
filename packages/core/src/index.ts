@@ -24,6 +24,8 @@ export type {
   WorkMode,
 } from "./domain/application/options";
 export type { StatusChange } from "./domain/application/status-change";
+export { validateApplicationDetails } from "./domain/application/validate-application-details";
+export type { ValidationContext } from "./domain/application/validate-application-details";
 export { calendarDateFromDate, parseCalendarDate } from "./domain/shared/calendar-date";
 export type { CalendarDate } from "./domain/shared/calendar-date";
 export { toApplicationId, toUserId } from "./domain/shared/ids";
@@ -34,9 +36,12 @@ export type { Err, Ok, Result } from "./domain/shared/result";
 export type { ApplicationUseCaseError } from "./application/errors";
 export type { ApplicationRepository } from "./application/ports/application-repository";
 export type { Clock } from "./application/ports/clock";
+export type { DemoData } from "./application/ports/demo-data";
 export type { IdGenerator } from "./application/ports/id-generator";
 export type { SessionProvider } from "./application/ports/session-provider";
 export { CreateApplication } from "./application/use-cases/create-application";
+export { ExitDemo, ResetDemo, StartDemo } from "./application/use-cases/demo";
+export type { DemoDeps } from "./application/use-cases/demo";
 export type { CreateApplicationDeps } from "./application/use-cases/create-application";
 export { UpdateApplicationDetails } from "./application/use-cases/update-application-details";
 export type {
