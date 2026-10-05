@@ -1,18 +1,32 @@
 <script setup lang="ts">
-import type { BoardColumnId } from "@applytrack/core";
-import { DEFAULT_SORT, groupForBoard, MAX_LIMIT, statusesForColumn } from "@applytrack/core";
-import { computed, nextTick, ref, watch } from "vue";
+import type { ApplicationStatus, ApplicationSummary, BoardColumnId } from "@applytrack/core";
+import {
+  canTransition,
+  columnForStatus,
+  DEFAULT_SORT,
+  groupForBoard,
+  isFinalStatus,
+  MAX_LIMIT,
+  statusesForColumn,
+} from "@applytrack/core";
+import { computed, nextTick, onBeforeUnmount, ref, shallowRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 
 import { useFilters } from "../../composables/useFilters";
+import { useMediaQuery } from "../../composables/useMediaQuery";
 import { usePagedSearch } from "../../composables/usePagedSearch";
+import { useStatusChange } from "../../composables/useStatusChange";
 import { toApplicationQuery } from "../../query/url-query";
 import ApplicationCard from "../components/ApplicationCard.vue";
 import FilterBar from "../components/FilterBar.vue";
 import ResultState from "../components/ResultState.vue";
 
+const ALERT_MS = 6000;
+
 const { t } = useI18n();
 const { filters } = useFilters();
+const { change, statusName, transitionMessage } = useStatusChange();
+const canDrag = useMediaQuery("(min-width: 48rem) and (pointer: fine)");
 
 const search = usePagedSearch(
   () => ({ ...toApplicationQuery(filters.value), sort: DEFAULT_SORT }),
@@ -60,6 +74,106 @@ const onTabKeydown = async (event: KeyboardEvent, index: number) => {
   await nextTick();
   tabs.value[target]?.focus();
 };
+
+const alertMessage = ref("");
+let alertTimer: ReturnType<typeof setTimeout> | undefined;
+
+const showAlert = (message: string) => {
+  clearTimeout(alertTimer);
+  alertMessage.value = message;
+  alertTimer = setTimeout(() => {
+    alertMessage.value = "";
+  }, ALERT_MS);
+};
+
+onBeforeUnmount(() => {
+  clearTimeout(alertTimer);
+});
+
+const move = async (application: ApplicationSummary, to: ApplicationStatus) => {
+  const outcome = await change(application.id, to);
+  if (!outcome.ok) showAlert(outcome.message);
+};
+
+const dragging = shallowRef<ApplicationSummary | null>(null);
+const overColumn = ref<BoardColumnId | null>(null);
+
+const targetsFor = (column: BoardColumnId): ApplicationStatus[] => {
+  const current = dragging.value;
+  if (!current) return [];
+  return statusesForColumn(column).filter((to) => canTransition(current.status, to));
+};
+
+const isOwnColumn = (column: BoardColumnId) =>
+  dragging.value !== null && columnForStatus(dragging.value.status) === column;
+
+const columnState = (column: BoardColumnId) => {
+  if (!dragging.value || isOwnColumn(column)) return "";
+  return targetsFor(column).length ? "ring-accent ring-2" : "opacity-50";
+};
+
+const dropHint = (column: BoardColumnId) => {
+  const targets = targetsFor(column);
+  if (overColumn.value !== column || isOwnColumn(column) || !targets.length) return "";
+  const [only] = targets;
+  return t("board.dropHere", {
+    to: targets.length === 1 && only ? statusName(only) : columnTitle(column),
+  });
+};
+
+const chooser = ref<HTMLDialogElement | null>(null);
+const pending = shallowRef<{
+  application: ApplicationSummary;
+  options: ApplicationStatus[];
+} | null>(null);
+const chosen = ref<ApplicationStatus | null>(null);
+
+const openChooser = async (application: ApplicationSummary, options: ApplicationStatus[]) => {
+  pending.value = { application, options };
+  chosen.value = options[0] ?? null;
+  await nextTick();
+  chooser.value?.showModal();
+};
+
+const confirmChooser = async () => {
+  const current = pending.value;
+  chooser.value?.close();
+  pending.value = null;
+  if (current && chosen.value) await move(current.application, chosen.value);
+};
+
+const cancelChooser = () => {
+  chooser.value?.close();
+  pending.value = null;
+};
+
+const onDragStart = (application: ApplicationSummary) => {
+  dragging.value = application;
+};
+
+const onDragEnd = () => {
+  dragging.value = null;
+  overColumn.value = null;
+};
+
+const onDragOver = (event: DragEvent, column: BoardColumnId) => {
+  if (!dragging.value) return;
+  event.preventDefault();
+  overColumn.value = column;
+};
+
+const onDrop = async (event: DragEvent, column: BoardColumnId) => {
+  event.preventDefault();
+  const application = dragging.value;
+  onDragEnd();
+  if (!application || columnForStatus(application.status) === column) return;
+
+  const targets = statusesForColumn(column).filter((to) => canTransition(application.status, to));
+  const [only] = targets;
+  if (!targets.length) showAlert(transitionMessage(application.status, columnTitle(column)));
+  else if (targets.length === 1 && only) await move(application, only);
+  else await openChooser(application, targets);
+};
 </script>
 
 <template>
@@ -74,6 +188,12 @@ const onTabKeydown = async (event: KeyboardEvent, index: number) => {
     >
       {{ t("board.tooMany", { total }) }}
     </p>
+
+    <div role="alert">
+      <p v-if="alertMessage" class="bg-warning-soft text-ink rounded-md p-3 text-sm font-medium">
+        {{ alertMessage }}
+      </p>
+    </div>
 
     <ResultState
       :status="status"
@@ -119,6 +239,8 @@ const onTabKeydown = async (event: KeyboardEvent, index: number) => {
               <ApplicationCard
                 :application="application"
                 :show-status="activeColumn.id === 'closed'"
+                movable
+                @move="move(application, $event)"
               />
             </li>
           </ol>
@@ -131,7 +253,11 @@ const onTabKeydown = async (event: KeyboardEvent, index: number) => {
           v-for="column in columns"
           :key="column.id"
           :aria-labelledby="`column-${column.id}`"
-          class="bg-surface-muted flex w-72 shrink-0 flex-col rounded-lg p-3 lg:w-auto lg:min-w-0 lg:flex-1"
+          :data-column="column.id"
+          class="bg-surface-muted flex w-72 shrink-0 flex-col rounded-lg p-3 transition lg:w-auto lg:min-w-0 lg:flex-1"
+          :class="columnState(column.id)"
+          @dragover="onDragOver($event, column.id)"
+          @drop="onDrop($event, column.id)"
         >
           <h2
             :id="`column-${column.id}`"
@@ -142,14 +268,73 @@ const onTabKeydown = async (event: KeyboardEvent, index: number) => {
               column.count
             }}</span>
           </h2>
+          <p
+            v-if="dropHint(column.id)"
+            class="border-accent text-accent mb-3 rounded-md border border-dashed p-2 text-center text-sm font-medium"
+          >
+            {{ dropHint(column.id) }}
+          </p>
           <ol v-if="column.count" class="flex flex-col gap-3">
             <li v-for="application in column.items" :key="application.id">
-              <ApplicationCard :application="application" :show-status="column.id === 'closed'" />
+              <ApplicationCard
+                :application="application"
+                :show-status="column.id === 'closed'"
+                movable
+                :draggable="canDrag && !isFinalStatus(application.status)"
+                @move="move(application, $event)"
+                @dragstart="onDragStart"
+                @dragend="onDragEnd"
+              />
             </li>
           </ol>
           <p v-else class="text-ink-muted py-6 text-center text-sm">{{ t("board.emptyColumn") }}</p>
         </section>
       </div>
     </ResultState>
+
+    <dialog
+      ref="chooser"
+      class="bg-surface text-ink m-auto w-full max-w-sm rounded-lg p-5 shadow-xl backdrop:bg-black/40"
+      aria-labelledby="chooser-title"
+      @cancel="pending = null"
+    >
+      <form v-if="pending" class="flex flex-col gap-4" @submit.prevent="confirmChooser">
+        <h2 id="chooser-title" class="font-semibold">
+          {{ t("board.chooseClosedTitle", { company: pending.application.company }) }}
+        </h2>
+        <fieldset class="flex flex-col gap-2">
+          <legend class="sr-only">{{ t("detail.newStatus") }}</legend>
+          <label
+            v-for="option in pending.options"
+            :key="option"
+            class="border-border has-checked:border-accent has-checked:bg-accent-soft flex min-h-11 cursor-pointer items-center gap-2 rounded-md border px-3"
+          >
+            <input
+              v-model="chosen"
+              type="radio"
+              name="closed-status"
+              class="accent-accent size-4"
+              :value="option"
+            />
+            {{ statusName(option) }}
+          </label>
+        </fieldset>
+        <div class="flex justify-end gap-3">
+          <button
+            type="button"
+            class="border-border hover:bg-surface-muted min-h-11 rounded-md border px-4 font-medium"
+            @click="cancelChooser"
+          >
+            {{ t("board.cancelMove") }}
+          </button>
+          <button
+            type="submit"
+            class="bg-accent text-accent-ink min-h-11 rounded-md px-5 font-semibold"
+          >
+            {{ t("board.confirmMove") }}
+          </button>
+        </div>
+      </form>
+    </dialog>
   </div>
 </template>

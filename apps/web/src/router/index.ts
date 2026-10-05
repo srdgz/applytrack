@@ -3,6 +3,7 @@ import { createRouter } from "vue-router";
 
 import type { UseCases } from "../di/use-cases";
 import AppLayout from "../ui/layouts/AppLayout.vue";
+import ApplicationDetailView from "../ui/views/ApplicationDetailView.vue";
 import ApplicationEditView from "../ui/views/ApplicationEditView.vue";
 import ApplicationNewView from "../ui/views/ApplicationNewView.vue";
 import BoardView from "../ui/views/BoardView.vue";
@@ -64,7 +65,9 @@ export const createAppRouter = (useCases: UseCases, history: RouterHistory) => {
           {
             path: "applications/:id",
             name: "application",
-            redirect: (to) => ({ name: "application-edit", params: to.params }),
+            component: ApplicationDetailView,
+            props: true,
+            meta: { titleKey: "detail.title" },
           },
           {
             path: "applications/:id/edit",

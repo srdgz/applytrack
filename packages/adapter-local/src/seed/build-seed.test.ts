@@ -2,6 +2,7 @@ import type { ApplicationSnapshot } from "@applytrack/core";
 import {
   APPLICATION_STATUSES,
   calendarDateFromDate,
+  canTransition,
   validateApplicationDetails,
 } from "@applytrack/core";
 import { describe, expect, it } from "vitest";
@@ -46,6 +47,14 @@ describe.each(SEED_LOCALES)("datos de ejemplo (%s)", (locale) => {
       expect(history.at(-1)?.to).toBe(status);
       expect(application.createdAt).toBe(history[0]?.changedAt);
       expect(application.updatedAt).toBe(history.at(-1)?.changedAt);
+    }
+  });
+
+  it("CA-101-07 · cada cambio del historial respeta la tabla de transiciones", () => {
+    for (const { history } of seed) {
+      for (const { from, to } of history.slice(1)) {
+        expect(from !== null && canTransition(from, to), `${String(from)} → ${to}`).toBe(true);
+      }
     }
   });
 

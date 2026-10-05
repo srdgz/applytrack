@@ -6,4 +6,5 @@ export const LIMITS = {
   notes: 5000,
   tag: 30,
   tags: 10,
+  statusNote: 500,
 } as const;

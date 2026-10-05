@@ -60,7 +60,12 @@
     "columnsLabel": "Columnas del tablero",
     "closed": "Cerradas",
     "emptyColumn": "Sin candidaturas",
-    "tooMany": "Hay {total} candidaturas y el tablero muestra las 500 más recientes. Usa la lista para verlas todas."
+    "tooMany": "Hay {total} candidaturas y el tablero muestra las 500 más recientes. Usa la lista para verlas todas.",
+    "moveTo": "Mover {company} a…",
+    "dropHere": "Suelta para mover a «{to}»",
+    "chooseClosedTitle": "¿A qué estado mueves {company}?",
+    "confirmMove": "Mover",
+    "cancelMove": "Cancelar"
   },
   "card": {
     "updated": "Actualizada {when}",
@@ -201,6 +206,25 @@
     "notFound": "No se ha encontrado la candidatura.",
     "backToBoard": "Volver al tablero"
   },
+  "detail": {
+    "title": "Candidatura",
+    "edit": "Editar",
+    "data": "Datos",
+    "history": "Historial",
+    "changeStatus": "Cambiar estado",
+    "newStatus": "Nuevo estado",
+    "note": "Nota (opcional)",
+    "noteCount": "{count} / {max}",
+    "saveChange": "Guardar cambio",
+    "cancel": "Cancelar",
+    "chooseStatus": "Elige el nuevo estado.",
+    "finalStatus": "Estado final: no admite más cambios.",
+    "historyCreated": "Creada en «{to}»",
+    "historyChange": "De «{from}» a «{to}»",
+    "openJobUrl": "Ver la oferta",
+    "opensInNewTab": "(se abre en otra pestaña)",
+    "statusChanged": "Estado cambiado a «{to}»"
+  },
   "notFound": {
     "title": "Página no encontrada",
     "back": "Ir al inicio"
@@ -219,6 +243,7 @@
     "DUPLICATED_TAG": "La etiqueta «{tag}» está repetida.",
     "VALIDATION_FAILED": "Revisa los campos marcados.",
     "APPLICATION_NOT_FOUND": "No se ha encontrado la candidatura.",
-    "UNAUTHENTICATED": "Tu sesión ha terminado. Vuelve a entrar."
+    "UNAUTHENTICATED": "Tu sesión ha terminado. Vuelve a entrar.",
+    "INVALID_STATUS_TRANSITION": "No se puede pasar de «{from}» a «{to}»."
   }
 }

@@ -60,7 +60,12 @@
     "columnsLabel": "Board columns",
     "closed": "Closed",
     "emptyColumn": "No applications",
-    "tooMany": "There are {total} applications and the board shows the 500 most recent. Use the list to see them all."
+    "tooMany": "There are {total} applications and the board shows the 500 most recent. Use the list to see them all.",
+    "moveTo": "Move {company} to…",
+    "dropHere": "Drop to move to “{to}”",
+    "chooseClosedTitle": "Which status should {company} move to?",
+    "confirmMove": "Move",
+    "cancelMove": "Cancel"
   },
   "card": {
     "updated": "Updated {when}",
@@ -201,6 +206,25 @@
     "notFound": "The application could not be found.",
     "backToBoard": "Back to the board"
   },
+  "detail": {
+    "title": "Application",
+    "edit": "Edit",
+    "data": "Details",
+    "history": "History",
+    "changeStatus": "Change status",
+    "newStatus": "New status",
+    "note": "Note (optional)",
+    "noteCount": "{count} / {max}",
+    "saveChange": "Save change",
+    "cancel": "Cancel",
+    "chooseStatus": "Choose the new status.",
+    "finalStatus": "Final status: no further changes.",
+    "historyCreated": "Created as “{to}”",
+    "historyChange": "From “{from}” to “{to}”",
+    "openJobUrl": "View the job posting",
+    "opensInNewTab": "(opens in a new tab)",
+    "statusChanged": "Status changed to “{to}”"
+  },
   "notFound": {
     "title": "Page not found",
     "back": "Go to the start page"
@@ -219,6 +243,7 @@
     "DUPLICATED_TAG": "The tag “{tag}” is repeated.",
     "VALIDATION_FAILED": "Check the highlighted fields.",
     "APPLICATION_NOT_FOUND": "The application could not be found.",
-    "UNAUTHENTICATED": "Your session has ended. Please sign in again."
+    "UNAUTHENTICATED": "Your session has ended. Please sign in again.",
+    "INVALID_STATUS_TRANSITION": "It is not possible to move from “{from}” to “{to}”."
   }
 }

@@ -1,5 +1,6 @@
 import type {
   CalendarDate,
+  ChangeApplicationStatus,
   CreateApplication,
   ExitDemo,
   GetApplication,
@@ -24,6 +25,7 @@ export interface UseCases {
   readonly getApplication: GetApplication;
   readonly createApplication: CreateApplication;
   readonly updateApplicationDetails: UpdateApplicationDetails;
+  readonly changeApplicationStatus: ChangeApplicationStatus;
   readonly validateApplicationDraft: ValidateApplicationDraft;
   readonly today: () => CalendarDate;
 }

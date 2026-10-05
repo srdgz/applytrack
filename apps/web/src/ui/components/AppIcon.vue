@@ -10,6 +10,8 @@ const paths = {
   close: "M18 6 6 18M6 6l12 12",
   clock: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",
   chevron: "m6 9 6 6 6-6",
+  more: "M12 5h.01M12 12h.01M12 19h.01",
+  external: "M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6",
   chevronLeft: "m15 18-6-6 6-6",
   chevronRight: "m9 18 6-6-6-6",
   arrowUp: "M12 19V5M5 12l7-7 7 7",

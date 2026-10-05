@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ApplicationSnapshot } from "@applytrack/core";
-import { onMounted, ref, shallowRef } from "vue";
+import { ref, shallowRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink, useRouter } from "vue-router";
 
@@ -36,7 +36,7 @@ const load = async () => {
   }
 };
 
-onMounted(load);
+watch(() => props.id, load, { immediate: true });
 
 const save = async (values: FormValues): Promise<SaveOutcome> => {
   const result = await updateApplicationDetails.execute({
@@ -94,6 +94,7 @@ const save = async (values: FormValues): Promise<SaveOutcome> => {
 
     <ApplicationForm
       v-else-if="application"
+      :key="application.id"
       :initial="valuesFromSnapshot(application)"
       :current-status="application.status"
       :save="save"

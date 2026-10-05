@@ -9,6 +9,7 @@ import {
 } from "@applytrack/adapter-local";
 import type { Clock, IdGenerator } from "@applytrack/core";
 import {
+  ChangeApplicationStatus,
   CreateApplication,
   ExitDemo,
   GetApplication,
@@ -51,6 +52,7 @@ export const createContainer = ({
     getApplication: new GetApplication({ repository, session }),
     createApplication: new CreateApplication({ repository, session, clock, ids }),
     updateApplicationDetails: new UpdateApplicationDetails({ repository, session, clock }),
+    changeApplicationStatus: new ChangeApplicationStatus({ repository, session, clock }),
     validateApplicationDraft: new ValidateApplicationDraft({ clock }),
     today: () => clock.today(),
   };

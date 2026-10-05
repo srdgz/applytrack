@@ -1,5 +1,11 @@
 export { Application } from "./domain/application/application";
-export type { ApplicationSnapshot } from "./domain/application/application";
+export type { ApplicationSnapshot, StatusChangeError } from "./domain/application/application";
+export {
+  ALLOWED_TRANSITIONS,
+  allowedTransitions,
+  canTransition,
+  isFinalStatus,
+} from "./domain/application/transitions";
 export type {
   ApplicationDetailsDraft,
   ApplicationDraft,
@@ -81,6 +87,11 @@ export type { Clock } from "./application/ports/clock";
 export type { DemoData } from "./application/ports/demo-data";
 export type { IdGenerator } from "./application/ports/id-generator";
 export type { SessionProvider } from "./application/ports/session-provider";
+export { ChangeApplicationStatus } from "./application/use-cases/change-application-status";
+export type {
+  ChangeApplicationStatusDeps,
+  ChangeApplicationStatusInput,
+} from "./application/use-cases/change-application-status";
 export { CreateApplication } from "./application/use-cases/create-application";
 export { ExitDemo, IsDemoActive, ResetDemo, StartDemo } from "./application/use-cases/demo";
 export { GetApplication } from "./application/use-cases/get-application";

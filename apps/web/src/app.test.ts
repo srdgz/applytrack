@@ -52,6 +52,7 @@ const field = (id: string) => {
 
 afterEach(() => {
   vi.restoreAllMocks();
+  vi.unstubAllGlobals();
   mounted.splice(0).forEach((unmount) => {
     unmount();
   });
@@ -264,5 +265,185 @@ describe("formulario de candidatura", () => {
     await startDemoApp("/applications/no-existe/edit");
 
     expect(await screen.findByText("No se ha encontrado la candidatura.")).toBeTruthy();
+  });
+});
+
+describe("cambio de estado", () => {
+  const enableDrag = () => {
+    vi.stubGlobal(
+      "matchMedia",
+      (query: string) =>
+        ({
+          matches: query.includes("pointer: fine"),
+          media: query,
+          addEventListener: () => undefined,
+          removeEventListener: () => undefined,
+        }) as unknown as MediaQueryList,
+    );
+  };
+
+  const desktopCard = (company: string) => {
+    const heading = [...document.querySelectorAll("section[data-column] h3")].find(
+      (element) => element.textContent.trim() === company,
+    );
+    const card = heading?.closest("article");
+    if (!card) throw new Error(`No existe la tarjeta de ${company}`);
+    return card;
+  };
+
+  const column = (id: string) => {
+    const element = document.querySelector(`section[data-column=${id}]`);
+    if (!element) throw new Error(`No existe la columna ${id}`);
+    return element;
+  };
+
+  const drag = async (company: string, target: string) => {
+    const dataTransfer = { setData: () => undefined, effectAllowed: "" };
+    await fireEvent.dragStart(desktopCard(company), { dataTransfer });
+    await fireEvent.dragOver(column(target), { dataTransfer });
+    await fireEvent.drop(column(target), { dataTransfer });
+  };
+
+  it("CA-101-08 · el detalle muestra los datos y el historial del más reciente al más antiguo", async () => {
+    await startDemoApp("/applications/demo-10");
+
+    expect(await screen.findByRole("heading", { level: 1, name: "Tejo Cloud" })).toBeTruthy();
+    expect(screen.getByText(/34\.000\s€ – 38\.000\s€/)).toBeTruthy();
+    const entries = [
+      ...document.querySelectorAll("#detail-history-title + ol > li > p:first-child"),
+    ];
+    expect(entries.map((entry) => entry.textContent.trim())).toEqual([
+      "De «Entrevistas» a «Oferta»",
+      "De «Primer contacto» a «Entrevistas»",
+      "De «Aplicada» a «Primer contacto»",
+      "Creada en «Aplicada»",
+    ]);
+  });
+
+  it("CA-101-09 · solo se ofrecen los estados permitidos y los finales no se cambian", async () => {
+    const { router } = await startDemoApp("/applications/demo-10");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Cambiar estado" }));
+    expect(
+      screen.getAllByRole("radio").map((radio) => radio.parentElement?.textContent.trim()),
+    ).toEqual(["Aceptada", "Descartada", "Retirada"]);
+
+    await router.push("/applications/demo-11");
+    expect(await screen.findByText("Estado final: no admite más cambios.")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Cambiar estado" })).toBeNull();
+  });
+
+  it("CA-101-10 · cambiar el estado con nota actualiza la cabecera y el historial", async () => {
+    await startDemoApp("/applications/demo-08");
+
+    const button = await screen.findByRole("button", { name: "Cambiar estado" });
+    await userEvent.click(button);
+    await userEvent.click(screen.getByRole("radio", { name: "Oferta" }));
+    await userEvent.type(screen.getByLabelText("Nota (opcional)"), "Llamada de la CTO");
+    await userEvent.click(screen.getByRole("button", { name: "Guardar cambio" }));
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(screen.getByRole("button", { name: "Cambiar estado" }));
+    });
+    expect(screen.getByText("Estado cambiado a «Oferta»")).toBeTruthy();
+    expect(document.querySelector("main header")?.textContent).toContain("Oferta");
+    expect(document.querySelector("#detail-history-title + ol > li")?.textContent).toContain(
+      "Llamada de la CTO",
+    );
+  });
+
+  it("guardar sin elegir estado avisa y no cambia nada", async () => {
+    await startDemoApp("/applications/demo-08");
+
+    await userEvent.click(await screen.findByRole("button", { name: "Cambiar estado" }));
+    await userEvent.click(screen.getByRole("button", { name: "Guardar cambio" }));
+
+    expect(screen.getByRole("alert").textContent).toContain("Elige el nuevo estado.");
+  });
+
+  it("CA-101-11 · el menú «Mover a…» del tablero funciona solo con teclado", async () => {
+    await startDemoApp("/board");
+    await waitFor(() => {
+      expect(columnHeadings()[0]).toBe("Me interesa 2");
+    });
+
+    const trigger = screen.getAllByRole("button", { name: "Mover Nimbus Labs a…" }).at(-1);
+    if (!trigger) throw new Error("sin menú");
+    trigger.focus();
+    await userEvent.keyboard("{ArrowDown}");
+    expect(document.activeElement?.textContent.trim()).toBe("Aplicada");
+    await userEvent.keyboard("{Enter}");
+
+    await waitFor(() => {
+      expect(columnHeadings().slice(0, 2)).toEqual(["Me interesa 1", "Aplicada 4"]);
+    });
+  });
+
+  it("CA-101-12 · arrastrar a una columna permitida mueve; a una no permitida, avisa", async () => {
+    enableDrag();
+    await startDemoApp("/board");
+    await waitFor(() => {
+      expect(desktopCard("Brisa Health").getAttribute("draggable")).toBe("true");
+    });
+
+    await drag("Nimbus Labs", "offer");
+    expect(await screen.findByText("No se puede pasar de «Me interesa» a «Oferta».")).toBeTruthy();
+    expect(columnHeadings()[0]).toBe("Me interesa 2");
+
+    await drag("Brisa Health", "screening");
+    await waitFor(() => {
+      expect(columnHeadings().slice(1, 3)).toEqual(["Aplicada 2", "Primer contacto 3"]);
+    });
+  });
+
+  it("CA-101-13 · soltar en «Cerradas» pregunta el estado", async () => {
+    enableDrag();
+    HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
+      this.open = true;
+    };
+    HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
+      this.open = false;
+    };
+    await startDemoApp("/board");
+    await waitFor(() => {
+      expect(desktopCard("Tejo Cloud").getAttribute("draggable")).toBe("true");
+    });
+
+    await drag("Tejo Cloud", "closed");
+    expect(await screen.findByText("¿A qué estado mueves Tejo Cloud?")).toBeTruthy();
+    await userEvent.click(screen.getByRole("radio", { name: "Aceptada" }));
+    await userEvent.click(screen.getByRole("button", { name: "Mover" }));
+
+    await waitFor(() => {
+      expect(columnHeadings().slice(4)).toEqual(["Oferta 0", "Cerradas 5"]);
+    });
+  });
+
+  it("CA-101-14 · sin puntero preciso las tarjetas no se arrastran, pero tienen menú", async () => {
+    await startDemoApp("/board");
+    await waitFor(() => {
+      expect(columnHeadings()).toHaveLength(6);
+    });
+
+    expect(desktopCard("Brisa Health").hasAttribute("draggable")).toBe(false);
+    expect(screen.getAllByRole("button", { name: "Mover Brisa Health a…" }).length).toBeGreaterThan(
+      0,
+    );
+  });
+
+  it("CA-101-15 · las tarjetas llevan al detalle y «Editar» al formulario", async () => {
+    const { router } = await startDemoApp("/board");
+    await waitFor(() => {
+      expect(columnHeadings()).toHaveLength(6);
+    });
+
+    await userEvent.click(desktopCard("Brisa Health").querySelector("a") as HTMLAnchorElement);
+    await waitFor(() => {
+      expect(router.currentRoute.value.name).toBe("application");
+    });
+    await userEvent.click(await screen.findByRole("link", { name: "Editar" }));
+    await waitFor(() => {
+      expect(router.currentRoute.value.name).toBe("application-edit");
+    });
   });
 });
