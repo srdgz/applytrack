@@ -34,3 +34,13 @@ export const calendarDateFromDate = (date: Date): CalendarDate => {
 };
 
 export const isAfter = (a: CalendarDate, b: CalendarDate): boolean => a > b;
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const toUtcMidnight = (date: CalendarDate): number => {
+  const [year = 0, month = 1, day = 1] = date.split("-").map(Number);
+  return Date.UTC(year, month - 1, day);
+};
+
+export const daysBetween = (from: CalendarDate, to: CalendarDate): number =>
+  Math.round((toUtcMidnight(to) - toUtcMidnight(from)) / DAY_MS);

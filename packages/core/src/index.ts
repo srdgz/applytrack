@@ -23,10 +23,50 @@ export type {
   InitialStatus,
   WorkMode,
 } from "./domain/application/options";
+export {
+  ARCHIVED_FILTERS,
+  applyQuery,
+  compareForQuery,
+  completeQuery,
+  DEFAULT_LIMIT,
+  DEFAULT_SORT,
+  matchesQuery,
+  MAX_LIMIT,
+  SORT_DIRECTIONS,
+  SORT_FIELDS,
+} from "./domain/application/query";
+export type {
+  ApplicationQuery,
+  ApplicationSort,
+  ArchivedFilter,
+  Page,
+  SortDirection,
+  SortField,
+} from "./domain/application/query";
+export {
+  BOARD_COLUMNS,
+  columnForStatus,
+  groupForBoard,
+  statusesForColumn,
+} from "./domain/application/board";
+export type { BoardColumn, BoardColumnId } from "./domain/application/board";
+export {
+  ACTIVE_STATUSES,
+  CLOSED_STATUSES,
+  isActiveStatus,
+  STALE_AFTER_DAYS,
+  toSummary,
+} from "./domain/application/summary";
+export type { ApplicationSummary } from "./domain/application/summary";
+export { uniqueTags } from "./domain/application/tags";
 export type { StatusChange } from "./domain/application/status-change";
 export { validateApplicationDetails } from "./domain/application/validate-application-details";
 export type { ValidationContext } from "./domain/application/validate-application-details";
-export { calendarDateFromDate, parseCalendarDate } from "./domain/shared/calendar-date";
+export {
+  calendarDateFromDate,
+  daysBetween,
+  parseCalendarDate,
+} from "./domain/shared/calendar-date";
 export type { CalendarDate } from "./domain/shared/calendar-date";
 export { toApplicationId, toUserId } from "./domain/shared/ids";
 export type { ApplicationId, UserId } from "./domain/shared/ids";
@@ -43,6 +83,10 @@ export { CreateApplication } from "./application/use-cases/create-application";
 export { ExitDemo, ResetDemo, StartDemo } from "./application/use-cases/demo";
 export type { DemoDeps } from "./application/use-cases/demo";
 export type { CreateApplicationDeps } from "./application/use-cases/create-application";
+export { ListTags } from "./application/use-cases/list-tags";
+export type { ListTagsDeps } from "./application/use-cases/list-tags";
+export { SearchApplications } from "./application/use-cases/search-applications";
+export type { SearchApplicationsDeps } from "./application/use-cases/search-applications";
 export { UpdateApplicationDetails } from "./application/use-cases/update-application-details";
 export type {
   UpdateApplicationDetailsDeps,

@@ -1,5 +1,12 @@
-import type { ApplicationId, ApplicationRepository, ApplicationSnapshot, UserId } from "../src";
-import { Application } from "../src";
+import type {
+  ApplicationId,
+  ApplicationQuery,
+  ApplicationRepository,
+  ApplicationSnapshot,
+  Page,
+  UserId,
+} from "../src";
+import { Application, applyQuery, uniqueTags } from "../src";
 
 export class InMemoryApplicationRepository implements ApplicationRepository {
   private readonly rows = new Map<ApplicationId, ApplicationSnapshot>();
@@ -17,7 +24,20 @@ export class InMemoryApplicationRepository implements ApplicationRepository {
     return Promise.resolve();
   }
 
+  search(owner: UserId, query: ApplicationQuery): Promise<Page<Application>> {
+    const page = applyQuery(this.ownedBy(owner), query);
+    return Promise.resolve({ ...page, items: page.items.map((row) => Application.restore(row)) });
+  }
+
+  listTags(owner: UserId): Promise<readonly string[]> {
+    return Promise.resolve(uniqueTags(this.ownedBy(owner)));
+  }
+
   all(): ApplicationSnapshot[] {
     return [...this.rows.values()];
+  }
+
+  private ownedBy(owner: UserId): ApplicationSnapshot[] {
+    return this.all().filter((row) => row.ownerId === owner);
   }
 }
