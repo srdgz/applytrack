@@ -44,3 +44,19 @@ const toUtcMidnight = (date: CalendarDate): number => {
 
 export const daysBetween = (from: CalendarDate, to: CalendarDate): number =>
   Math.round((toUtcMidnight(to) - toUtcMidnight(from)) / DAY_MS);
+
+const fromUtcMidnight = (time: number): CalendarDate => {
+  const date = new Date(time);
+  const year = String(date.getUTCFullYear()).padStart(4, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  return `${year}-${month}-${day}` as CalendarDate;
+};
+
+export const addDays = (date: CalendarDate, days: number): CalendarDate =>
+  fromUtcMidnight(toUtcMidnight(date) + days * DAY_MS);
+
+export const startOfWeek = (date: CalendarDate): CalendarDate => {
+  const weekday = new Date(toUtcMidnight(date)).getUTCDay();
+  return addDays(date, -((weekday + 6) % 7));
+};

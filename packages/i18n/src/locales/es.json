@@ -148,12 +148,35 @@
     "demoTitle": "Modo demo",
     "demoDescription": "Los datos solo se guardan en este dispositivo."
   },
-  "placeholder": {
-    "soon": "Esta pantalla llegará pronto.",
-    "back": "Volver al tablero"
-  },
   "stats": {
-    "title": "Estadísticas"
+    "title": "Estadísticas",
+    "summary": "Resumen",
+    "active": "Candidaturas activas",
+    "activeDetail": "{closed, plural, one {# cerrada} other {# cerradas}}",
+    "responseRate": "Tasa de respuesta",
+    "interviewRate": "Tasa de entrevista",
+    "offers": "Ofertas",
+    "rateDetail": "{count} de {total}",
+    "notSentYet": "Todavía no has enviado ninguna candidatura.",
+    "byStatus": "Por estado",
+    "activeGroup": "Activas",
+    "closedGroup": "Cerradas",
+    "weekly": "Enviadas por semana",
+    "weekLabel": "Semana del {date}: {count, plural, =0 {ninguna} one {# enviada} other {# enviadas}}",
+    "bySource": "Por fuente",
+    "source": "Fuente",
+    "sent": "Enviadas",
+    "responded": "Con respuesta",
+    "rate": "Tasa",
+    "responseTime": "Tiempo de respuesta",
+    "medianDays": "{days, plural, one {# día} other {# días}}",
+    "medianHint": "Mediana desde que envías la candidatura hasta la primera respuesta.",
+    "noResponses": "Todavía no hay respuestas.",
+    "stale": "Candidaturas paradas",
+    "staleDays": "{days} días sin cambios",
+    "noStale": "Ninguna candidatura parada. ¡Bien!",
+    "emptyTitle": "Todavía no hay datos",
+    "emptyAction": "Añadir candidatura"
   },
   "application": {
     "newTitle": "Nueva candidatura",

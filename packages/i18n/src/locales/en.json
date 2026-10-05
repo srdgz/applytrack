@@ -148,12 +148,35 @@
     "demoTitle": "Demo mode",
     "demoDescription": "Data is only stored on this device."
   },
-  "placeholder": {
-    "soon": "This screen is coming soon.",
-    "back": "Back to the board"
-  },
   "stats": {
-    "title": "Statistics"
+    "title": "Statistics",
+    "summary": "Summary",
+    "active": "Active applications",
+    "activeDetail": "{closed, plural, one {# closed} other {# closed}}",
+    "responseRate": "Response rate",
+    "interviewRate": "Interview rate",
+    "offers": "Offers",
+    "rateDetail": "{count} of {total}",
+    "notSentYet": "You have not sent any applications yet.",
+    "byStatus": "By status",
+    "activeGroup": "Active",
+    "closedGroup": "Closed",
+    "weekly": "Sent per week",
+    "weekLabel": "Week of {date}: {count, plural, =0 {none} one {# sent} other {# sent}}",
+    "bySource": "By source",
+    "source": "Source",
+    "sent": "Sent",
+    "responded": "Responded",
+    "rate": "Rate",
+    "responseTime": "Response time",
+    "medianDays": "{days, plural, one {# day} other {# days}}",
+    "medianHint": "Median time from sending an application to the first response.",
+    "noResponses": "No responses yet.",
+    "stale": "Stalled applications",
+    "staleDays": "{days} days without changes",
+    "noStale": "No stalled applications. Well done!",
+    "emptyTitle": "No data yet",
+    "emptyAction": "Add application"
   },
   "application": {
     "newTitle": "New application",

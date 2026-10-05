@@ -481,3 +481,84 @@ describe("botón Volver", () => {
     });
   });
 });
+
+describe("estadísticas", () => {
+  const tile = (label: string) => {
+    const term = [...document.querySelectorAll("dt")].find(
+      (element) => element.textContent.trim() === label,
+    );
+    return [...(term?.parentElement?.querySelectorAll("dd") ?? [])].map((dd) =>
+      dd.textContent.trim(),
+    );
+  };
+
+  const storeWith = async (applications: ApplicationSnapshot[]) => {
+    const store = new MemoryKeyValueStore();
+    await new DemoStorage(store).replace({
+      version: 1,
+      locale: "es",
+      seededAt: null,
+      applications,
+    });
+    await store.setItem("applytrack:mode", "demo");
+    return store;
+  };
+
+  it("CA-105-09 · con los datos de ejemplo, la tasa de respuesta es 69 % · 9 de 13", async () => {
+    await startDemoApp("/stats");
+
+    await screen.findByText("Tasa de respuesta");
+    const [value, detail] = tile("Tasa de respuesta");
+    expect(value).toMatch(/^69\s%$/);
+    expect(detail).toBe("9 de 13");
+    expect(tile("Candidaturas activas")).toEqual(["10", "5 cerradas"]);
+  });
+
+  it("CA-105-10 · los gráficos se leen como listas con su valor escrito", async () => {
+    await startDemoApp("/stats");
+    await screen.findByText("Enviadas por semana");
+
+    const weeks = [...document.querySelectorAll("#stats-weekly + ol > li")];
+    expect(weeks).toHaveLength(8);
+    expect(
+      weeks.every((week) =>
+        /Semana del .+: /.test(week.querySelector(".sr-only")?.textContent ?? ""),
+      ),
+    ).toBe(true);
+    expect(
+      document.querySelectorAll("#stats-weekly + ol [aria-hidden=true] .bg-accent"),
+    ).toHaveLength(8);
+
+    const interviewing = [...document.querySelectorAll("#stats-status ~ div dt")].find(
+      (term) => term.textContent.trim() === "Entrevistas",
+    );
+    expect(interviewing?.parentElement?.querySelector("dd")?.textContent.trim()).toBe("2");
+  });
+
+  it("CA-105-11 · las candidaturas paradas enlazan a su detalle", async () => {
+    await startDemoApp("/stats");
+
+    const lince = await screen.findByRole("link", { name: "Lince Software" });
+    expect(lince.getAttribute("href")).toBe("/applications/demo-04");
+    expect(screen.getByRole("link", { name: "Olivo Fintech" }).getAttribute("href")).toBe(
+      "/applications/demo-07",
+    );
+  });
+
+  it("CA-105-12 · sin candidaturas muestra el mensaje vacío", async () => {
+    await startApp("/stats", await storeWith([]));
+
+    expect(await screen.findByText("Todavía no hay datos")).toBeTruthy();
+  });
+
+  it("CA-105-12 · sin enviadas, las tasas muestran «—»", async () => {
+    await startApp(
+      "/stats",
+      await storeWith([aSnapshot({ id: "wish", ownerId: DEMO_USER_ID, status: "wishlist" })]),
+    );
+
+    await screen.findByText("Tasa de respuesta");
+    expect(tile("Tasa de respuesta")).toEqual(["—", "Todavía no has enviado ninguna candidatura."]);
+    expect(screen.getByText("Todavía no hay respuestas.")).toBeTruthy();
+  });
+});

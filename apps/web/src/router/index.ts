@@ -9,8 +9,8 @@ import ApplicationNewView from "../ui/views/ApplicationNewView.vue";
 import BoardView from "../ui/views/BoardView.vue";
 import ListView from "../ui/views/ListView.vue";
 import NotFoundView from "../ui/views/NotFoundView.vue";
-import PlaceholderView from "../ui/views/PlaceholderView.vue";
 import SettingsView from "../ui/views/SettingsView.vue";
+import StatsView from "../ui/views/StatsView.vue";
 import StartView from "../ui/views/StartView.vue";
 
 declare module "vue-router" {
@@ -47,7 +47,7 @@ export const createAppRouter = (useCases: UseCases, history: RouterHistory) => {
           {
             path: "stats",
             name: "stats",
-            component: PlaceholderView,
+            component: StatsView,
             meta: { titleKey: "stats.title" },
           },
           {

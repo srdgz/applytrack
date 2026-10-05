@@ -8,16 +8,29 @@ export const useFormat = () => {
 
   const relative = computed(() => new Intl.RelativeTimeFormat(locale.value, { numeric: "auto" }));
   const date = computed(() => new Intl.DateTimeFormat(locale.value, { dateStyle: "medium" }));
+  const shortDate = computed(
+    () => new Intl.DateTimeFormat(locale.value, { day: "numeric", month: "short" }),
+  );
+  const percent = computed(
+    () => new Intl.NumberFormat(locale.value, { style: "percent", maximumFractionDigits: 0 }),
+  );
   const dateTime = computed(
     () => new Intl.DateTimeFormat(locale.value, { dateStyle: "medium", timeStyle: "short" }),
   );
 
   const daysAgo = (days: number): string => relative.value.format(-days, "day");
 
-  const calendarDate = (value: CalendarDate): string => {
+  const toLocalDate = (value: CalendarDate): Date => {
     const [year = 0, month = 1, day = 1] = value.split("-").map(Number);
-    return date.value.format(new Date(year, month - 1, day));
+    return new Date(year, month - 1, day);
   };
+
+  const calendarDate = (value: CalendarDate): string => date.value.format(toLocalDate(value));
+
+  const shortCalendarDate = (value: CalendarDate): string =>
+    shortDate.value.format(toLocalDate(value));
+
+  const ratio = (count: number, total: number): string => percent.value.format(count / total);
 
   const instant = (iso: string): string => dateTime.value.format(new Date(iso));
 
@@ -36,5 +49,5 @@ export const useFormat = () => {
       .join(" – ");
   };
 
-  return { daysAgo, calendarDate, instant, since, salary };
+  return { daysAgo, calendarDate, shortCalendarDate, ratio, instant, since, salary };
 };

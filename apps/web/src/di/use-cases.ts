@@ -4,6 +4,7 @@ import type {
   CreateApplication,
   ExitDemo,
   GetApplication,
+  GetDashboardStats,
   IsDemoActive,
   ListTags,
   ResetDemo,
@@ -23,6 +24,7 @@ export interface UseCases {
   readonly searchApplications: SearchApplications;
   readonly listTags: ListTags;
   readonly getApplication: GetApplication;
+  readonly getDashboardStats: GetDashboardStats;
   readonly createApplication: CreateApplication;
   readonly updateApplicationDetails: UpdateApplicationDetails;
   readonly changeApplicationStatus: ChangeApplicationStatus;

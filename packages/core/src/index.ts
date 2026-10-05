@@ -65,14 +65,18 @@ export {
   toSummary,
 } from "./domain/application/summary";
 export type { ApplicationSummary } from "./domain/application/summary";
+export { computeDashboardStats, STATS_WEEKS } from "./domain/application/stats";
+export type { DashboardStats, SourceStats, WeeklyCount } from "./domain/application/stats";
 export { uniqueTags } from "./domain/application/tags";
 export type { StatusChange } from "./domain/application/status-change";
 export { validateApplicationDetails } from "./domain/application/validate-application-details";
 export type { ValidationContext } from "./domain/application/validate-application-details";
 export {
+  addDays,
   calendarDateFromDate,
   daysBetween,
   parseCalendarDate,
+  startOfWeek,
 } from "./domain/shared/calendar-date";
 export type { CalendarDate } from "./domain/shared/calendar-date";
 export { toApplicationId, toUserId } from "./domain/shared/ids";
@@ -96,6 +100,8 @@ export { CreateApplication } from "./application/use-cases/create-application";
 export { ExitDemo, IsDemoActive, ResetDemo, StartDemo } from "./application/use-cases/demo";
 export { GetApplication } from "./application/use-cases/get-application";
 export type { GetApplicationDeps } from "./application/use-cases/get-application";
+export { GetDashboardStats } from "./application/use-cases/get-dashboard-stats";
+export type { GetDashboardStatsDeps } from "./application/use-cases/get-dashboard-stats";
 export type { DemoDeps } from "./application/use-cases/demo";
 export type { CreateApplicationDeps } from "./application/use-cases/create-application";
 export { ListTags } from "./application/use-cases/list-tags";
