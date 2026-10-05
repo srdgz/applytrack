@@ -10,7 +10,9 @@
     "list": "Lista",
     "stats": "Estadísticas",
     "settings": "Ajustes",
-    "newApplication": "Nueva candidatura"
+    "newApplication": "Nueva candidatura",
+    "collapse": "Contraer menú",
+    "expand": "Expandir menú"
   },
   "start": {
     "title": "Organiza tu búsqueda de empleo",

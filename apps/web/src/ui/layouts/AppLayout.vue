@@ -2,11 +2,13 @@
 import { useI18n } from "vue-i18n";
 import { RouterLink, RouterView } from "vue-router";
 
+import { useSidebar } from "../../composables/useSidebar";
 import AppIcon from "../components/AppIcon.vue";
 import AppNav from "../components/AppNav.vue";
 import DemoBanner from "../components/DemoBanner.vue";
 
 const { t } = useI18n();
+const { collapsed, expanded, toggle } = useSidebar();
 </script>
 
 <template>
@@ -37,9 +39,24 @@ const { t } = useI18n();
 
     <div class="flex min-h-0 flex-1">
       <aside
-        class="border-border bg-surface hidden w-16 shrink-0 border-r p-2 md:block lg:w-56 lg:p-3"
+        id="sidebar"
+        class="border-border bg-surface hidden w-16 shrink-0 flex-col gap-2 border-r p-2 transition-[width] md:flex"
+        :class="{ 'lg:w-56 lg:p-3': !collapsed }"
       >
-        <AppNav />
+        <button
+          type="button"
+          class="text-ink-muted hover:bg-surface-muted hover:text-ink hidden min-h-11 items-center gap-3 rounded-md px-3 text-sm lg:flex"
+          :class="collapsed ? 'justify-center' : 'justify-start'"
+          :aria-expanded="!collapsed"
+          aria-controls="sidebar"
+          :aria-label="collapsed ? t('nav.expand') : t('nav.collapse')"
+          :title="collapsed ? t('nav.expand') : t('nav.collapse')"
+          @click="toggle"
+        >
+          <AppIcon :name="collapsed ? 'chevronRight' : 'chevronLeft'" class="shrink-0" />
+          <span v-if="!collapsed" aria-hidden="true">{{ t("nav.collapse") }}</span>
+        </button>
+        <AppNav variant="side" :expanded="expanded" />
       </aside>
 
       <main id="main" tabindex="-1" class="min-w-0 flex-1 pb-24 md:pb-0">
@@ -50,7 +67,7 @@ const { t } = useI18n();
     <div
       class="border-border bg-surface fixed inset-x-0 bottom-0 z-20 border-t pb-[env(safe-area-inset-bottom)] md:hidden"
     >
-      <AppNav />
+      <AppNav variant="bottom" />
     </div>
 
     <RouterLink

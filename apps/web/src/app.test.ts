@@ -80,6 +80,24 @@ describe("web", () => {
     });
   });
 
+  it("la barra lateral se contrae y se expande y recuerda la preferencia", async () => {
+    window.localStorage.removeItem("applytrack:sidebar");
+    const store = new MemoryKeyValueStore();
+    await createContainer({ store }).startDemo.execute("es");
+    await startApp("/board", store);
+
+    const toggle = await screen.findByRole("button", { name: "Expandir menú" });
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+    expect(document.querySelectorAll("#sidebar [aria-hidden=true].invisible")).toHaveLength(4);
+
+    await userEvent.click(toggle);
+
+    expect(
+      screen.getByRole("button", { name: "Contraer menú" }).getAttribute("aria-expanded"),
+    ).toBe("true");
+    expect(window.localStorage.getItem("applytrack:sidebar")).toBe("expanded");
+  });
+
   it("CA-102-22 · en la lista, «Cargar más» añade las siguientes sin repetir", async () => {
     const store = new MemoryKeyValueStore();
     const applications: ApplicationSnapshot[] = Array.from({ length: 60 }, (_, index) =>

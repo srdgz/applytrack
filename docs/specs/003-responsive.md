@@ -3,7 +3,7 @@
 | Campo   | Valor      |
 | ------- | ---------- |
 | Estado  | Aprobado   |
-| Versión | 0.1        |
+| Versión | 0.2        |
 | Fecha   | 2026-10-05 |
 
 ## 1. Principios
@@ -28,15 +28,22 @@ En pantallas muy anchas el contenido se limita con un `max-width` y se centra. L
 
 ## 3. Comportamiento por pantalla
 
-| Pantalla                  | < `md`                                                                                                          | `md` – `lg`                                                             | ≥ `lg`                                  |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | --------------------------------------- |
-| **Navegación**            | Barra inferior con 4 accesos                                                                                    | Barra lateral solo con iconos                                           | Barra lateral con iconos y textos       |
-| **Tablero**               | Una columna cada vez, con pestañas de estado deslizables y contador; cambio de estado con un menú en la tarjeta | Columnas con scroll horizontal **dentro del tablero** (no de la página) | Todas las columnas visibles             |
-| **Lista**                 | Tarjetas apiladas                                                                                               | Tabla con columnas reducidas                                            | Tabla completa                          |
-| **Detalle**               | Pantalla completa                                                                                               | Panel lateral sobre la lista                                            | Panel lateral con el historial al lado  |
-| **Formulario**            | Una columna, botón de guardar fijo abajo                                                                        | Dos columnas                                                            | Dos columnas dentro de un modal o panel |
-| **Panel de estadísticas** | Tarjetas en una columna; gráficos a ancho completo                                                              | Rejilla de 2 columnas                                                   | Rejilla de 4 columnas                   |
-| **Filtros**               | Hoja inferior (bottom sheet)                                                                                    | Barra plegable                                                          | Barra siempre visible                   |
+| Pantalla                  | < `md`                                                                                                          | `md` – `lg`                                                             | ≥ `lg`                                                                                     |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Navegación**            | Barra inferior con 4 accesos                                                                                    | Barra lateral solo con iconos, con tooltips                             | Barra lateral que se contrae (iconos con tooltips) o se expande (iconos y textos); ver 3.1 |
+| **Tablero**               | Una columna cada vez, con pestañas de estado deslizables y contador; cambio de estado con un menú en la tarjeta | Columnas con scroll horizontal **dentro del tablero** (no de la página) | Todas las columnas visibles                                                                |
+| **Lista**                 | Tarjetas apiladas                                                                                               | Tabla con columnas reducidas                                            | Tabla completa                                                                             |
+| **Detalle**               | Pantalla completa                                                                                               | Panel lateral sobre la lista                                            | Panel lateral con el historial al lado                                                     |
+| **Formulario**            | Una columna, botón de guardar fijo abajo                                                                        | Dos columnas                                                            | Dos columnas dentro de un modal o panel                                                    |
+| **Panel de estadísticas** | Tarjetas en una columna; gráficos a ancho completo                                                              | Rejilla de 2 columnas                                                   | Rejilla de 4 columnas                                                                      |
+| **Filtros**               | Hoja inferior (bottom sheet)                                                                                    | Barra plegable                                                          | Barra siempre visible                                                                      |
+
+### 3.1 Barra lateral
+
+- **Entre `md` y `lg`** siempre está contraída: solo iconos.
+- **Desde `lg`**, un botón al principio de la barra la contrae o la expande. Lleva `aria-expanded` y su nombre cambia entre «Contraer menú» y «Expandir menú».
+- **Contraída**, cada icono muestra su nombre en un tooltip al pasar el ratón y al recibir el foco con el teclado. El nombre sigue disponible para lectores de pantalla aunque no se vea. `Escape` oculta el tooltip (WCAG 1.4.13).
+- **Preferencia:** se guarda en el dispositivo (`applytrack:sidebar`). La primera vez empieza contraída por debajo de `2xl` (1536 px), para dejar sitio al tablero, y expandida a partir de `2xl`.
 
 ## 4. Interacción y accesibilidad
 
