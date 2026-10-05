@@ -3,7 +3,7 @@
 | Campo      | Valor                                              |
 | ---------- | -------------------------------------------------- |
 | Estado     | Aprobado                                           |
-| Versión    | 0.1                                                |
+| Versión    | 0.2                                                |
 | Fecha      | 2026-10-05                                         |
 | Requisitos | RF-02, RF-03 de [000-producto](000-producto.md)    |
 | Hito       | M1 (núcleo); la interfaz, en M2 (web) y M4 (móvil) |
@@ -20,12 +20,12 @@ Los formularios envían siempre un borrador con tipos primitivos. El dominio lo 
 interface ApplicationDraft {
   company: string;
   position: string;
-  source: ApplicationSource; // "linkedin" | "infojobs" | "tecnoempleo" | "company_site" | "referral" | "recruiter" | "other"
-  workMode: WorkMode; // "remote" | "hybrid" | "onsite"
-  status: InitialStatus; // "wishlist" | "applied"; solo al crear
+  source: string; // "linkedin" | "infojobs" | "tecnoempleo" | "company_site" | "referral" | "recruiter" | "other"
+  workMode: string; // "remote" | "hybrid" | "onsite"
+  status: string; // "wishlist" | "applied"; solo al crear
   jobUrl?: string;
   location?: string;
-  salary?: { min?: number; max?: number; currency?: Currency }; // Currency: "EUR" | "GBP" | "USD"
+  salary?: { min?: number; max?: number; currency?: string }; // "EUR" | "GBP" | "USD"
   appliedAt?: string; // fecha de calendario "YYYY-MM-DD"
   tags?: string[];
   notes?: string;
@@ -33,6 +33,8 @@ interface ApplicationDraft {
 ```
 
 Para editar se usa el mismo tipo sin `status` (`ApplicationDetailsDraft`).
+
+Los campos de listas cerradas son `string` y no los tipos del dominio: los formularios trabajan con texto, y la validación es la que comprueba que el valor está en la lista (`INVALID_OPTION`). Tras validar, la candidatura sí usa los tipos cerrados.
 
 ## 3. Normalización (antes de validar)
 

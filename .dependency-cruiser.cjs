@@ -5,14 +5,14 @@ module.exports = {
       name: "domain-is-pure",
       comment: "El dominio no importa nada de fuera del dominio.",
       severity: "error",
-      from: { path: "^packages/core/src/domain/" },
+      from: { path: "^packages/core/src/domain/", pathNot: "\.test\.ts$" },
       to: { pathNot: ["^packages/core/src/domain/"] },
     },
     {
       name: "application-only-domain",
       comment: "La capa de aplicación solo importa dominio y aplicación.",
       severity: "error",
-      from: { path: "^packages/core/src/application/" },
+      from: { path: "^packages/core/src/application/", pathNot: "\.test\.ts$" },
       to: { pathNot: ["^packages/core/src/(domain|application)/"] },
     },
     {

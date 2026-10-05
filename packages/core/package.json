@@ -5,7 +5,8 @@
   "type": "module",
   "description": "Dominio y casos de uso de ApplyTrack. Sin dependencias de runtime.",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./testing": "./testing/index.ts"
   },
   "scripts": {
     "lint": "eslint .",

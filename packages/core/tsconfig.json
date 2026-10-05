@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": []
   },
-  "include": ["src", "test", "*.config.ts"]
+  "include": ["src", "testing", "*.config.ts"]
 }
