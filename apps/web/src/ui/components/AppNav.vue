@@ -61,7 +61,7 @@ const showTooltips = () => {
             v-if="!expanded"
             aria-hidden="true"
             class="bg-ink text-canvas pointer-events-none invisible absolute top-1/2 left-full z-40 ml-3 -translate-y-1/2 rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap shadow-lg group-hover:visible group-focus-visible:visible"
-            :class="{ '!invisible': tooltipsHidden }"
+            :class="{ 'invisible!': tooltipsHidden }"
           >
             {{ t(item.label) }}
           </span>
