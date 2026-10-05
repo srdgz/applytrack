@@ -3,7 +3,7 @@
 | Campo      | Valor                                              |
 | ---------- | -------------------------------------------------- |
 | Estado     | Aprobado                                           |
-| Versión    | 0.2                                                |
+| Versión    | 0.3                                                |
 | Fecha      | 2026-10-05                                         |
 | Requisitos | RF-02, RF-03 de [000-producto](000-producto.md)    |
 | Hito       | M1 (núcleo); la interfaz, en M2 (web) y M4 (móvil) |
@@ -109,6 +109,14 @@ Entrada: `{ draft: ApplicationDraft | ApplicationDetailsDraft; currentStatus?: A
 
 Síncrono y sin acceso a datos: solo usa `Clock`. Lo usan los formularios para validar mientras se escribe, con **las mismas reglas** que los casos de uso.
 
+### 5.4 `GetApplication`
+
+Entrada: `{ id: string }`. Salida: `Result<ApplicationSnapshot, ApplicationUseCaseError>`.
+
+1. Sin usuario → `UNAUTHENTICATED`.
+2. Busca con `findById(owner, id)`. Si no existe o es de otra persona → `APPLICATION_NOT_FOUND`.
+3. Devuelve el snapshot.
+
 ## 6. Puertos que introduce esta spec
 
 ```ts
@@ -146,14 +154,83 @@ Se exportan desde `@applytrack/core/testing`, que no forma parte del bundle de l
   - `findById` con otro `owner` devuelve `null`;
   - `findById` con un id inexistente devuelve `null`.
 
-## 8. Interfaz (orientativo, se cierra en M2 y M4)
+## 8. Interfaz web
 
-- El estado inicial aparece preseleccionado en **«Me interesa»**.
-- La fecha de candidatura solo se muestra con el estado «Aplicada» y se rellena con la fecha de hoy.
-- Moneda: selector con EUR, GBP y USD, con EUR por defecto.
-- Errores debajo de cada campo, traducidos con `errors.<code>`. Al pulsar «Guardar» con errores, el foco va al primer campo con error.
-- Al editar, si hay cambios sin guardar y se intenta salir, se pide confirmación (RF-03).
-- La distribución del formulario sigue [003-responsive](003-responsive.md): una columna en móvil y dos desde `md`.
+### 8.1 Rutas y pantalla
+
+| Ruta                     | Pantalla           |
+| ------------------------ | ------------------ |
+| `/applications/new`      | Nueva candidatura  |
+| `/applications/:id/edit` | Editar candidatura |
+
+- El formulario es una **página completa** en todos los anchos, no un modal. Tiene su propia URL, el botón «atrás» funciona con normalidad y se evita gestionar el foco dentro de un diálogo largo. **Cambia [003-responsive](003-responsive.md)**, que proponía un modal en ≥ `lg`.
+- En pantallas anchas el contenido se limita a unos 48 rem y se centra.
+
+### 8.2 Campos y grupos
+
+Los campos se agrupan en `<fieldset>` con su `<legend>`:
+
+| Grupo         | Campos                                                                  |
+| ------------- | ----------------------------------------------------------------------- |
+| **Oferta**    | Empresa\*, Puesto\*, URL de la oferta, Fuente\*, Modalidad\*, Ubicación |
+| **Proceso**   | Estado inicial\* (solo al crear) y Fecha de candidatura                 |
+| **Salario**   | Mínimo, Máximo y Moneda, con el texto de ayuda «Bruto anual»            |
+| **Etiquetas** | Campo de etiquetas                                                      |
+| **Notas**     | Área de texto                                                           |
+
+| Campo                      | Control                                                                                                                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Empresa, Puesto, Ubicación | `input` de texto con `maxlength` igual al límite del dominio                                                                                                                     |
+| URL de la oferta           | `input type="url"`                                                                                                                                                               |
+| Fuente, Modalidad, Moneda  | `select` con las opciones traducidas. Moneda: EUR por defecto                                                                                                                    |
+| Estado inicial             | Dos opciones (`radio`): «Me interesa» (preseleccionada) y «Aplicada»                                                                                                             |
+| Fecha de candidatura       | `input type="date"` con `max` igual a hoy. Solo aparece con un estado distinto de «Me interesa»; al pasar a «Aplicada» se rellena con hoy si está vacía                          |
+| Salario mínimo y máximo    | `input type="number"` (`min="1"`, `step="1"`, `inputmode="numeric"`). Debajo se muestra el rango formateado («35.000 € – 40.000 €») con `Intl.NumberFormat`                      |
+| Etiquetas                  | Campo de texto: `Intro` o coma añaden la etiqueta como chip. Cada chip tiene un botón «Quitar etiqueta X». Con el campo vacío, `Retroceso` quita la última. Se muestra «3 de 10» |
+| Notas                      | `textarea` con contador «120 / 5.000»                                                                                                                                            |
+
+- **Obligatorios:** se marcan con `*` y `aria-required`. Encima del formulario, la frase «Los campos con \* son obligatorios».
+- **Al editar,** el estado aparece como texto (no se puede cambiar aquí) junto a la nota «El estado se cambia desde el detalle de la candidatura» (spec 101).
+
+### 8.3 Validación en la interfaz
+
+- Se usa `ValidateApplicationDraft`: las mismas reglas que al guardar.
+- **Cuándo se muestran los errores:** un campo muestra su error al salir de él (`blur`) y, desde entonces, se revalida con cada cambio. Al pulsar «Guardar» se muestran los de todos los campos.
+- **Dónde:** debajo de cada campo, traducido con `errors.<code>` y sus variables (`{max}`, `{tag}`). El campo lleva `aria-invalid="true"` y `aria-describedby` apuntando al error y a su texto de ayuda.
+- **Qué campo recibe cada error:** `salary`, `salary.min` y `salary.max` se muestran bajo el grupo de salario; `tags` y `tags.N`, bajo el campo de etiquetas (el chip afectado se marca); el resto, en su campo.
+- **Al guardar con errores:** no se envía nada, el foco va al primer campo con error y una región `aria-live` anuncia «Revisa los campos marcados».
+
+### 8.4 Guardar, cancelar y salir
+
+- **Botones:** «Guardar» (principal) y «Cancelar». En < `md` van en una barra fija sobre la navegación inferior; a partir de `md`, al final del formulario. En las pantallas del formulario no se muestra el botón flotante de «Nueva candidatura».
+- **Mientras se guarda,** «Guardar» se desactiva y lleva `aria-busy`.
+- **Al guardar correctamente,** se vuelve a la pantalla anterior (o al tablero si se entró directamente por URL) y aparece un aviso breve «Candidatura guardada» (`role="status"`, se cierra solo a los 5 segundos).
+- **«Cancelar»** vuelve a la pantalla anterior.
+- **Cambios sin guardar:** al crear y al editar, si el formulario tiene cambios y se intenta salir (Cancelar, navegación de la app o cerrar la pestaña), se pide confirmación. Se considera que hay cambios cuando los valores difieren de los iniciales.
+- **Error inesperado al guardar** (por ejemplo, almacenamiento lleno): mensaje genérico encima de los botones y los datos del formulario se conservan.
+
+### 8.5 Editar
+
+- Se carga la candidatura con `GetApplication` (sección 5.4). Mientras carga se muestra un esqueleto del formulario.
+- Si no existe o es de otra persona: mensaje «No se ha encontrado la candidatura» y enlace al tablero.
+- Los campos se rellenan con los valores guardados. Guardar sin cambios vuelve atrás sin modificar nada (CA-100-11).
+
+### 8.6 App móvil (M4)
+
+Mismos campos, grupos y reglas, con componentes nativos: selector de fecha nativo, teclado numérico en el salario y botones fijos en la parte inferior respetando el área segura.
+
+### 8.7 Criterios de aceptación de la interfaz web
+
+| Id        | Criterio                                                                                                                                        |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| CA-100-16 | Crear una candidatura con los campos obligatorios la muestra en la columna «Me interesa» del tablero y aparece el aviso «Candidatura guardada». |
+| CA-100-17 | Al elegir «Aplicada» aparece la fecha de candidatura con la fecha de hoy; al volver a «Me interesa» desaparece.                                 |
+| CA-100-18 | Guardar con errores no guarda nada, muestra cada error bajo su campo con `aria-invalid` y lleva el foco al primero.                             |
+| CA-100-19 | Las etiquetas se añaden con `Intro` y con coma, y se quitan con su botón y con `Retroceso`, solo con teclado.                                   |
+| CA-100-20 | Salir con cambios sin guardar pide confirmación; sin cambios, no.                                                                               |
+| CA-100-21 | Editar carga los valores guardados; con un id inexistente se muestra el mensaje de no encontrada.                                               |
+| CA-100-22 | A 360, 768, 1280 y 1920 px no hay scroll horizontal y la distribución es la de 003.                                                             |
+| CA-100-23 | Todos los textos, errores y formatos (fechas y salario) cambian al pasar a inglés.                                                              |
 
 ## 9. Criterios de aceptación
 
