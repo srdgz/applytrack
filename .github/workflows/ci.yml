@@ -62,3 +62,37 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm exec commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+
+  supabase:
+    name: Base de datos y adaptador de Supabase
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Arrancar Supabase local
+        run: pnpm exec supabase start -x realtime,storage-api,imgproxy,edge-runtime,logflare,vector,studio,postgres-meta,supavisor,mailpit
+
+      - name: Revisar la migración
+        run: pnpm exec supabase db lint --level warning --fail-on warning
+
+      - name: Claves de la instancia local
+        run: |
+          pnpm exec supabase status -o json > supabase-status.json
+          node -e '
+            const status = JSON.parse(require("node:fs").readFileSync("supabase-status.json", "utf8"));
+            console.log("SUPABASE_TEST_URL=" + status.API_URL);
+            console.log("SUPABASE_TEST_PUBLISHABLE_KEY=" + status.ANON_KEY);
+            console.log("SUPABASE_TEST_SECRET_KEY=" + status.SERVICE_ROLE_KEY);
+          ' >> "$GITHUB_ENV"
+
+      - name: Contrato y RLS
+        run: pnpm --filter @applytrack/adapter-supabase test

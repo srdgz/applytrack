@@ -2,6 +2,7 @@
 import { useI18n } from "vue-i18n";
 import { RouterLink, RouterView, useRoute } from "vue-router";
 
+import { useAccount } from "../../composables/useAccount";
 import { useSidebar } from "../../composables/useSidebar";
 import AppIcon from "../components/AppIcon.vue";
 import AppNav from "../components/AppNav.vue";
@@ -10,6 +11,7 @@ import DemoBanner from "../components/DemoBanner.vue";
 const { t } = useI18n();
 const { collapsed, expanded, toggle } = useSidebar();
 const route = useRoute();
+const { account, signOut } = useAccount();
 </script>
 
 <template>
@@ -21,7 +23,7 @@ const route = useRoute();
       {{ t("app.skipToContent") }}
     </a>
 
-    <DemoBanner />
+    <DemoBanner v-if="!account" />
 
     <header
       class="border-border bg-surface flex items-center justify-between gap-4 border-b px-4 py-3"
@@ -58,6 +60,22 @@ const route = useRoute();
           <span v-if="!collapsed" aria-hidden="true">{{ t("nav.collapse") }}</span>
         </button>
         <AppNav variant="side" :expanded="expanded" />
+        <div v-if="account" class="border-border mt-auto flex flex-col gap-1 border-t pt-2">
+          <p v-if="expanded" class="text-ink-muted truncate px-3 text-xs" :title="account.email">
+            {{ account.email }}
+          </p>
+          <button
+            type="button"
+            class="text-ink-muted hover:bg-surface-muted hover:text-ink flex min-h-11 items-center gap-3 rounded-md px-3 text-sm"
+            :class="expanded ? 'justify-start' : 'justify-center'"
+            :aria-label="expanded ? undefined : t('auth.signOut')"
+            :title="expanded ? undefined : `${t('auth.signOut')} · ${account.email}`"
+            @click="signOut"
+          >
+            <AppIcon name="logout" class="shrink-0" />
+            <span v-if="expanded">{{ t("auth.signOut") }}</span>
+          </button>
+        </div>
       </aside>
 
       <main id="main" tabindex="-1" class="min-w-0 flex-1 pb-24 md:pb-0">

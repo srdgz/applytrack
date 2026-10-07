@@ -7,3 +7,6 @@ export { InMemoryApplicationRepository } from "./in-memory-application-repositor
 export { SequentialIdGenerator } from "./sequential-id-generator";
 export { aSnapshot } from "./snapshot-builder";
 export type { SnapshotOverrides } from "./snapshot-builder";
+export { FakeAuthGateway } from "./fake-auth-gateway";
+export { InMemoryPreferencesStore } from "./in-memory-preferences-store";
+export type { ContractOptions } from "./application-repository-contract";

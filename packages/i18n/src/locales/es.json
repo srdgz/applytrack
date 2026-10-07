@@ -20,9 +20,34 @@
     "description": "Registra cada oferta, sigue en qué punto está y no pierdas ningún seguimiento.",
     "tryDemo": "Probar sin cuenta",
     "tryDemoHint": "Con datos de ejemplo. Todo se guarda solo en este dispositivo.",
-    "signIn": "Iniciar sesión",
-    "signInSoon": "Disponible próximamente",
-    "starting": "Preparando la demo…"
+    "signIn": "Entrar",
+    "starting": "Preparando la demo…",
+    "signInUnavailable": "Las cuentas no están configuradas en este entorno."
+  },
+  "auth": {
+    "title": "Entra en ApplyTrack",
+    "description": "Te enviamos un enlace por email. Sin contraseñas.",
+    "emailLabel": "Email",
+    "sendLink": "Enviarme el enlace",
+    "sending": "Enviando…",
+    "checkTitle": "Revisa tu correo",
+    "checkDescription": "Te hemos enviado un enlace a {email}. Ábrelo en este navegador o escribe el código de 6 dígitos del mismo correo.",
+    "codeLabel": "Código de 6 dígitos",
+    "verify": "Entrar",
+    "verifying": "Comprobando…",
+    "resend": "Reenviar el correo",
+    "resendIn": "Puedes reenviarlo en {seconds} s",
+    "resendReady": "Ya puedes reenviar el correo.",
+    "resentTitle": "Correo reenviado",
+    "otherEmail": "Usar otro email",
+    "callbackTitle": "Entrando…",
+    "callbackFailedTitle": "No se ha podido entrar con este enlace",
+    "callbackFailedDescription": "Puede que haya caducado, que ya se usara o que se abriera en otro navegador. Pide uno nuevo o escribe el código que viene en el correo.",
+    "tryAgain": "Volver a entrar",
+    "signedInTitle": "Has entrado como {email}",
+    "signedOutTitle": "Has cerrado sesión",
+    "signOut": "Cerrar sesión",
+    "signedInAs": "Has entrado como {email}."
   },
   "demo": {
     "banner": "Modo demo · los datos solo se guardan en este dispositivo",
@@ -146,7 +171,15 @@
       "en": "English"
     },
     "demoTitle": "Modo demo",
-    "demoDescription": "Los datos solo se guardan en este dispositivo."
+    "demoDescription": "Los datos solo se guardan en este dispositivo.",
+    "theme": "Tema",
+    "themes": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    },
+    "accountTitle": "Cuenta",
+    "syncFailedTitle": "Guardado en este dispositivo, pero no en tu cuenta"
   },
   "stats": {
     "title": "Estadísticas",
@@ -276,7 +309,13 @@
     "VALIDATION_FAILED": "Revisa los campos marcados.",
     "APPLICATION_NOT_FOUND": "No se ha encontrado la candidatura.",
     "UNAUTHENTICATED": "Tu sesión ha terminado. Vuelve a entrar.",
-    "INVALID_STATUS_TRANSITION": "No se puede pasar de «{from}» a «{to}»."
+    "INVALID_STATUS_TRANSITION": "No se puede pasar de «{from}» a «{to}».",
+    "INVALID_EMAIL": "Introduce un email válido, como nombre@ejemplo.com.",
+    "INVALID_CODE_FORMAT": "El código tiene {length} dígitos.",
+    "RATE_LIMITED": "Has pedido demasiados correos. Espera unos minutos.",
+    "INVALID_CODE": "El código no es válido o ha caducado.",
+    "AUTH_UNAVAILABLE": "No se ha podido conectar. Revisa tu conexión.",
+    "SYNC_FAILED": "El cambio se ha aplicado aquí, pero no se ha podido guardar en tu cuenta."
   },
   "toast": {
     "close": "Cerrar aviso",

@@ -21,8 +21,33 @@
     "tryDemo": "Try without an account",
     "tryDemoHint": "With sample data. Everything is stored on this device only.",
     "signIn": "Sign in",
-    "signInSoon": "Coming soon",
-    "starting": "Preparing the demo…"
+    "starting": "Preparing the demo…",
+    "signInUnavailable": "Accounts aren't configured in this environment."
+  },
+  "auth": {
+    "title": "Sign in to ApplyTrack",
+    "description": "We'll email you a link. No passwords.",
+    "emailLabel": "Email",
+    "sendLink": "Email me the link",
+    "sending": "Sending…",
+    "checkTitle": "Check your email",
+    "checkDescription": "We've sent a link to {email}. Open it in this browser or enter the 6-digit code from the same email.",
+    "codeLabel": "6-digit code",
+    "verify": "Sign in",
+    "verifying": "Checking…",
+    "resend": "Resend the email",
+    "resendIn": "You can resend it in {seconds} s",
+    "resendReady": "You can resend the email now.",
+    "resentTitle": "Email sent again",
+    "otherEmail": "Use a different email",
+    "callbackTitle": "Signing you in…",
+    "callbackFailedTitle": "We couldn't sign you in with this link",
+    "callbackFailedDescription": "It may have expired, already been used or been opened in a different browser. Request a new one or enter the code from the email.",
+    "tryAgain": "Sign in again",
+    "signedInTitle": "Signed in as {email}",
+    "signedOutTitle": "You've signed out",
+    "signOut": "Sign out",
+    "signedInAs": "You're signed in as {email}."
   },
   "demo": {
     "banner": "Demo mode · data is only stored on this device",
@@ -146,7 +171,15 @@
       "en": "English"
     },
     "demoTitle": "Demo mode",
-    "demoDescription": "Data is only stored on this device."
+    "demoDescription": "Data is only stored on this device.",
+    "theme": "Theme",
+    "themes": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "accountTitle": "Account",
+    "syncFailedTitle": "Saved on this device, but not to your account"
   },
   "stats": {
     "title": "Statistics",
@@ -276,7 +309,13 @@
     "VALIDATION_FAILED": "Check the highlighted fields.",
     "APPLICATION_NOT_FOUND": "The application could not be found.",
     "UNAUTHENTICATED": "Your session has ended. Please sign in again.",
-    "INVALID_STATUS_TRANSITION": "It is not possible to move from “{from}” to “{to}”."
+    "INVALID_STATUS_TRANSITION": "It is not possible to move from “{from}” to “{to}”.",
+    "INVALID_EMAIL": "Enter a valid email, like name@example.com.",
+    "INVALID_CODE_FORMAT": "The code has {length} digits.",
+    "RATE_LIMITED": "You've requested too many emails. Wait a few minutes.",
+    "INVALID_CODE": "The code is invalid or has expired.",
+    "AUTH_UNAVAILABLE": "We couldn't connect. Check your connection.",
+    "SYNC_FAILED": "The change was applied here, but couldn't be saved to your account."
   },
   "toast": {
     "close": "Dismiss notification",

@@ -1,4 +1,5 @@
 import type {
+  Account,
   ArchiveApplication,
   CalendarDate,
   ChangeApplicationStatus,
@@ -6,24 +7,38 @@ import type {
   DeleteApplication,
   ExitDemo,
   GetApplication,
+  GetCurrentAccount,
   GetDashboardStats,
+  GetPreferences,
   IsDemoActive,
   ListTags,
+  RequestSignIn,
   ResetDemo,
   SearchApplications,
+  SignOut,
   StartDemo,
   UnarchiveApplication,
   UpdateApplicationDetails,
+  UpdatePreferences,
   ValidateApplicationDraft,
+  VerifySignInCode,
 } from "@applytrack/core";
 import type { InjectionKey } from "vue";
 import { inject } from "vue";
 
 export interface UseCases {
+  readonly account: Account | null;
+  readonly accountsEnabled: boolean;
   readonly isDemoActive: IsDemoActive;
   readonly startDemo: StartDemo;
   readonly resetDemo: ResetDemo;
   readonly exitDemo: ExitDemo;
+  readonly getCurrentAccount: GetCurrentAccount;
+  readonly requestSignIn: RequestSignIn;
+  readonly verifySignInCode: VerifySignInCode;
+  readonly signOut: SignOut;
+  readonly getPreferences: GetPreferences;
+  readonly updatePreferences: UpdatePreferences;
   readonly searchApplications: SearchApplications;
   readonly listTags: ListTags;
   readonly getApplication: GetApplication;

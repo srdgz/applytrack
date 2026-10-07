@@ -13,7 +13,8 @@
       "dependsOn": ["^typecheck"]
     },
     "test": {
-      "outputs": ["coverage/**"]
+      "outputs": ["coverage/**"],
+      "passThroughEnv": ["SUPABASE_TEST_*"]
     }
   }
 }

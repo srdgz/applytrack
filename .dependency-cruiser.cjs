@@ -47,6 +47,17 @@ module.exports = {
       to: { path: ["^packages/adapter-", "node_modules/@applytrack/adapter-"] },
     },
     {
+      name: "supabase-only-in-adapter",
+      comment:
+        "Solo adapter-supabase y la raíz de composición de las apps usan el SDK de Supabase.",
+      severity: "error",
+      from: {
+        path: "^(apps|packages)/",
+        pathNot: ["^packages/adapter-supabase/", "^apps/[^/]+/src/di/"],
+      },
+      to: { path: ["node_modules/@supabase/", "^@supabase/"] },
+    },
+    {
       name: "notifications-is-pure",
       comment: "La cola de avisos no depende de ningún paquete ni de otras partes del monorepo.",
       severity: "error",

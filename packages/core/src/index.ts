@@ -128,3 +128,35 @@ export type {
   ValidateApplicationDraftDeps,
   ValidateApplicationDraftInput,
 } from "./application/use-cases/validate-application-draft";
+
+export type { Account } from "./domain/account/account";
+export { EMAIL_MAX_LENGTH, validateEmail } from "./domain/account/email";
+export type { Email } from "./domain/account/email";
+export { SIGN_IN_CODE_LENGTH, validateSignInCode } from "./domain/account/sign-in-code";
+export {
+  parsePreferences,
+  PREFERENCE_LOCALES,
+  samePreferences,
+  THEME_PREFERENCES,
+} from "./domain/preferences/preferences";
+export type {
+  PreferenceLocale,
+  Preferences,
+  ThemePreference,
+} from "./domain/preferences/preferences";
+export type { AuthUseCaseError, PreferencesSyncError } from "./application/errors";
+export type { AuthFailure, AuthGateway } from "./application/ports/auth-gateway";
+export type { PreferencesStore } from "./application/ports/preferences-store";
+export {
+  GetCurrentAccount,
+  RequestSignIn,
+  SignOut,
+  VerifySignInCode,
+} from "./application/use-cases/auth";
+export type {
+  AuthDeps,
+  RequestSignInInput,
+  VerifySignInCodeInput,
+} from "./application/use-cases/auth";
+export { GetPreferences, UpdatePreferences } from "./application/use-cases/preferences";
+export type { PreferencesDeps, UpdatePreferencesInput } from "./application/use-cases/preferences";

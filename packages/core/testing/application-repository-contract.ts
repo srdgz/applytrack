@@ -5,96 +5,112 @@ import { Application, completeQuery, toApplicationId, toUserId } from "../src";
 import { calendarDate } from "./calendar-date";
 import { aSnapshot } from "./snapshot-builder";
 
-const owner = toUserId("owner-1");
-const otherOwner = toUserId("owner-2");
-
-const buildApplication = (id: string) =>
-  Application.create({
-    id: toApplicationId(id),
-    ownerId: owner,
-    status: "applied",
-    details: {
-      company: "Acme",
-      position: "Frontend Developer",
-      source: "linkedin",
-      workMode: "remote",
-      jobUrl: "https://acme.example/jobs/1",
-      salary: { min: 30000, max: 36000, currency: "EUR" },
-      appliedAt: calendarDate("2026-10-01"),
-      tags: ["Vue", "TypeScript"],
-      notes: "Primera llamada con RR. HH.",
-    },
-    now: new Date("2026-10-05T10:00:00.000Z"),
-  });
-
-const searchFixtures = [
-  aSnapshot({
-    id: "s-01",
-    company: "Brisa Health",
-    position: "Ingeniería Frontend",
-    tags: ["Vue"],
-    status: "applied",
-    workMode: "remote",
-    source: "linkedin",
-    appliedAt: calendarDate("2026-09-20"),
-    updatedAt: "2026-09-20T09:00:00.000Z",
-  }),
-  aSnapshot({
-    id: "s-02",
-    company: "Árbol Studio",
-    position: "Frontend Developer",
-    tags: ["React", "vue"],
-    status: "screening",
-    workMode: "hybrid",
-    source: "referral",
-    appliedAt: calendarDate("2026-09-10"),
-    updatedAt: "2026-09-25T09:00:00.000Z",
-  }),
-  aSnapshot({
-    id: "s-03",
-    company: "Cobalto",
-    position: "Backend Developer",
-    tags: ["Java"],
-    status: "wishlist",
-    workMode: "onsite",
-    source: "infojobs",
-    updatedAt: "2026-09-25T09:00:00.000Z",
-  }),
-  aSnapshot({
-    id: "s-04",
-    company: "delta",
-    position: "Mobile Developer",
-    tags: ["React Native"],
-    status: "rejected",
-    workMode: "remote",
-    source: "linkedin",
-    appliedAt: calendarDate("2026-08-01"),
-    updatedAt: "2026-09-01T09:00:00.000Z",
-    archived: true,
-  }),
-  aSnapshot({
-    id: "s-05",
-    company: "Echo Labs",
-    position: "Frontend Lead",
-    status: "wishlist",
-    workMode: "remote",
-    source: "other",
-    updatedAt: "2026-09-30T09:00:00.000Z",
-  }),
-  aSnapshot({
-    id: "s-06",
-    ownerId: "owner-2",
-    company: "Brisa Health",
-    position: "Frontend",
-    tags: ["Secreto"],
-    updatedAt: "2026-10-02T09:00:00.000Z",
-  }),
-];
+export interface ContractOptions {
+  readonly owners?: { readonly owner: string; readonly otherOwner: string };
+  readonly idFor?: (label: string) => string;
+}
 
 export const describeApplicationRepositoryContract = (
   name: string,
   createRepository: () => ApplicationRepository | Promise<ApplicationRepository>,
+  {
+    owners = { owner: "owner-1", otherOwner: "owner-2" },
+    idFor = (label) => label,
+  }: ContractOptions = {},
 ): void => {
+  const owner = toUserId(owners.owner);
+  const otherOwner = toUserId(owners.otherOwner);
+  const id = (label: string) => toApplicationId(idFor(label));
+  const ids = (...labels: string[]) => labels.map(id);
+
+  const buildApplication = (label: string) =>
+    Application.create({
+      id: id(label),
+      ownerId: owner,
+      status: "applied",
+      details: {
+        company: "Acme",
+        position: "Frontend Developer",
+        source: "linkedin",
+        workMode: "remote",
+        jobUrl: "https://acme.example/jobs/1",
+        salary: { min: 30000, max: 36000, currency: "EUR" },
+        appliedAt: calendarDate("2026-10-01"),
+        tags: ["Vue", "TypeScript"],
+        notes: "Primera llamada con RR. HH.",
+      },
+      now: new Date("2026-10-05T10:00:00.000Z"),
+    });
+
+  const searchFixtures = [
+    aSnapshot({
+      id: idFor("s-01"),
+      ownerId: owners.owner,
+      company: "Brisa Health",
+      position: "Ingeniería Frontend",
+      tags: ["Vue"],
+      status: "applied",
+      workMode: "remote",
+      source: "linkedin",
+      appliedAt: calendarDate("2026-09-20"),
+      updatedAt: "2026-09-20T09:00:00.000Z",
+    }),
+    aSnapshot({
+      id: idFor("s-02"),
+      ownerId: owners.owner,
+      company: "Árbol Studio",
+      position: "Frontend Developer",
+      tags: ["React", "vue"],
+      status: "screening",
+      workMode: "hybrid",
+      source: "referral",
+      appliedAt: calendarDate("2026-09-10"),
+      updatedAt: "2026-09-25T09:00:00.000Z",
+    }),
+    aSnapshot({
+      id: idFor("s-03"),
+      ownerId: owners.owner,
+      company: "Cobalto",
+      position: "Backend Developer",
+      tags: ["Java"],
+      status: "wishlist",
+      workMode: "onsite",
+      source: "infojobs",
+      updatedAt: "2026-09-25T09:00:00.000Z",
+    }),
+    aSnapshot({
+      id: idFor("s-04"),
+      ownerId: owners.owner,
+      company: "delta",
+      position: "Mobile Developer",
+      tags: ["React Native"],
+      status: "rejected",
+      workMode: "remote",
+      source: "linkedin",
+      appliedAt: calendarDate("2026-08-01"),
+      updatedAt: "2026-09-01T09:00:00.000Z",
+      archived: true,
+    }),
+    aSnapshot({
+      id: idFor("s-05"),
+      ownerId: owners.owner,
+      company: "Echo Labs",
+      position: "Frontend Lead",
+      status: "wishlist",
+      workMode: "remote",
+      source: "other",
+      updatedAt: "2026-09-30T09:00:00.000Z",
+    }),
+    aSnapshot({
+      id: idFor("s-06"),
+      ownerId: owners.otherOwner,
+      company: "Brisa Health",
+      position: "Frontend",
+      tags: ["Secreto"],
+      updatedAt: "2026-10-02T09:00:00.000Z",
+    }),
+  ];
+
   describe(`${name} cumple el contrato de ApplicationRepository`, () => {
     it("recupera lo guardado con el mismo snapshot", async () => {
       const repository = await createRepository();
@@ -133,7 +149,7 @@ export const describeApplicationRepositoryContract = (
     it("devuelve null si el id no existe", async () => {
       const repository = await createRepository();
 
-      expect(await repository.findById(owner, toApplicationId("missing"))).toBeNull();
+      expect(await repository.findById(owner, id("missing"))).toBeNull();
     });
 
     it("lo recuperado no comparte estado con lo guardado", async () => {
@@ -159,7 +175,7 @@ export const describeApplicationRepositoryContract = (
         return repository;
       };
 
-      const ids = async (query: Partial<ApplicationQuery>) => {
+      const found = async (query: Partial<ApplicationQuery>) => {
         const repository = await withFixtures();
         const page = await repository.search(owner, completeQuery(query));
         return page.items.map((application) => application.id);
@@ -169,60 +185,50 @@ export const describeApplicationRepositoryContract = (
         const repository = await withFixtures();
         const page = await repository.search(owner, completeQuery());
 
-        expect(page.items.map(({ id }) => id)).toEqual(["s-05", "s-02", "s-03", "s-01"]);
+        expect(page.items.map(({ id }) => id)).toEqual(ids("s-05", "s-02", "s-03", "s-01"));
         expect(page).toMatchObject({ total: 4, offset: 0, limit: 50 });
       });
 
       it("CA-102-02 · cada palabra del texto tiene que aparecer en algún campo", async () => {
-        expect(await ids({ text: "fron vue" })).toEqual(["s-02", "s-01"]);
+        expect(await found({ text: "fron vue" })).toEqual(ids("s-02", "s-01"));
       });
 
       it("CA-102-03 · el texto no distingue mayúsculas ni tildes", async () => {
-        expect(await ids({ text: "INGENIERIA" })).toEqual(["s-01"]);
-        expect(await ids({ text: "arbol" })).toEqual(["s-02"]);
-        expect(await ids({ text: "   " })).toEqual(["s-05", "s-02", "s-03", "s-01"]);
+        expect(await found({ text: "INGENIERIA" })).toEqual(ids("s-01"));
+        expect(await found({ text: "arbol" })).toEqual(ids("s-02"));
+        expect(await found({ text: "   " })).toEqual(ids("s-05", "s-02", "s-03", "s-01"));
       });
 
       it("CA-102-04 · filtros distintos se combinan con Y y valores del mismo filtro con O", async () => {
-        expect(await ids({ workModes: ["remote"], statuses: ["applied", "wishlist"] })).toEqual([
-          "s-05",
-          "s-01",
-        ]);
-        expect(await ids({ sources: ["referral", "infojobs"] })).toEqual(["s-02", "s-03"]);
-        expect(await ids({ tags: ["VUE"] })).toEqual(["s-02", "s-01"]);
-        expect(await ids({ statuses: [], tags: [] })).toHaveLength(4);
+        expect(await found({ workModes: ["remote"], statuses: ["applied", "wishlist"] })).toEqual(
+          ids("s-05", "s-01"),
+        );
+        expect(await found({ sources: ["referral", "infojobs"] })).toEqual(ids("s-02", "s-03"));
+        expect(await found({ tags: ["VUE"] })).toEqual(ids("s-02", "s-01"));
+        expect(await found({ statuses: [], tags: [] })).toHaveLength(4);
       });
 
       it("CA-102-05 · filtra por archivadas", async () => {
-        expect(await ids({ archived: "only" })).toEqual(["s-04"]);
-        expect(await ids({ archived: "include" })).toHaveLength(5);
+        expect(await found({ archived: "only" })).toEqual(ids("s-04"));
+        expect(await found({ archived: "include" })).toHaveLength(5);
       });
 
       it("CA-102-06 · por fecha de candidatura, las que no tienen van al final", async () => {
-        expect(await ids({ sort: { field: "appliedAt", direction: "asc" } })).toEqual([
-          "s-02",
-          "s-01",
-          "s-03",
-          "s-05",
-        ]);
-        expect(await ids({ sort: { field: "appliedAt", direction: "desc" } })).toEqual([
-          "s-01",
-          "s-02",
-          "s-03",
-          "s-05",
-        ]);
+        expect(await found({ sort: { field: "appliedAt", direction: "asc" } })).toEqual(
+          ids("s-02", "s-01", "s-03", "s-05"),
+        );
+        expect(await found({ sort: { field: "appliedAt", direction: "desc" } })).toEqual(
+          ids("s-01", "s-02", "s-03", "s-05"),
+        );
       });
 
       it("ordena por empresa sin tildes ni mayúsculas", async () => {
         expect(
-          await ids({ archived: "include", sort: { field: "company", direction: "asc" } }),
-        ).toEqual(["s-02", "s-01", "s-03", "s-04", "s-05"]);
-        expect(await ids({ sort: { field: "company", direction: "desc" } })).toEqual([
-          "s-05",
-          "s-03",
-          "s-01",
-          "s-02",
-        ]);
+          await found({ archived: "include", sort: { field: "company", direction: "asc" } }),
+        ).toEqual(ids("s-02", "s-01", "s-03", "s-04", "s-05"));
+        expect(await found({ sort: { field: "company", direction: "desc" } })).toEqual(
+          ids("s-05", "s-03", "s-01", "s-02"),
+        );
       });
 
       it("CA-102-07 · recorrer todas las páginas devuelve cada candidatura una vez", async () => {
@@ -238,11 +244,11 @@ export const describeApplicationRepositoryContract = (
           seen.push(...page.items.map(({ id }) => id));
         }
 
-        expect(seen).toEqual(["s-05", "s-02", "s-03", "s-01", "s-04"]);
+        expect(seen).toEqual(ids("s-05", "s-02", "s-03", "s-01", "s-04"));
       });
 
       it("CA-102-12 · nunca devuelve candidaturas de otra persona", async () => {
-        expect(await ids({ text: "secreto", archived: "include" })).toEqual([]);
+        expect(await found({ text: "secreto", archived: "include" })).toEqual([]);
       });
     });
 
@@ -253,11 +259,11 @@ export const describeApplicationRepositoryContract = (
           await repository.save(Application.restore(snapshot));
         }
 
-        await repository.delete(owner, toApplicationId("s-03"));
+        await repository.delete(owner, id("s-03"));
 
-        expect(await repository.findById(owner, toApplicationId("s-03"))).toBeNull();
+        expect(await repository.findById(owner, id("s-03"))).toBeNull();
         const page = await repository.search(owner, completeQuery({ archived: "include" }));
-        expect(page.items.map(({ id }) => id)).not.toContain("s-03");
+        expect(page.items.map(({ id }) => id)).not.toContain(id("s-03"));
         expect(page.total).toBe(4);
         expect(await repository.listTags(owner)).not.toContain("Java");
       });
@@ -268,7 +274,7 @@ export const describeApplicationRepositoryContract = (
         await repository.save(application);
 
         await repository.delete(otherOwner, application.id);
-        await repository.delete(owner, toApplicationId("missing"));
+        await repository.delete(owner, id("missing"));
 
         expect(await repository.findById(owner, application.id)).not.toBeNull();
       });

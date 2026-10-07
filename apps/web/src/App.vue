@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { watchEffect } from "vue";
+import { onMounted, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterView, useRoute } from "vue-router";
 
+import { useNotice } from "./composables/useNotice";
 import ToastRegion from "./ui/toasts/ToastRegion.vue";
 
 const { t, locale } = useI18n();
 const route = useRoute();
+const { showPending } = useNotice();
+
+onMounted(showPending);
 
 watchEffect(() => {
   document.documentElement.lang = locale.value;

@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "@applytrack/adapter-local": "workspace:*",
+    "@applytrack/adapter-supabase": "workspace:*",
     "@applytrack/i18n": "workspace:*",
     "@applytrack/notifications": "workspace:*",
+    "@supabase/supabase-js": "^2.117.2",
     "intl-messageformat": "^12.1.2",
     "vue": "^3.5.43",
     "vue-i18n": "^11.4.13",

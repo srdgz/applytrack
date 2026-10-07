@@ -4,8 +4,6 @@ import { IntlMessageFormat } from "intl-messageformat";
 import type { MessageCompiler, MessageContext } from "vue-i18n";
 import { createI18n } from "vue-i18n";
 
-export const LOCALE_KEY = "applytrack:locale";
-
 const messageCompiler: MessageCompiler = (message, { locale, key, onError }) => {
   if (typeof message !== "string") {
     onError?.(new Error(`Unsupported message format for "${key}"`) as never);
@@ -15,16 +13,7 @@ const messageCompiler: MessageCompiler = (message, { locale, key, onError }) => 
   return (context: MessageContext) => String(formatter.format(context.values));
 };
 
-const readStoredLocale = (): string | null => {
-  try {
-    return window.localStorage.getItem(LOCALE_KEY);
-  } catch {
-    return null;
-  }
-};
-
-export const detectLocale = (): Locale =>
-  resolveLocale([readStoredLocale(), ...window.navigator.languages]);
+export const detectLocale = (): Locale => resolveLocale(window.navigator.languages);
 
 export const createAppI18n = (locale: Locale = detectLocale()) =>
   createI18n<[MessageSchema], Locale, false>({
@@ -41,9 +30,4 @@ export const applyLocale = (i18n: AppI18n, locale: string): void => {
   if (!isLocale(locale)) return;
   i18n.global.locale.value = locale;
   document.documentElement.lang = locale;
-  try {
-    window.localStorage.setItem(LOCALE_KEY, locale);
-  } catch {
-    return;
-  }
 };

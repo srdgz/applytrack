@@ -16,6 +16,7 @@ const props = withDefaults(
     hint?: string | undefined;
     max?: string | undefined;
     autocomplete?: string;
+    inputmode?: "text" | "email" | "numeric" | undefined;
   }>(),
   {
     type: "text",
@@ -24,6 +25,7 @@ const props = withDefaults(
     placeholder: undefined,
     hint: undefined,
     max: undefined,
+    inputmode: undefined,
   },
 );
 
@@ -53,6 +55,7 @@ const describedBy = computed(
       :max="max"
       :placeholder="placeholder"
       :autocomplete="autocomplete"
+      :inputmode="inputmode"
       :aria-required="required || undefined"
       :aria-invalid="issues.length > 0 || undefined"
       :aria-describedby="describedBy"

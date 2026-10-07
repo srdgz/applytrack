@@ -10,6 +10,8 @@ export const FIELD_ERROR_CODES = [
   "APPLIED_AT_NOT_ALLOWED",
   "TOO_MANY_TAGS",
   "DUPLICATED_TAG",
+  "INVALID_EMAIL",
+  "INVALID_CODE_FORMAT",
 ] as const;
 
 export type FieldErrorCode = (typeof FIELD_ERROR_CODES)[number];

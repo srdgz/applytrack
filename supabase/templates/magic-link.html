@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+  <body
+    style="
+      margin: 0;
+      padding: 24px;
+      background: #f8fafc;
+      font-family:
+        system-ui,
+        -apple-system,
+        Segoe UI,
+        Roboto,
+        sans-serif;
+      color: #0f172a;
+    "
+  >
+    <table
+      role="presentation"
+      width="100%"
+      cellpadding="0"
+      cellspacing="0"
+      style="
+        max-width: 480px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+      "
+    >
+      <tr>
+        <td style="padding: 32px">
+          <p
+            style="
+              margin: 0;
+              font-size: 14px;
+              font-weight: 600;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+              color: #4f46e5;
+            "
+          >
+            ApplyTrack
+          </p>
+          <h1 style="margin: 12px 0 0; font-size: 22px">Entra en tu cuenta</h1>
+          <p style="margin: 12px 0 0; line-height: 1.5">
+            Pulsa el botón desde el mismo navegador en el que lo pediste:
+          </p>
+          <p style="margin: 24px 0 0">
+            <a
+              href="{{ .ConfirmationURL }}"
+              style="
+                display: inline-block;
+                padding: 12px 24px;
+                border-radius: 8px;
+                background: #4f46e5;
+                color: #ffffff;
+                font-weight: 600;
+                text-decoration: none;
+              "
+              >Entrar en ApplyTrack</a
+            >
+          </p>
+          <p style="margin: 24px 0 0; line-height: 1.5">
+            O escribe este código en la pantalla de acceso:
+          </p>
+          <p
+            style="
+              margin: 8px 0 0;
+              font-size: 32px;
+              font-weight: 700;
+              letter-spacing: 0.3em;
+              font-family: ui-monospace, Menlo, Consolas, monospace;
+            "
+          >
+            {{ .Token }}
+          </p>
+          <hr style="margin: 32px 0; border: none; border-top: 1px solid #e2e8f0" />
+          <p lang="en" style="margin: 0; line-height: 1.5; color: #475569">
+            Sign in from the same browser where you requested it using the button above, or enter
+            the code shown.
+          </p>
+          <p style="margin: 16px 0 0; font-size: 13px; line-height: 1.5; color: #64748b">
+            Si no has pedido este correo, puedes ignorarlo. · If you didn't request this email, you
+            can ignore it.
+          </p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

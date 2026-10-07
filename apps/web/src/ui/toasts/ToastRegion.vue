@@ -126,8 +126,12 @@ const onLeave = (element: Element, done: () => void) => {
   filter: url(#sileo-goo);
 }
 
+:root[data-theme="dark"] .sileo-canvas {
+  filter: url(#sileo-goo) drop-shadow(0 0 1px rgb(255 255 255 / 0.45));
+}
+
 @media (prefers-color-scheme: dark) {
-  .sileo-canvas {
+  :root:not([data-theme="light"]) .sileo-canvas {
     filter: url(#sileo-goo) drop-shadow(0 0 1px rgb(255 255 255 / 0.45));
   }
 }

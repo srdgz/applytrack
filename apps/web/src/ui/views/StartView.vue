@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 
 import { bumpDataVersion } from "../../composables/useDataVersion";
 import { useToast } from "../../composables/useToast";
 import { useUseCases } from "../../di/use-cases";
 
 const { t, locale } = useI18n();
-const { startDemo } = useUseCases();
+const { startDemo, accountsEnabled } = useUseCases();
 const router = useRouter();
 const toast = useToast();
 
@@ -49,18 +49,26 @@ const tryDemo = async () => {
         >
           {{ starting ? t("start.starting") : t("start.tryDemo") }}
         </button>
+        <RouterLink
+          v-if="accountsEnabled"
+          :to="{ name: 'sign-in' }"
+          class="border-border hover:bg-surface-muted inline-flex min-h-12 items-center justify-center rounded-md border px-6 font-medium"
+        >
+          {{ t("start.signIn") }}
+        </RouterLink>
         <button
+          v-else
           type="button"
           class="border-border text-ink-muted min-h-12 rounded-md border px-6 font-medium"
           disabled
-          aria-describedby="sign-in-soon"
+          aria-describedby="sign-in-unavailable"
         >
           {{ t("start.signIn") }}
         </button>
       </div>
       <p class="text-ink-muted mt-3 text-sm">{{ t("start.tryDemoHint") }}</p>
-      <p id="sign-in-soon" class="text-ink-muted mt-1 text-xs">
-        {{ t("start.signIn") }}: {{ t("start.signInSoon") }}
+      <p v-if="!accountsEnabled" id="sign-in-unavailable" class="text-ink-muted mt-1 text-xs">
+        {{ t("start.signInUnavailable") }}
       </p>
     </section>
   </main>

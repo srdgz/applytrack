@@ -3,7 +3,7 @@
 | Campo      | Valor                                                                  |
 | ---------- | ---------------------------------------------------------------------- |
 | Estado     | Aprobado                                                               |
-| Versión    | 0.1                                                                    |
+| Versión    | 0.2                                                                    |
 | Fecha      | 2026-10-07                                                             |
 | Requisitos | RF-01 y RF-11 de [000-producto](000-producto.md), RNF-09               |
 | Hito       | M3 (núcleo, `adapter-supabase`, base de datos y web); la app móvil, M4 |
@@ -30,7 +30,7 @@ Los tres modos de uso quedan así:
 
 ### 2.1 Dominio
 
-- **Email:** `validateEmail(value)` recorta espacios, pasa a minúsculas y comprueba la forma `algo@algo.algo` con un máximo de 254 caracteres. Devuelve `Result<Email, FieldIssue>` con los códigos `REQUIRED` o `INVALID_EMAIL`. No pretende validar todos los casos del RFC 5322: el servidor tiene la última palabra.
+- **Email:** `validateEmail(value)` recorta espacios, pasa a minúsculas y comprueba la forma `algo@algo.algo` con un máximo de 254 caracteres. Devuelve `Result<Email, FieldIssue>` con los códigos `REQUIRED_FIELD` (el mismo que usa el formulario) o `INVALID_EMAIL`. No pretende validar todos los casos del RFC 5322: el servidor tiene la última palabra.
 - **Código de acceso:** `validateSignInCode(value)` acepta exactamente 6 dígitos, ignorando espacios. Código de error: `INVALID_CODE_FORMAT`.
 - **Preferencias:**
 
@@ -121,7 +121,7 @@ Las tablas `applications`, `status_changes` y `profiles` de la sección 7 de [00
 
 ### 3.3 Funciones RPC
 
-- **`save_application(payload jsonb)`**: en una sola transacción hace upsert de la candidatura e inserta los cambios de estado que aún no existen (se identifican por `changed_at` + `to_status`). Así `ApplicationRepository.save` sigue siendo atómico (001, sección 4.2).
+- **`save_application(payload jsonb)`**: en una sola transacción hace upsert de la candidatura e inserta los cambios de estado que aún no existen (cada uno lleva su posición `seq` en el historial, que solo crece). Así `ApplicationRepository.save` sigue siendo atómico (001, sección 4.2).
 - **`search_applications(query jsonb)`**: aplica en SQL **exactamente** las mismas reglas que `matchesQuery` y `compareForQuery` de `core`:
   - Cada palabra del texto debe aparecer, sin tildes ni mayúsculas, en la empresa, el puesto o alguna etiqueta.
   - Etiquetas: basta con que coincida una.
@@ -253,16 +253,16 @@ Pasos manuales, porque necesitan la cuenta de Supabase del proyecto:
 
 ### Núcleo
 
-| Id        | Criterio                                                                                                                                                        |
-| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CA-104-01 | `validateEmail` acepta ` Ana@Example.com` como `ana@example.com` y rechaza vacío (`REQUIRED`), `ana@`, `ana@example` y más de 254 caracteres (`INVALID_EMAIL`). |
-| CA-104-02 | `validateSignInCode` acepta `123 456` como `123456` y rechaza `12345`, `1234567` y `12a456`.                                                                    |
-| CA-104-03 | `RequestSignIn` con un email inválido devuelve `VALIDATION_FAILED` sin llamar al `AuthGateway`.                                                                 |
-| CA-104-04 | `RequestSignIn` y `VerifySignInCode` devuelven tal cual los fallos `RATE_LIMITED`, `INVALID_CODE` y `AUTH_UNAVAILABLE` del puerto.                              |
-| CA-104-05 | `GetPreferences` aplica las cuatro reglas de 2.4, incluido subir las del dispositivo a un perfil vacío y no fallar si el perfil falla.                          |
-| CA-104-06 | `UpdatePreferences` guarda en el dispositivo aunque falle el perfil, y entonces devuelve `SYNC_FAILED`.                                                         |
-| CA-104-07 | `parsePreferences` devuelve `null` con valores desconocidos o incompletos.                                                                                      |
-| CA-104-08 | `core` sigue con ≥ 90 % de cobertura y sin dependencias de runtime.                                                                                             |
+| Id        | Criterio                                                                                                                                                              |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CA-104-01 | `validateEmail` acepta ` Ana@Example.com` como `ana@example.com` y rechaza vacío (`REQUIRED_FIELD`), `ana@`, `ana@example` y más de 254 caracteres (`INVALID_EMAIL`). |
+| CA-104-02 | `validateSignInCode` acepta `123 456` como `123456` y rechaza `12345`, `1234567` y `12a456`.                                                                          |
+| CA-104-03 | `RequestSignIn` con un email inválido devuelve `VALIDATION_FAILED` sin llamar al `AuthGateway`.                                                                       |
+| CA-104-04 | `RequestSignIn` y `VerifySignInCode` devuelven tal cual los fallos `RATE_LIMITED`, `INVALID_CODE` y `AUTH_UNAVAILABLE` del puerto.                                    |
+| CA-104-05 | `GetPreferences` aplica las cuatro reglas de 2.4, incluido subir las del dispositivo a un perfil vacío y no fallar si el perfil falla.                                |
+| CA-104-06 | `UpdatePreferences` guarda en el dispositivo aunque falle el perfil, y entonces devuelve `SYNC_FAILED`.                                                               |
+| CA-104-07 | `parsePreferences` devuelve `null` con valores desconocidos o incompletos.                                                                                            |
+| CA-104-08 | `core` sigue con ≥ 90 % de cobertura y sin dependencias de runtime.                                                                                                   |
 
 ### Supabase
 
@@ -290,7 +290,18 @@ Pasos manuales, porque necesitan la cuenta de Supabase del proyecto:
 | CA-104-23 | Entrar por primera vez con el navegador en inglés deja el perfil en inglés.                                                                    |
 | CA-104-24 | Todos los textos nuevos existen en español e inglés, la pantalla «Entrar» funciona con teclado y no hay scroll horizontal de 320 px a 2560 px. |
 
-## 10. Decisiones tomadas
+## 10. Notas de implementación
+
+- **`status_changes.seq`:** cada cambio de estado guarda su posición en el historial, con `unique (application_id, seq)`. Es más fiable que identificarlos por fecha y estado, y mantiene el orden aunque dos cambios compartan instante.
+- **Fechas:** Postgres devuelve `+00:00` en vez de `Z`; el adaptador las normaliza con `toISOString()` para que el snapshot sea idéntico al guardado.
+- **Plegado de tildes:** `public.fold` usa `unaccent`, que pliega algunos caracteres más que la normalización NFD de JavaScript (por ejemplo, `ø` → `o`). Para los textos en español e inglés el resultado es el mismo, y la suite de contrato lo comprueba.
+- **Avisos tras recargar:** «Has entrado como…» y «Has cerrado sesión» se guardan en `sessionStorage` antes de recargar y se muestran al arrancar.
+- **Sesión cerrada en otra pestaña:** si Supabase avisa de `SIGNED_OUT`, la web recarga en `/`.
+- **«Entrar» en modo demo:** `/sign-in` solo redirige al tablero con cuenta, así que también se puede abrir desde la demo.
+- **Cobertura de `adapter-supabase`:** el umbral del 90 % se aplica a las partes puras (filas y traducción de errores). El resto lo cubren los tests de integración del job `supabase` de la CI.
+- **Validación previa de la migración:** se ha ejecutado en PGlite con un esquema `auth` simulado para comprobar el guardado atómico, la búsqueda y las políticas RLS antes de la CI.
+
+## 11. Decisiones tomadas
 
 1. **Enlace y código en el mismo correo**, por la limitación de PKCE y por Expo Go (5.3).
 2. **Recargar al entrar y salir** de la cuenta en vez de cambiar adaptadores en caliente (5.2).
