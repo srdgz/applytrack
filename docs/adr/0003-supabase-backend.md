@@ -1,6 +1,6 @@
 # ADR-0003 · Supabase como backend
 
-- **Estado:** Propuesta
+- **Estado:** Aceptada
 - **Fecha:** 2026-10-05
 
 ## Contexto
