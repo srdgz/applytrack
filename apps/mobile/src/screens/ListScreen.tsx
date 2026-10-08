@@ -4,10 +4,17 @@ import { countActiveFilters, toApplicationQuery } from "@applytrack/presentation
 import { useRouter } from "expo-router";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, FlatList, RefreshControl, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 
 import { useFilters } from "../shell/filters";
-import { ApplicationCard } from "../ui/ApplicationCard";
+import { ApplicationRow, ApplicationTableHeader, WIDE_TABLE } from "../ui/ApplicationTable";
 import { Button } from "../ui/Button";
 import { Fab } from "../ui/Fab";
 import { CardSkeleton, ResultState } from "../ui/ResultState";
@@ -17,7 +24,9 @@ import { useApplicationSearch } from "./useApplicationSearch";
 export const ListScreen = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { filters, clear } = useFilters();
+  const { width } = useWindowDimensions();
+  const wide = width >= WIDE_TABLE;
+  const { filters, update, clear } = useFilters();
   const query = useMemo(() => toApplicationQuery(filters), [filters]);
   const search = useApplicationSearch(query, DEFAULT_LIMIT);
   const sorted =
@@ -66,14 +75,16 @@ export const ListScreen = () => {
     ) : null;
 
   const renderItem = ({ item }: { item: ApplicationSummary }) => (
-    <ApplicationCard
+    <ApplicationRow
       application={item}
-      showStatus
+      wide={wide}
       onPress={() => {
         router.push(`/applications/${item.id}`);
       }}
     />
   );
+
+  const hasRows = search.status === "ready" && search.items.length > 0;
 
   return (
     <View className="flex-1 gap-3 bg-canvas px-4 pt-4">
@@ -94,7 +105,21 @@ export const ListScreen = () => {
         data={search.status === "ready" ? search.items : []}
         keyExtractor={({ id }) => id}
         renderItem={renderItem}
-        contentContainerClassName="gap-3 pb-24"
+        contentContainerClassName="pb-24"
+        className="overflow-hidden rounded-lg border border-border"
+        style={hasRows ? undefined : { borderWidth: 0 }}
+        ListHeaderComponent={
+          hasRows ? (
+            <ApplicationTableHeader
+              wide={wide}
+              sort={filters.sort}
+              onSort={(sort) => {
+                update({ sort });
+              }}
+            />
+          ) : null
+        }
+        stickyHeaderIndices={hasRows ? [0] : undefined}
         ListEmptyComponent={empty()}
         ListFooterComponent={footer}
         onEndReached={() => void search.loadMore()}

@@ -72,6 +72,29 @@ describe("Lista", () => {
     expect(screen.getByRole("button", { name: "Ordenar" })).toBeOnTheScreen();
   });
 
+  it("la cabecera de la tabla ordena al pulsarla y la segunda vez invierte el orden", async () => {
+    const store = await spanishStore();
+    await createContainer({ store, clock }).startDemo.execute("es");
+    await startApp("/list", { store });
+    await screen.findByText("Mostrando 14 de 14");
+
+    const header = screen.getByRole("button", { name: "Ordenar por Empresa y puesto" });
+    await fireEvent.press(header);
+    await waitFor(() => {
+      expect(screen.getAllByRole("button", { name: /Estado:/ })[0]).toHaveAccessibleName(
+        /^Atlas Retail Tech/,
+      );
+    });
+    expect(screen.getByText("Empresa y puesto ↑")).toBeOnTheScreen();
+
+    await fireEvent.press(screen.getByRole("button", { name: "Ordenar por Empresa y puesto" }));
+    await waitFor(() => {
+      expect(screen.getAllByRole("button", { name: /Estado:/ })[0]).toHaveAccessibleName(
+        /^Tejo Cloud/,
+      );
+    });
+  });
+
   it("CA-110-06 · carga de 50 en 50 sin repetir ninguna", async () => {
     await startApp("/list", { signedIn: true, repository: await repositoryWith(60) });
 

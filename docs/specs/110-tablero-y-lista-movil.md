@@ -3,7 +3,7 @@
 | Campo      | Valor                                                   |
 | ---------- | ------------------------------------------------------- |
 | Estado     | Aprobado                                                |
-| Versión    | 0.2                                                     |
+| Versión    | 0.4                                                     |
 | Fecha      | 2026-10-08                                              |
 | Requisitos | RF-06, RF-07 y RF-08 de [000-producto](000-producto.md) |
 | Hito       | M4 (la web se hizo en [102](102-tablero-y-lista.md))    |
@@ -78,7 +78,15 @@ Como en la web, el tablero pide hasta 500 candidaturas. Si hay más, muestra un 
 
 - Búsqueda y «Filtros» arriba, como en el tablero, más un botón **«Ordenar»**.
   - Abre una hoja con los tres campos (Última actualización, Fecha de candidatura y Empresa) y el sentido (ascendente o descendente), como opciones de tipo `radio`.
-- Las tarjetas se muestran en una `FlatList`, siempre con su estado visible.
+- **Tabla compacta (versión 0.4):** en lugar de tarjetas, filas de una `FlatList` separadas por una línea fina, con al menos 56 dp de alto:
+
+  | Ancho    | Columnas                                                                                        |
+  | -------- | ----------------------------------------------------------------------------------------------- |
+  | < 768 dp | Empresa y puesto (dos líneas, con «Parada» junto a la empresa), Estado y Última actualización.  |
+  | ≥ 768 dp | Empresa (con el puesto debajo), Estado, Modalidad, Fecha de candidatura y Última actualización. |
+  - La cabecera queda fija al desplazarse. «Empresa», «Fecha de candidatura» y «Última actualización» ordenan al pulsarlas, y una segunda pulsación invierte el orden, como en la web. La columna activa lleva una flecha (↑ o ↓) y el estado `selected`.
+  - Cada fila es pulsable y tiene el mismo nombre accesible que las tarjetas del tablero.
+
 - **Carga incremental:**
   - se cargan 50;
   - al acercarse al final (`onEndReached`) se cargan las 50 siguientes, con un indicador mientras tanto;
@@ -172,6 +180,8 @@ Se reutilizan las claves de la web (`board`, `list`, `filters`, `sort`, `results
 - **Columna activa:** si tras buscar o filtrar la columna elegida se queda vacía y otra tiene resultados, el tablero salta a la primera con datos. Si eliges tú una columna vacía, se respeta.
 - **Recarga al volver** a la pestaña sin esqueleto, para no parpadear.
 - **Tests:** `board.test.tsx` y `list.test.tsx`, por separado por el estado global del router. La carga al llegar al final se prueba llamando a `onEndReached`, porque en Jest la lista no tiene medidas reales.
+- **Polyfills de `Intl` (versión 0.3):** Hermes no trae `Intl.RelativeTimeFormat` ni `Intl.PluralRules`, así que «Hace N días» y los textos con plural fallaban en el teléfono aunque pasaran en Jest, que usa Node. `src/i18n/intl-polyfills.ts` carga los de FormatJS (solo si faltan, con datos de español e inglés) antes que nada en `app/_layout.tsx`. Un test borra esas APIs y comprueba que los polyfills las reponen.
+- **Pestañas del tablero cortadas (versión 0.4):** el `ScrollView` horizontal de las pestañas se encogía dentro de la columna y cortaba las pastillas por abajo. Ahora no crece ni encoge (`flexGrow: 0`, `flexShrink: 0`) y tiene un pequeño margen vertical.
 - **Pendiente de probar en un dispositivo:** CA-110-03 (tableta en horizontal), CA-110-09 (VoiceOver y TalkBack) y CA-110-10 (letra al 200 %).
 
 ## 14. Decisiones tomadas
