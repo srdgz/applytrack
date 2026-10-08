@@ -17,9 +17,14 @@ import { AppRoot } from "../shell/AppRoot";
 import type { Boot } from "../di/booted";
 import { resolveBooted } from "../di/booted";
 import { AuthCallbackScreen } from "../screens/AuthCallbackScreen";
+import { BoardScreen } from "../screens/BoardScreen";
 import { ComingSoonScreen } from "../screens/ComingSoonScreen";
+import { FiltersScreen } from "../screens/FiltersScreen";
+import { ListScreen } from "../screens/ListScreen";
+import { PendingScreen } from "../screens/PendingScreen";
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { SignInScreen } from "../screens/SignInScreen";
+import { SortScreen } from "../screens/SortScreen";
 import { StartScreen } from "../screens/StartScreen";
 import { TabsLayout } from "../screens/TabsLayout";
 
@@ -29,6 +34,7 @@ interface Setup {
   readonly signedIn?: boolean;
   readonly profile?: InMemoryPreferencesStore;
   readonly onBoot?: () => boolean;
+  readonly repository?: InMemoryApplicationRepository;
 }
 
 let lastView: ReturnType<typeof renderRouter> | null = null;
@@ -57,7 +63,7 @@ export const startApp = async (initialUrl: string, setup: Setup = {}) => {
           signedIn: {
             account: { userId: toUserId("user-ana"), email: "ana@mail.com" as Email },
             adapters: {
-              repository: new InMemoryApplicationRepository(),
+              repository: setup.repository ?? new InMemoryApplicationRepository(),
               session: new FakeSessionProvider("user-ana"),
               profile: setup.profile ?? new InMemoryPreferencesStore(),
             },
@@ -86,10 +92,14 @@ export const startApp = async (initialUrl: string, setup: Setup = {}) => {
       "sign-in": SignInScreen,
       "auth/callback": AuthCallbackScreen,
       "(app)/_layout": TabsLayout,
-      "(app)/board": () => <ComingSoonScreen titleKey="board.title" />,
-      "(app)/list": () => <ComingSoonScreen titleKey="list.title" />,
+      "(app)/board": BoardScreen,
+      "(app)/list": ListScreen,
       "(app)/stats": () => <ComingSoonScreen titleKey="stats.title" />,
       "(app)/settings": SettingsScreen,
+      filters: FiltersScreen,
+      sort: SortScreen,
+      "applications/[id]": () => <PendingScreen titleKey="detail.title" />,
+      "applications/new": () => <PendingScreen titleKey="application.newTitle" />,
     },
     { initialUrl },
   );

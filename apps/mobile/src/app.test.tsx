@@ -28,7 +28,7 @@ describe("Inicio", () => {
 
     await fireEvent.press(await screen.findByRole("button", { name: "Probar sin cuenta" }));
 
-    expect(await screen.findByText("Disponible pronto")).toBeOnTheScreen();
+    expect(await screen.findByRole("header", { name: "Tablero" })).toBeOnTheScreen();
     expect(
       screen.getByText("Modo demo · los datos solo se guardan en este dispositivo"),
     ).toBeOnTheScreen();
@@ -42,7 +42,7 @@ describe("Inicio", () => {
 
     await start("/", { store });
 
-    expect(await screen.findByText("Disponible pronto")).toBeOnTheScreen();
+    expect(await screen.findByRole("header", { name: "Tablero" })).toBeOnTheScreen();
     expect(pathname()).toBe("/board");
   });
 

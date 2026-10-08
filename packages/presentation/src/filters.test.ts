@@ -7,7 +7,7 @@ import {
   queryFromFilters,
   toApplicationQuery,
   withoutFilters,
-} from "./url-query";
+} from "./filters";
 
 describe("filtersFromQuery", () => {
   it("sin parámetros devuelve los filtros por defecto", () => {

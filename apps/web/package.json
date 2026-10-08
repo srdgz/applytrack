@@ -17,6 +17,7 @@
     "@applytrack/composition": "workspace:*",
     "@applytrack/i18n": "workspace:*",
     "@applytrack/notifications": "workspace:*",
+    "@applytrack/presentation": "workspace:*",
     "@supabase/supabase-js": "^2.117.2",
     "intl-messageformat": "^12.1.2",
     "vue": "^3.5.43",

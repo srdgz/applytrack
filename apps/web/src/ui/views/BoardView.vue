@@ -17,7 +17,7 @@ import { useMediaQuery } from "../../composables/useMediaQuery";
 import { usePagedSearch } from "../../composables/usePagedSearch";
 import { useStatusChange } from "../../composables/useStatusChange";
 import { useToast } from "../../composables/useToast";
-import { toApplicationQuery } from "../../query/url-query";
+import { toApplicationQuery } from "@applytrack/presentation";
 import ApplicationCard from "../components/ApplicationCard.vue";
 import FilterBar from "../components/FilterBar.vue";
 import ResultState from "../components/ResultState.vue";

@@ -1,5 +1,1 @@
-import { ComingSoonScreen } from "../../src/screens/ComingSoonScreen";
-
-export default function Screen() {
-  return <ComingSoonScreen titleKey="list.title" />;
-}
+export { ListScreen as default } from "../../src/screens/ListScreen";

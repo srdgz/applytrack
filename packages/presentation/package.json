@@ -1,0 +1,25 @@
+{
+  "name": "@applytrack/presentation",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "description": "Lógica de presentación compartida por la web y el móvil: filtros y formatos.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@applytrack/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@applytrack/config": "workspace:*",
+    "@vitest/coverage-v8": "^5.0.3",
+    "vitest": "^5.0.3"
+  }
+}

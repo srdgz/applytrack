@@ -67,6 +67,16 @@ module.exports = {
       to: { path: ["^apps/"] },
     },
     {
+      name: "presentation-only-core",
+      comment: "presentation solo depende de core: ni adaptadores, ni frameworks, ni las apps.",
+      severity: "error",
+      from: { path: "^packages/presentation/src/", pathNot: "\.test\.ts$" },
+      to: {
+        path: ["^packages/", "^apps/", "node_modules/"],
+        pathNot: ["^packages/(presentation|core)/", "node_modules/@applytrack/core"],
+      },
+    },
+    {
       name: "supabase-only-in-adapter",
       comment:
         "Solo adapter-supabase y la raíz de composición de las apps usan el SDK de Supabase.",

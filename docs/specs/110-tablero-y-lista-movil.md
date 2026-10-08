@@ -3,7 +3,7 @@
 | Campo      | Valor                                                   |
 | ---------- | ------------------------------------------------------- |
 | Estado     | Aprobado                                                |
-| Versión    | 0.1                                                     |
+| Versión    | 0.2                                                     |
 | Fecha      | 2026-10-08                                              |
 | Requisitos | RF-06, RF-07 y RF-08 de [000-producto](000-producto.md) |
 | Hito       | M4 (la web se hizo en [102](102-tablero-y-lista.md))    |
@@ -165,7 +165,16 @@ Se reutilizan las claves de la web (`board`, `list`, `filters`, `sort`, `results
 | CA-110-09 | Todo se puede usar con VoiceOver y TalkBack: pestañas, fichas de filtro y tarjetas anuncian su rol, su nombre y su estado.                 |
 | CA-110-10 | Todos los textos nuevos están en español e inglés, y con la letra del sistema al 200 % no se corta nada.                                   |
 
-## 13. Decisiones tomadas
+## 13. Notas de implementación
+
+- **`FiltersProvider` en la raíz** (`src/shell/AppRoot.tsx`) y no dentro del grupo de pestañas: las pantallas de filtros y de orden son modales de la pila raíz y necesitan el mismo contexto. Se reinicia al entrar o salir de la cuenta.
+- **Orden en una pantalla modal** (`/sort`), igual que los filtros, en lugar de una hoja.
+- **Columna activa:** si tras buscar o filtrar la columna elegida se queda vacía y otra tiene resultados, el tablero salta a la primera con datos. Si eliges tú una columna vacía, se respeta.
+- **Recarga al volver** a la pestaña sin esqueleto, para no parpadear.
+- **Tests:** `board.test.tsx` y `list.test.tsx`, por separado por el estado global del router. La carga al llegar al final se prueba llamando a `onEndReached`, porque en Jest la lista no tiene medidas reales.
+- **Pendiente de probar en un dispositivo:** CA-110-03 (tableta en horizontal), CA-110-09 (VoiceOver y TalkBack) y CA-110-10 (letra al 200 %).
+
+## 14. Decisiones tomadas
 
 1. **Paquete `presentation`** para compartir filtros y formato entre web y móvil, en lugar de copiarlos.
 2. **Filtros en un contexto de React** y no en los parámetros de la ruta, porque las pestañas no comparten parámetros y en el móvil no hay URL que compartir.

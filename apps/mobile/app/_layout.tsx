@@ -15,7 +15,10 @@ const hideSplash = () => {
 export default function RootLayout() {
   return (
     <AppRoot boot={boot} onReady={hideSplash}>
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="filters" options={{ presentation: "modal" }} />
+        <Stack.Screen name="sort" options={{ presentation: "modal" }} />
+      </Stack>
     </AppRoot>
   );
 }

@@ -7,7 +7,7 @@ import { RouterLink } from "vue-router";
 import { useFilters } from "../../composables/useFilters";
 import { useFormat } from "../../composables/useFormat";
 import { usePagedSearch } from "../../composables/usePagedSearch";
-import { defaultDirection, toApplicationQuery } from "../../query/url-query";
+import { defaultDirection, toApplicationQuery } from "@applytrack/presentation";
 import AppIcon from "../components/AppIcon.vue";
 import ApplicationCard from "../components/ApplicationCard.vue";
 import FilterBar from "../components/FilterBar.vue";

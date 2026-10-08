@@ -1,13 +1,13 @@
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import type { Filters } from "../query/url-query";
+import type { Filters } from "@applytrack/presentation";
 import {
   countActiveFilters,
   filtersFromQuery,
   queryFromFilters,
   withoutFilters,
-} from "../query/url-query";
+} from "@applytrack/presentation";
 
 export const useFilters = () => {
   const route = useRoute();

@@ -9,6 +9,7 @@ import { createI18n, systemLocale } from "../i18n";
 import type { ToastLabels } from "../notifications/ToastProvider";
 import { ToastProvider, useToast } from "../notifications/ToastProvider";
 import { applyTheme, ThemeRoot } from "../theme/theme";
+import { FiltersProvider } from "./filters";
 import { PreferencesProvider } from "./preferences";
 import type { Notice } from "./session";
 import { SessionProvider } from "./session";
@@ -105,7 +106,7 @@ export const AppRoot = ({
             <ToastHost>
               <PendingNotice key={generation} notice={notice} />
               <PreferencesProvider initial={ready.booted.preferences}>
-                {children}
+                <FiltersProvider>{children}</FiltersProvider>
               </PreferencesProvider>
             </ToastHost>
           </SessionProvider>
