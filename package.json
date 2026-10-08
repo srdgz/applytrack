@@ -17,7 +17,8 @@
     "depcruise": "depcruise apps packages --config .dependency-cruiser.cjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "brand": "node scripts/generate-brand-assets.mjs"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.2.3",
@@ -27,6 +28,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.9",
+    "sharp": "^0.35.5",
     "supabase": "^2.119.0",
     "turbo": "^2.11.7",
     "typescript": "~6.0.3"

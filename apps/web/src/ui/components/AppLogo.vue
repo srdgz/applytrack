@@ -1,0 +1,38 @@
+<script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
+withDefaults(defineProps<{ size?: number; showName?: boolean }>(), {
+  size: 32,
+  showName: true,
+});
+
+const { t } = useI18n();
+</script>
+
+<template>
+  <span class="inline-flex items-center gap-2">
+    <svg
+      :width="size"
+      :height="size"
+      viewBox="0 0 64 64"
+      aria-hidden="true"
+      focusable="false"
+      class="shrink-0"
+    >
+      <rect width="64" height="64" rx="15" fill="#4f46e5" />
+      <rect x="14" y="16" width="9" height="32" rx="4.5" fill="#ffffff" fill-opacity="0.55" />
+      <rect x="27.5" y="16" width="9" height="22" rx="4.5" fill="#ffffff" fill-opacity="0.8" />
+      <rect x="41" y="16" width="9" height="13" rx="4.5" fill="#ffffff" />
+      <circle cx="45.5" cy="44" r="6" fill="#34d399" />
+      <path
+        d="M42.6 44.1l2 2 3.5-3.7"
+        fill="none"
+        stroke="#064e3b"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span v-if="showName" class="font-bold tracking-tight">{{ t("app.name") }}</span>
+  </span>
+</template>

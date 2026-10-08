@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="12.75 13 40 40">
+  <defs>
+    <mask id="check">
+      <rect x="12.75" y="13" width="40" height="40" fill="#ffffff"/>
+      <path d="M42.6 44.1l2 2 3.5-3.7" fill="none" stroke="#000000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <g fill="#ffffff">
+    <rect x="14" y="16" width="9" height="32" rx="4.5"/>
+    <rect x="27.5" y="16" width="9" height="22" rx="4.5"/>
+    <rect x="41" y="16" width="9" height="13" rx="4.5"/>
+    <circle cx="45.5" cy="44" r="6" mask="url(#check)"/>
+  </g>
+</svg>

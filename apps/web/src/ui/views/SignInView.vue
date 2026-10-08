@@ -4,11 +4,10 @@ import { computed, nextTick, onBeforeUnmount, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink, useRoute } from "vue-router";
 
-import { useHardNavigation } from "../../composables/useHardNavigation";
-import { rememberNotice } from "../../composables/useNotice";
 import { useToast } from "../../composables/useToast";
 import { useUseCases } from "../../di/use-cases";
 import AppIcon from "../components/AppIcon.vue";
+import AppLogo from "../components/AppLogo.vue";
 import TextField from "../form/TextField.vue";
 
 const RESEND_SECONDS = 60;
@@ -16,12 +15,10 @@ const RESEND_SECONDS = 60;
 const { t } = useI18n();
 const route = useRoute();
 const toast = useToast();
-const navigate = useHardNavigation();
-const { accountsEnabled, requestSignIn, verifySignInCode } = useUseCases();
+const { accountsEnabled, requestSignIn } = useUseCases();
 
-const step = ref<"email" | "code">("email");
+const step = ref<"email" | "check">("email");
 const email = ref(typeof route.query.email === "string" ? route.query.email : "");
-const code = ref("");
 const issues = ref<readonly FieldIssue[]>([]);
 const failure = ref<string | null>(null);
 const busy = ref(false);
@@ -91,8 +88,8 @@ const sendLink = async (): Promise<boolean> => {
 
 const submitEmail = async () => {
   if (await sendLink()) {
-    step.value = "code";
-    await focus("field-code");
+    step.value = "check";
+    await focus("sign-in-title");
   } else if (issues.value.length > 0) {
     await focus("field-email");
   }
@@ -102,27 +99,9 @@ const resend = async () => {
   if (await sendLink()) toast.success(t("auth.resentTitle"));
 };
 
-const submitCode = async () => {
-  reset();
-  busy.value = true;
-  try {
-    const result = await verifySignInCode.execute({ email: email.value, code: code.value });
-    if (!result.ok) {
-      showError(result.error);
-      await focus("field-code");
-      return;
-    }
-    rememberNotice({ kind: "signedIn", email: result.value.email });
-    navigate("/board");
-  } finally {
-    busy.value = false;
-  }
-};
-
 const useOtherEmail = async () => {
   stopTimer();
   reset();
-  code.value = "";
   step.value = "email";
   await focus("field-email");
 };
@@ -142,9 +121,7 @@ const normalizedEmail = computed(() => email.value.trim().toLowerCase());
       </RouterLink>
 
       <div class="border-border bg-surface rounded-lg border p-6">
-        <p class="text-accent text-sm font-semibold tracking-wide uppercase">
-          {{ t("app.name") }}
-        </p>
+        <AppLogo :size="32" />
 
         <template v-if="step === 'email'">
           <h1 id="sign-in-title" class="mt-2 text-2xl font-bold tracking-tight">
@@ -182,33 +159,18 @@ const normalizedEmail = computed(() => email.value.trim().toLowerCase());
         </template>
 
         <template v-else>
-          <h1 id="sign-in-title" class="mt-2 text-2xl font-bold tracking-tight">
+          <h1
+            id="sign-in-title"
+            tabindex="-1"
+            class="mt-2 text-2xl font-bold tracking-tight focus:outline-none"
+          >
             {{ t("auth.checkTitle") }}
           </h1>
           <p class="text-ink-muted mt-2 text-pretty break-words">
             {{ t("auth.checkDescription", { email: normalizedEmail }) }}
           </p>
 
-          <form class="mt-6 flex flex-col gap-4" novalidate @submit.prevent="submitCode">
-            <TextField
-              v-model="code"
-              name="code"
-              inputmode="numeric"
-              autocomplete="one-time-code"
-              :maxlength="7"
-              :label="t('auth.codeLabel')"
-              :issues="issuesFor('code')"
-              required
-            />
-            <button
-              type="submit"
-              class="bg-accent text-accent-ink min-h-12 rounded-md px-6 font-semibold disabled:opacity-70"
-              :disabled="busy"
-              :aria-busy="busy"
-            >
-              {{ busy ? t("auth.verifying") : t("auth.verify") }}
-            </button>
-          </form>
+          <p class="text-ink-muted mt-3 text-sm">{{ t("auth.spamHint") }}</p>
 
           <div class="mt-6 flex flex-wrap items-center justify-between gap-3 text-sm">
             <button

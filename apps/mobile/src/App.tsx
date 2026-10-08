@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { Pressable, StyleSheet, Text, useColorScheme, View } from "react-native";
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context";
 
+import { AppLogo } from "./brand/AppLogo";
 import type { ToastApi, ToastLabels } from "./notifications/ToastProvider";
 import { ToastProvider, useToast } from "./notifications/ToastProvider";
 
@@ -100,6 +101,9 @@ const Preview = () => {
 
   return (
     <View style={[styles.container, dark && styles.containerDark]}>
+      <View style={styles.logo} importantForAccessibility="no-hide-descendants">
+        <AppLogo size={72} />
+      </View>
       <Text style={[styles.title, dark && styles.textDark]}>{catalog.app.name}</Text>
       <Text style={[styles.subtitle, dark && styles.subtitleDark]}>{catalog.app.tagline}</Text>
       <View style={styles.actions}>
@@ -140,6 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8fafc",
   },
   containerDark: { backgroundColor: "#020617" },
+  logo: { marginBottom: 16 },
   title: { fontSize: 30, fontWeight: "600", color: "#0f172a" },
   textDark: { color: "#f8fafc" },
   subtitle: { marginTop: 8, fontSize: 16, color: "#475569", textAlign: "center" },

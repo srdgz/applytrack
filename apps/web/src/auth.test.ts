@@ -84,7 +84,14 @@ describe("Entrar", () => {
     expect(screen.getByText("Las cuentas no están configuradas en este entorno.")).toBeTruthy();
   });
 
-  it("CA-104-16 · valida el email y pasa al paso del código con el reenvío bloqueado", async () => {
+  it("CA-108-03 · el logo acompaña al nombre sin anunciarse dos veces", async () => {
+    await startApp("/");
+
+    expect(screen.getAllByText("ApplyTrack")).toHaveLength(1);
+    expect(document.querySelector("main svg")?.getAttribute("aria-hidden")).toBe("true");
+  });
+
+  it("CA-104-16 · valida el email y pasa a «Revisa tu correo» con el reenvío bloqueado", async () => {
     const auth = new FakeAuthGateway();
     const { router } = await startApp("/", { auth });
 
@@ -110,33 +117,22 @@ describe("Entrar", () => {
     expect(
       screen.getByRole<HTMLButtonElement>("button", { name: "Puedes reenviarlo en 60 s" }).disabled,
     ).toBe(true);
-    expect(document.activeElement).toBe(screen.getByLabelText(/Código de 6 dígitos/));
+    expect(document.activeElement).toBe(screen.getByRole("heading", { name: "Revisa tu correo" }));
   });
 
-  it("CA-104-17 · con un código inválido avisa y con el correcto entra en el tablero", async () => {
-    const auth = new FakeAuthGateway();
-    const { navigate } = await startApp("/sign-in?email=ana@mail.com", { auth });
+  it("CA-104-17 · «Revisa tu correo» solo habla del enlace, sin campo de código", async () => {
+    await startApp("/sign-in?email=Ana@Mail.com", { auth: new FakeAuthGateway() });
 
     await userEvent.click(screen.getByRole("button", { name: "Enviarme el enlace" }));
-    const code = await screen.findByLabelText(/Código de 6 dígitos/);
 
-    await userEvent.type(code, "654321");
-    await userEvent.click(screen.getByRole("button", { name: "Entrar" }));
     expect(
-      await screen.findByText("El código no es válido o ha caducado.", {
-        selector: "p[role=alert]",
-      }),
+      await screen.findByText(
+        "Te hemos enviado un enlace a ana@mail.com. Ábrelo en este navegador para entrar.",
+      ),
     ).toBeTruthy();
-    expect(navigate).not.toHaveBeenCalled();
-
-    await userEvent.clear(code);
-    await userEvent.type(code, "123 456");
-    await userEvent.click(screen.getByRole("button", { name: "Entrar" }));
-
-    await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith("/board");
-    });
-    expect(window.sessionStorage.getItem("applytrack:notice")).toContain("ana@mail.com");
+    expect(screen.getByText("Si no lo encuentras, mira en la carpeta de spam.")).toBeTruthy();
+    expect(screen.queryByRole("textbox")).toBeNull();
+    expect(screen.queryByText(/código/i)).toBeNull();
   });
 
   it("explica el límite de correos", async () => {

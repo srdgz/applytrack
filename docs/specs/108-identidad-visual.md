@@ -74,7 +74,14 @@ Los PNG se generan con `pnpm brand` (un script en `scripts/generate-brand-assets
 | CA-108-05 | `app.json` apunta a los nuevos recursos y `expo config` no da errores.                                                                             |
 | CA-108-06 | El APK de Android muestra el icono adaptable y la pantalla de carga morada con la marca.                                                           |
 
-## 7. Decisiones tomadas
+## 7. Notas de implementación
+
+- **Barras como trazados en la app:** `react-native-svg` marca como obsoletas las propiedades `x` e `y` de `Rect`, así que en `AppLogo.tsx` las columnas se dibujan con `Path`. El resultado es idéntico.
+- **Tests:** `apps/web/brand.test.ts` comprueba el manifiesto, los tamaños reales de los PNG, la versión oscura del favicon y los enlaces de `index.html`. Otro test comprueba que el logo de la pantalla de inicio no se anuncia dos veces.
+- **CA-108-04 en local:** volver a ejecutar `pnpm brand` deja los archivos sin cambios. No se compara en la CI porque `sharp` puede comprimir distinto en Linux y Windows sin que cambie la imagen.
+- **CA-108-06:** pendiente de comprobar al generar el APK (ADR-0006).
+
+## 8. Decisiones tomadas
 
 1. **SVG como fuente y PNG generados con un script versionado**, para poder retocar el logo sin herramientas de diseño.
 2. **Color de fondo en lugar de imagen** en el icono adaptable de Android: más ligero y siempre nítido.

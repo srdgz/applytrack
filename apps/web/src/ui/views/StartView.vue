@@ -6,6 +6,7 @@ import { RouterLink, useRouter } from "vue-router";
 import { bumpDataVersion } from "../../composables/useDataVersion";
 import { useToast } from "../../composables/useToast";
 import { useUseCases } from "../../di/use-cases";
+import AppLogo from "../components/AppLogo.vue";
 
 const { t, locale } = useI18n();
 const { startDemo, accountsEnabled } = useUseCases();
@@ -33,8 +34,8 @@ const tryDemo = async () => {
 <template>
   <main class="flex min-h-dvh items-center justify-center p-4">
     <section class="w-full max-w-lg text-center">
-      <p class="text-accent text-sm font-semibold tracking-wide uppercase">{{ t("app.name") }}</p>
-      <h1 class="mt-2 text-3xl font-bold tracking-tight text-balance sm:text-4xl">
+      <AppLogo :size="56" class="text-xl" />
+      <h1 class="mt-6 text-3xl font-bold tracking-tight text-balance sm:text-4xl">
         {{ t("start.title") }}
       </h1>
       <p class="text-ink-muted mt-4 text-pretty">{{ t("start.description") }}</p>

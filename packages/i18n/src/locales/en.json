@@ -31,10 +31,7 @@
     "sendLink": "Email me the link",
     "sending": "Sending…",
     "checkTitle": "Check your email",
-    "checkDescription": "We've sent a link to {email}. Open it in this browser or enter the 6-digit code from the same email.",
-    "codeLabel": "6-digit code",
-    "verify": "Sign in",
-    "verifying": "Checking…",
+    "checkDescription": "We've sent a link to {email}. Open it in this browser to sign in.",
     "resend": "Resend the email",
     "resendIn": "You can resend it in {seconds} s",
     "resendReady": "You can resend the email now.",
@@ -47,7 +44,8 @@
     "signedInTitle": "Signed in as {email}",
     "signedOutTitle": "You've signed out",
     "signOut": "Sign out",
-    "signedInAs": "You're signed in as {email}."
+    "signedInAs": "You're signed in as {email}.",
+    "spamHint": "If you can't find it, check your spam folder."
   },
   "demo": {
     "banner": "Demo mode · data is only stored on this device",

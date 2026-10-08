@@ -5,6 +5,7 @@ import { RouterLink, RouterView, useRoute } from "vue-router";
 import { useAccount } from "../../composables/useAccount";
 import { useSidebar } from "../../composables/useSidebar";
 import AppIcon from "../components/AppIcon.vue";
+import AppLogo from "../components/AppLogo.vue";
 import AppNav from "../components/AppNav.vue";
 import DemoBanner from "../components/DemoBanner.vue";
 
@@ -28,8 +29,8 @@ const { account, signOut } = useAccount();
     <header
       class="border-border bg-surface flex items-center justify-between gap-4 border-b px-4 py-3"
     >
-      <RouterLink :to="{ name: 'board' }" class="text-lg font-bold tracking-tight">
-        {{ t("app.name") }}
+      <RouterLink :to="{ name: 'board' }" class="text-lg">
+        <AppLogo :size="28" />
       </RouterLink>
       <RouterLink
         :to="{ name: 'application-new' }"

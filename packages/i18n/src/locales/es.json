@@ -31,10 +31,7 @@
     "sendLink": "Enviarme el enlace",
     "sending": "Enviando…",
     "checkTitle": "Revisa tu correo",
-    "checkDescription": "Te hemos enviado un enlace a {email}. Ábrelo en este navegador o escribe el código de 6 dígitos del mismo correo.",
-    "codeLabel": "Código de 6 dígitos",
-    "verify": "Entrar",
-    "verifying": "Comprobando…",
+    "checkDescription": "Te hemos enviado un enlace a {email}. Ábrelo en este navegador para entrar.",
     "resend": "Reenviar el correo",
     "resendIn": "Puedes reenviarlo en {seconds} s",
     "resendReady": "Ya puedes reenviar el correo.",
@@ -47,7 +44,8 @@
     "signedInTitle": "Has entrado como {email}",
     "signedOutTitle": "Has cerrado sesión",
     "signOut": "Cerrar sesión",
-    "signedInAs": "Has entrado como {email}."
+    "signedInAs": "Has entrado como {email}.",
+    "spamHint": "Si no lo encuentras, mira en la carpeta de spam."
   },
   "demo": {
     "banner": "Modo demo · los datos solo se guardan en este dispositivo",

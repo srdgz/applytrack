@@ -1,3 +1,5 @@
+<p align="center"><img src="brand/icon.svg" alt="" width="96" height="96"></p>
+
 # ApplyTrack
 
 [![CI](https://github.com/srdgz/applytrack/actions/workflows/ci.yml/badge.svg)](https://github.com/srdgz/applytrack/actions/workflows/ci.yml)
@@ -8,7 +10,7 @@ Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Nativ
 
 ## Qué hace
 
-- **Cuentas sin contraseña:** enlace mágico o código de 6 dígitos por email, con los datos en Supabase y Row Level Security.
+- **Cuentas sin contraseña:** enlace mágico por email, con los datos en Supabase y Row Level Security.
 - **Modo demo sin registro:** 15 candidaturas de ejemplo guardadas solo en el navegador.
 - **Tablero** por estados, con arrastrar y soltar (ratón) y menú «Mover a…» (teclado y táctil).
 - **Lista** con orden por columnas, búsqueda sin tildes y filtros que viven en la URL.
@@ -32,6 +34,7 @@ packages/
   i18n/             Catálogos ES/EN compartidos en formato ICU
   notifications/    Cola de avisos compartida por web y móvil
   config/           tsconfig y ESLint compartidos
+brand/              Logo en SVG; `pnpm brand` genera los iconos de la web y la app
 supabase/           Migraciones SQL con RLS, configuración local y plantilla del correo
 docs/
   specs/            Especificaciones con criterios de aceptación
@@ -80,6 +83,7 @@ Sin más configuración, la web funciona en modo demo. Para activar las cuentas,
 | [104 · Autenticación](docs/specs/104-autenticacion.md)               | Enlace mágico, preferencias y Supabase               |
 | [105 · Estadísticas](docs/specs/105-panel-estadisticas.md)           | Métricas y panel                                     |
 | [106 · Archivar y eliminar](docs/specs/106-archivar-y-eliminar.md)   | Archivado reversible y borrado con confirmación      |
+| [108 · Identidad visual](docs/specs/108-identidad-visual.md)         | Logo, iconos y pantalla de carga                     |
 | [107 · Notificaciones](docs/specs/107-notificaciones.md)             | Avisos compartidos web y móvil                       |
 | [ADR](docs/adr)                                                      | Decisiones de arquitectura                           |
 
