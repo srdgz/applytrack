@@ -22,6 +22,10 @@
     "@applytrack/i18n": "workspace:*",
     "@applytrack/notifications": "workspace:*",
     "@applytrack/presentation": "workspace:*",
+    "@formatjs/intl-getcanonicallocales": "^3.2.12",
+    "@formatjs/intl-locale": "^5.3.12",
+    "@formatjs/intl-pluralrules": "^6.3.15",
+    "@formatjs/intl-relativetimeformat": "^12.3.15",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@supabase/supabase-js": "^2.117.2",
     "expo": "~57.0.27",
@@ -66,7 +70,7 @@
       "./jest.setup.js"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(.pnpm|(jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|expo-router|react-navigation|@react-navigation/.*|react-native-svg|nativewind|react-native-css-interop|intl-messageformat|@formatjs/.*|i18next-icu|i18next|react-i18next|standard-navigation))"
+      "node_modules/(?!(.pnpm|(jest-)?react-native|@react-native(-community)?|expo(nent)?|@expo(nent)?/.*|expo-router|react-navigation|@react-navigation/.*|react-native-svg|nativewind|react-native-css-interop|intl-messageformat|@formatjs/.*|i18next-icu|i18next|react-i18next|standard-navigation|@formatjs/.*))"
     ]
   }
 }

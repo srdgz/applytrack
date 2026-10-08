@@ -144,8 +144,8 @@ export const BoardScreen = () => {
           showsHorizontalScrollIndicator={false}
           accessibilityRole="tablist"
           accessibilityLabel={t("board.columnsLabel")}
-          className="grow-0"
-          contentContainerClassName="gap-2"
+          style={{ flexGrow: 0, flexShrink: 0 }}
+          contentContainerClassName="items-center gap-2 py-1"
         >
           {columns.map((column) => {
             const selected = column.id === activeId;
