@@ -18,7 +18,6 @@ import type { Boot } from "../di/booted";
 import { resolveBooted } from "../di/booted";
 import { AuthCallbackScreen } from "../screens/AuthCallbackScreen";
 import { BoardScreen } from "../screens/BoardScreen";
-import { ComingSoonScreen } from "../screens/ComingSoonScreen";
 import { DetailScreen } from "../screens/DetailScreen";
 import { FiltersScreen } from "../screens/FiltersScreen";
 import { ListScreen } from "../screens/ListScreen";
@@ -26,6 +25,7 @@ import { EditApplicationScreen, NewApplicationScreen } from "../screens/FormScre
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { SignInScreen } from "../screens/SignInScreen";
 import { SortScreen } from "../screens/SortScreen";
+import { StatsScreen } from "../screens/StatsScreen";
 import { StatusScreen } from "../screens/StatusScreen";
 import { StartScreen } from "../screens/StartScreen";
 import { TabsLayout } from "../screens/TabsLayout";
@@ -96,7 +96,7 @@ export const startApp = async (initialUrl: string, setup: Setup = {}) => {
       "(app)/_layout": TabsLayout,
       "(app)/board": BoardScreen,
       "(app)/list": ListScreen,
-      "(app)/stats": () => <ComingSoonScreen titleKey="stats.title" />,
+      "(app)/stats": StatsScreen,
       "(app)/settings": SettingsScreen,
       filters: FiltersScreen,
       sort: SortScreen,

@@ -6,7 +6,7 @@
 
 Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Native + Expo)** que comparten un núcleo de dominio con **arquitectura hexagonal**, escrito en TypeScript y desarrollado con **Spec-Driven Development**.
 
-> 🚧 En desarrollo. Hechos los hitos M0, M1 y M2 (núcleo, modo demo y web completa) y M3 (cuentas con Supabase). En curso: app móvil (M4), con todo lo de la web salvo las estadísticas. Después: calidad (M5). Ver la [hoja de ruta](docs/specs/004-hoja-de-ruta.md).
+> 🚧 En desarrollo. Hechos los hitos M0, M1 y M2 (núcleo, modo demo y web completa) y M3 (cuentas con Supabase). La app móvil (M4) ya tiene todas las funciones de la web; falta generar el APK. Después: calidad (M5). Ver la [hoja de ruta](docs/specs/004-hoja-de-ruta.md).
 
 ## Qué hace
 
@@ -95,6 +95,7 @@ Sin más configuración, la web funciona en modo demo. Para activar las cuentas,
 | [110 · Tablero y lista en el móvil](docs/specs/110-tablero-y-lista-movil.md) | Tablero, lista, búsqueda y filtros en el móvil             |
 | [111 · Detalle en el móvil](docs/specs/111-detalle-movil.md)                 | Detalle, cambio de estado, archivar y eliminar en el móvil |
 | [112 · Formulario en el móvil](docs/specs/112-formulario-movil.md)           | Crear y editar candidaturas en el móvil                    |
+| [113 · Estadísticas en el móvil](docs/specs/113-estadisticas-movil.md)       | Panel de estadísticas en el móvil                          |
 | [108 · Identidad visual](docs/specs/108-identidad-visual.md)                 | Logo, iconos y pantalla de carga                           |
 | [107 · Notificaciones](docs/specs/107-notificaciones.md)                     | Avisos compartidos web y móvil                             |
 | [ADR](docs/adr)                                                              | Decisiones de arquitectura                                 |

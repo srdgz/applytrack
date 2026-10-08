@@ -3,7 +3,7 @@
 | Campo      | Valor                                                   |
 | ---------- | ------------------------------------------------------- |
 | Estado     | Aprobado                                                |
-| Versión    | 0.1                                                     |
+| Versión    | 0.2                                                     |
 | Fecha      | 2026-10-08                                              |
 | Requisitos | RF-10 de [000-producto](000-producto.md)                |
 | Hito       | M4 (la web se hizo en [105](105-panel-estadisticas.md)) |
@@ -89,7 +89,14 @@ Con la demo cargada:
 | CA-113-06 | En una tableta en horizontal se ve la distribución en dos columnas de la sección 3.                          |
 | CA-113-07 | Todos los textos, porcentajes y fechas cambian al pasar a inglés, y con la letra al 200 % no se corta nada.  |
 
-## 11. Decisiones tomadas
+## 11. Notas de implementación
+
+- **Resumen accesible:** cada tarjeta se anuncia como una sola frase («Tasa de respuesta: 69 %. 9 de 13»).
+- **Textos «Disponible pronto» eliminados** de los catálogos junto con `ComingSoonScreen`.
+- **Tests:** `stats.test.tsx` comprueba las cifras de la demo con las mismas expectativas que la web (CA-105-02 a CA-105-04 y CA-105-09).
+- **Pendiente de probar en un dispositivo:** CA-113-06 (tableta) y CA-113-07 (letra al 200 %).
+
+## 12. Decisiones tomadas
 
 1. **Barras dibujadas con `View`,** sin librería de gráficos, por la misma razón que en la web y para no añadir módulos nativos que Expo Go no incluya.
 2. **Resumen en 2 × 2 en el teléfono,** para que las cuatro cifras se vean sin desplazarse.
