@@ -1,6 +1,6 @@
 # ADR-0004 · Tailwind en web y NativeWind en móvil, con tokens compartidos
 
-- **Estado:** Propuesta
+- **Estado:** Aceptada (actualizada el 2026-10-08)
 - **Fecha:** 2026-10-05
 
 ## Contexto
@@ -10,8 +10,8 @@ Hace falta un diseño propio, responsive y coherente entre plataformas, con tema
 ## Decisión
 
 - **Web:** Tailwind CSS 4 con componentes propios. Los componentes accesibles complejos (diálogos, menús, combobox) se apoyan en primitivas sin estilos de **Reka UI**.
-- **Móvil:** NativeWind 4.
-- **Tokens:** `packages/design-tokens` define colores, espaciados, radios, tipografía y breakpoints en un único sitio y genera la configuración de los dos lados.
+- **Móvil:** NativeWind 4.2 con Tailwind CSS 3, que es la combinación estable para Expo 57. NativeWind 5 (con Tailwind 4) sigue en _release candidate_; se migrará cuando sea estable.
+- **Tokens:** `packages/design-tokens` define los colores en hexadecimal para el móvil. La web mantiene sus `oklch` en `style.css` y un test comprueba que coinciden (spec 109).
 
 ## Consecuencias
 
