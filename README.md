@@ -56,7 +56,11 @@ Requisitos: **Node 24** (mínimo 22.12, ver `.nvmrc`) y **pnpm 12**.
 pnpm install
 pnpm dev:web      # http://localhost:5173
 pnpm dev:mobile   # abre la app en Expo Go con el QR
+pnpm dev:android  # abre la app en el emulador de Android
+pnpm dev:ios      # abre la app en el simulador de iOS (solo en macOS)
 ```
+
+El emulador de Android necesita Android Studio con un dispositivo virtual creado; Expo lo arranca e instala Expo Go si hace falta. El simulador de iOS solo existe en macOS, con Xcode.
 
 Sin más configuración, la web funciona en modo demo. Para activar las cuentas, copia `apps/web/.env.example` y `apps/mobile/.env.example` a `.env.local` en la misma carpeta, con la URL y la clave publicable de un proyecto de Supabase, y aplica las migraciones con `pnpm supabase link` y `pnpm supabase db push`. Los pasos completos están en la [spec 104](docs/specs/104-autenticacion.md#8-configuración-del-proyecto-en-supabase).
 
