@@ -56,6 +56,7 @@ Requisitos: **Node 24** (mínimo 22.12, ver `.nvmrc`) y **pnpm 12**.
 pnpm install
 pnpm dev:web      # http://localhost:5173
 pnpm dev:mobile   # abre la app en Expo Go con el QR
+pnpm dev:mobile:tunnel  # igual, con túnel: necesario para entrar con email en Expo Go
 pnpm dev:android  # abre la app en el emulador de Android
 pnpm dev:ios      # abre la app en el simulador de iOS (solo en macOS)
 ```

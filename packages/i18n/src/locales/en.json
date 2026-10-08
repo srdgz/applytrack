@@ -351,6 +351,7 @@
     "comingSoonDescription": "This screen will arrive in an upcoming version of the app.",
     "checkDescription": "We've sent a link to {email}. Open it on this phone to sign in.",
     "cancel": "Cancel",
-    "languageHint": "Choose the app language"
+    "languageHint": "Choose the app language",
+    "tunnelHint": "Supabase doesn't accept return addresses with an IP. To sign in with email in Expo Go, start the app with “pnpm dev:mobile:tunnel”."
   }
 }

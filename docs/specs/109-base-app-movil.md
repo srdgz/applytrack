@@ -3,7 +3,7 @@
 | Campo      | Valor                                                   |
 | ---------- | ------------------------------------------------------- |
 | Estado     | Aprobado                                                |
-| Versión    | 0.2                                                     |
+| Versión    | 0.3                                                     |
 | Fecha      | 2026-10-08                                              |
 | Requisitos | RF-01, RF-09 y RF-11 de [000-producto](000-producto.md) |
 | Hito       | M4 (primera de varias specs del móvil)                  |
@@ -174,6 +174,7 @@ En Authentication → URL Configuration → Redirect URLs, añadir `exp://**` (E
 - **Tests del móvil:** usan `renderRouter` de `expo-router/testing-library` con un `boot` falso. Están repartidos en `app.test.tsx` y `settings.test.tsx`, porque el router de Expo y NativeWind guardan estado global entre renders y Jest solo lo aísla por archivo.
 - **Dependencias directas:** con pnpm, `react-native-css-interop` tiene que ser una dependencia directa del móvil para que Metro la encuentre.
 - **Comprobación del empaquetado:** `expo export --platform android` genera el bundle sin errores. `expo-doctor` pasa las 21 comprobaciones.
+- **Expo Go necesita túnel para entrar con email (versión 0.3):** Supabase rechaza cualquier dirección de vuelta cuyo host sea una IP distinta de `localhost`, aunque esté en la lista permitida, y la envía a la Site URL. En Expo Go, `Linking.createURL` usa la IP del ordenador (`exp://192.168.x.x:8081/…`), así que hay que arrancar con `pnpm dev:mobile:tunnel`, que da un host `*.exp.direct`. `@expo/ngrok` es dependencia de desarrollo del móvil. En desarrollo, «Entrar» avisa de esto cuando detecta una IP. El APK no se ve afectado: usa `applytrack://`.
 - **Pendiente de probar en un teléfono:** CA-109-05 (el enlace del correo abre Expo Go), CA-109-08 (sin parpadeos) y CA-109-09 (letra al 200 %).
 
 ## 12. Decisiones tomadas

@@ -14,8 +14,11 @@ import { Button } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 import { Screen } from "../ui/Screen";
 import { TextField } from "../ui/TextField";
+import { usesPrivateIpHost } from "./redirect-url";
 
 const RESEND_SECONDS = 60;
+
+const redirectUrl = () => Linking.createURL("auth/callback");
 
 export const SignInScreen = () => {
   const { t } = useTranslation();
@@ -75,7 +78,7 @@ export const SignInScreen = () => {
     try {
       const result = await useCases.requestSignIn.execute({
         email,
-        redirectTo: Linking.createURL("auth/callback"),
+        redirectTo: redirectUrl(),
       });
       if (!result.ok) {
         showError(result.error);
@@ -131,6 +134,11 @@ export const SignInScreen = () => {
               {t("auth.title")}
             </Text>
             <Text className="text-base text-ink-muted">{t("auth.description")}</Text>
+            {__DEV__ && usesPrivateIpHost(redirectUrl()) && (
+              <Text className="rounded-md bg-warning-soft p-3 text-sm text-warning">
+                {t("mobile.tunnelHint")}
+              </Text>
+            )}
             <TextField
               label={t("auth.emailLabel")}
               value={email}

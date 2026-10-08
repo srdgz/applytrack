@@ -10,6 +10,7 @@
   "scripts": {
     "dev:web": "pnpm --filter @applytrack/web dev",
     "dev:mobile": "pnpm --filter @applytrack/mobile start",
+    "dev:mobile:tunnel": "pnpm --filter @applytrack/mobile start:tunnel",
     "dev:android": "pnpm --filter @applytrack/mobile android",
     "dev:ios": "pnpm --filter @applytrack/mobile ios",
     "build": "turbo run build",

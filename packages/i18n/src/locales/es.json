@@ -351,6 +351,7 @@
     "comingSoonDescription": "Esta pantalla llegará en las próximas versiones de la app.",
     "checkDescription": "Te hemos enviado un enlace a {email}. Ábrelo en este teléfono para entrar.",
     "cancel": "Cancelar",
-    "languageHint": "Elige el idioma de la app"
+    "languageHint": "Elige el idioma de la app",
+    "tunnelHint": "Supabase no acepta direcciones de vuelta con una IP. Para entrar con el email en Expo Go, arranca la app con «pnpm dev:mobile:tunnel»."
   }
 }
