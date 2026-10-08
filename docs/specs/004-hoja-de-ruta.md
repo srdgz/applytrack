@@ -37,3 +37,4 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 10. [`109-base-app-movil.md`](109-base-app-movil.md) (RF-01, RF-09, RF-11 en móvil), implementada (falta probarla en un teléfono)
 11. [`110-tablero-y-lista-movil.md`](110-tablero-y-lista-movil.md) (RF-06, RF-07, RF-08 en móvil), implementada
 12. [`111-detalle-movil.md`](111-detalle-movil.md) (RF-04, RF-05 en móvil), implementada
+13. [`112-formulario-movil.md`](112-formulario-movil.md) (RF-02, RF-03 en móvil), en implementación
