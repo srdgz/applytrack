@@ -14,6 +14,7 @@
   "dependencies": {
     "@applytrack/adapter-local": "workspace:*",
     "@applytrack/adapter-supabase": "workspace:*",
+    "@applytrack/composition": "workspace:*",
     "@applytrack/i18n": "workspace:*",
     "@applytrack/notifications": "workspace:*",
     "@supabase/supabase-js": "^2.117.2",

@@ -148,6 +148,7 @@ export type { AuthUseCaseError, PreferencesSyncError } from "./application/error
 export type { AuthFailure, AuthGateway } from "./application/ports/auth-gateway";
 export type { PreferencesStore } from "./application/ports/preferences-store";
 export {
+  CompleteSignIn,
   GetCurrentAccount,
   RequestSignIn,
   SignOut,

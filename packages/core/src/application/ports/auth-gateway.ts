@@ -8,5 +8,6 @@ export interface AuthGateway {
   currentAccount(): Promise<Account | null>;
   requestSignIn(email: Email, redirectTo: string): Promise<Result<void, AuthFailure>>;
   verifyCode(email: Email, code: string): Promise<Result<Account, AuthFailure>>;
+  completeSignIn(linkCode: string): Promise<Result<Account, AuthFailure>>;
   signOut(): Promise<void>;
 }

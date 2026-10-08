@@ -6,7 +6,7 @@
 
 Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Native + Expo)** que comparten un núcleo de dominio con **arquitectura hexagonal**, escrito en TypeScript y desarrollado con **Spec-Driven Development**.
 
-> 🚧 En desarrollo. Hechos los hitos M0, M1 y M2 (núcleo, modo demo y web completa) y M3 (cuentas con Supabase). Siguientes: app móvil (M4) y calidad (M5). Ver la [hoja de ruta](docs/specs/004-hoja-de-ruta.md).
+> 🚧 En desarrollo. Hechos los hitos M0, M1 y M2 (núcleo, modo demo y web completa) y M3 (cuentas con Supabase). En curso: app móvil (M4), con la base lista (inicio, modo demo, entrar con el email y ajustes). Después: calidad (M5). Ver la [hoja de ruta](docs/specs/004-hoja-de-ruta.md).
 
 ## Qué hace
 
@@ -26,13 +26,15 @@ Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Nativ
 ```
 apps/
   web/              Vue 3 · Vite · Tailwind CSS 4 · vue-router · vue-i18n
-  mobile/           Expo · React Native (de momento, pantalla de prueba de avisos)
+  mobile/           Expo · Expo Router · NativeWind · i18next
 packages/
   core/             Dominio y casos de uso. Sin dependencias de runtime.
   adapter-local/    Repositorio del modo demo sobre localStorage / AsyncStorage
   adapter-supabase/ Repositorio, sesión, acceso y perfil sobre Supabase
   i18n/             Catálogos ES/EN compartidos en formato ICU
   notifications/    Cola de avisos compartida por web y móvil
+  composition/      Raíz de composición compartida por la web y el móvil
+  design-tokens/    Colores comunes de la web y el móvil
   config/           tsconfig y ESLint compartidos
 brand/              Logo en SVG; `pnpm brand` genera los iconos de la web y la app
 supabase/           Migraciones SQL con RLS, configuración local y plantilla del correo
@@ -56,7 +58,7 @@ pnpm dev:web      # http://localhost:5173
 pnpm dev:mobile   # abre la app en Expo Go con el QR
 ```
 
-Sin más configuración, la web funciona en modo demo. Para activar las cuentas, copia `apps/web/.env.example` a `apps/web/.env.local` con la URL y la clave publicable de un proyecto de Supabase, y aplica las migraciones con `pnpm supabase link` y `pnpm supabase db push`. Los pasos completos están en la [spec 104](docs/specs/104-autenticacion.md#8-configuración-del-proyecto-en-supabase).
+Sin más configuración, la web funciona en modo demo. Para activar las cuentas, copia `apps/web/.env.example` y `apps/mobile/.env.example` a `.env.local` en la misma carpeta, con la URL y la clave publicable de un proyecto de Supabase, y aplica las migraciones con `pnpm supabase link` y `pnpm supabase db push`. Los pasos completos están en la [spec 104](docs/specs/104-autenticacion.md#8-configuración-del-proyecto-en-supabase).
 
 | Comando          | Qué hace                                              |
 | ---------------- | ----------------------------------------------------- |
@@ -83,15 +85,16 @@ Sin más configuración, la web funciona en modo demo. Para activar las cuentas,
 | [104 · Autenticación](docs/specs/104-autenticacion.md)               | Enlace mágico, preferencias y Supabase               |
 | [105 · Estadísticas](docs/specs/105-panel-estadisticas.md)           | Métricas y panel                                     |
 | [106 · Archivar y eliminar](docs/specs/106-archivar-y-eliminar.md)   | Archivado reversible y borrado con confirmación      |
+| [109 · Base de la app móvil](docs/specs/109-base-app-movil.md)       | Navegación, modo demo, acceso y ajustes en el móvil  |
 | [108 · Identidad visual](docs/specs/108-identidad-visual.md)         | Logo, iconos y pantalla de carga                     |
 | [107 · Notificaciones](docs/specs/107-notificaciones.md)             | Avisos compartidos web y móvil                       |
 | [ADR](docs/adr)                                                      | Decisiones de arquitectura                           |
 
 ## Stack
 
-**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · vue-router · vue-i18n · React Native · Expo · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions
+**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions
 
-**Previsto:** NativeWind (M4) · Playwright · axe · Maestro (M5) · Vercel · EAS
+**Previsto:** Playwright · axe · Maestro (M5) · Vercel · EAS
 
 ## Forma de trabajo
 

@@ -1,7 +1,13 @@
 import { describe, expect, it } from "vitest";
 
 import { FakeAuthGateway } from "../../../testing";
-import { GetCurrentAccount, RequestSignIn, SignOut, VerifySignInCode } from "./auth";
+import {
+  CompleteSignIn,
+  GetCurrentAccount,
+  RequestSignIn,
+  SignOut,
+  VerifySignInCode,
+} from "./auth";
 
 const setup = () => {
   const auth = new FakeAuthGateway();
@@ -113,5 +119,42 @@ describe("SignOut", () => {
     await signOut.execute();
 
     expect(await getCurrentAccount.execute()).toBeNull();
+  });
+});
+
+describe("CompleteSignIn", () => {
+  it("con el código del enlace abre la sesión", async () => {
+    const auth = new FakeAuthGateway();
+
+    const result = await new CompleteSignIn({ auth }).execute({ linkCode: "link-code" });
+
+    expect(result).toEqual({
+      ok: true,
+      value: { userId: "user-link", email: "link@mail.com" },
+    });
+  });
+
+  it("sin código o con uno incorrecto devuelve INVALID_CODE", async () => {
+    const auth = new FakeAuthGateway();
+    const completeSignIn = new CompleteSignIn({ auth });
+
+    expect(await completeSignIn.execute({ linkCode: " " })).toEqual({
+      ok: false,
+      error: { code: "INVALID_CODE" },
+    });
+    expect(await completeSignIn.execute({ linkCode: "otro" })).toEqual({
+      ok: false,
+      error: { code: "INVALID_CODE" },
+    });
+  });
+
+  it("devuelve los fallos del servicio", async () => {
+    const auth = new FakeAuthGateway();
+    auth.failure = "AUTH_UNAVAILABLE";
+
+    expect(await new CompleteSignIn({ auth }).execute({ linkCode: "link-code" })).toEqual({
+      ok: false,
+      error: { code: "AUTH_UNAVAILABLE" },
+    });
   });
 });

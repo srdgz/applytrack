@@ -43,8 +43,28 @@ module.exports = {
       name: "ui-no-adapters",
       comment: "En las apps, solo la raíz de composición (src/di) importa adaptadores.",
       severity: "error",
-      from: { path: "^apps/[^/]+/src/", pathNot: ["^apps/[^/]+/src/di/", "\.test\.ts$"] },
+      from: {
+        path: "^apps/[^/]+/src/",
+        pathNot: ["^apps/[^/]+/src/(di|testing)/", "\.test\.tsx?$"],
+      },
       to: { path: ["^packages/adapter-", "node_modules/@applytrack/adapter-"] },
+    },
+    {
+      name: "composition-only-from-di",
+      comment: "En las apps, solo la raíz de composición (src/di) usa el paquete composition.",
+      severity: "error",
+      from: {
+        path: "^apps/[^/]+/src/",
+        pathNot: ["^apps/[^/]+/src/(di|testing)/", "\.test\.tsx?$"],
+      },
+      to: { path: ["^packages/composition/", "node_modules/@applytrack/composition"] },
+    },
+    {
+      name: "composition-no-apps",
+      comment: "composition solo une core y los adaptadores: no conoce las apps.",
+      severity: "error",
+      from: { path: "^packages/composition/" },
+      to: { path: ["^apps/"] },
     },
     {
       name: "supabase-only-in-adapter",

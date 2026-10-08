@@ -1,0 +1,26 @@
+{
+  "name": "@applytrack/composition",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "description": "Raíz de composición compartida por la web y la app móvil.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@applytrack/adapter-local": "workspace:*",
+    "@applytrack/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@applytrack/config": "workspace:*",
+    "@vitest/coverage-v8": "^5.0.3",
+    "vitest": "^5.0.3"
+  }
+}

@@ -45,6 +45,17 @@ export class SupabaseAuthGateway implements AuthGateway {
     }
   }
 
+  async completeSignIn(linkCode: string): Promise<Result<Account, AuthFailure>> {
+    try {
+      const { data, error } = await this.client.auth.exchangeCodeForSession(linkCode);
+      if (error) return err(toAuthFailure(error, "verify"));
+      const account = toAccount(data.user);
+      return account ? ok(account) : err("AUTH_UNAVAILABLE");
+    } catch {
+      return err("AUTH_UNAVAILABLE");
+    }
+  }
+
   async signOut(): Promise<void> {
     await this.client.auth.signOut({ scope: "local" });
   }

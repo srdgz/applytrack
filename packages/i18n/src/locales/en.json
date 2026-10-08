@@ -345,5 +345,12 @@
     "restoringTitle": "Restoring data…",
     "restoredTitle": "Sample data restored",
     "failedTitle": "Could not complete the action"
+  },
+  "mobile": {
+    "comingSoonTitle": "Coming soon",
+    "comingSoonDescription": "This screen will arrive in an upcoming version of the app.",
+    "checkDescription": "We've sent a link to {email}. Open it on this phone to sign in.",
+    "cancel": "Cancel",
+    "languageHint": "Choose the app language"
   }
 }

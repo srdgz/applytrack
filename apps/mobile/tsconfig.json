@@ -11,5 +11,5 @@
     "noUnusedParameters": true,
     "types": ["jest"]
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"]
 }

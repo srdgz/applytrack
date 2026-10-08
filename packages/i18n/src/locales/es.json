@@ -345,5 +345,12 @@
     "restoringTitle": "Restaurando datos…",
     "restoredTitle": "Datos de ejemplo restaurados",
     "failedTitle": "No se ha podido completar"
+  },
+  "mobile": {
+    "comingSoonTitle": "Disponible pronto",
+    "comingSoonDescription": "Esta pantalla llegará en las próximas versiones de la app.",
+    "checkDescription": "Te hemos enviado un enlace a {email}. Ábrelo en este teléfono para entrar.",
+    "cancel": "Cancelar",
+    "languageHint": "Elige el idioma de la app"
   }
 }

@@ -3,7 +3,7 @@
 | Campo      | Valor                                                   |
 | ---------- | ------------------------------------------------------- |
 | Estado     | Aprobado                                                |
-| Versión    | 0.1                                                     |
+| Versión    | 0.2                                                     |
 | Fecha      | 2026-10-08                                              |
 | Requisitos | RF-01, RF-09 y RF-11 de [000-producto](000-producto.md) |
 | Hito       | M4 (primera de varias specs del móvil)                  |
@@ -165,7 +165,18 @@ En Authentication → URL Configuration → Redirect URLs, añadir `exp://**` (E
 | CA-109-08 | Sin parpadeos de tema ni de idioma al abrir; la pantalla de carga se mantiene hasta que todo está listo.                                                         |
 | CA-109-09 | Con la letra del sistema al 200 % no se corta ningún texto en un iPhone SE ni en un Android mediano.                                                             |
 
-## 11. Decisiones tomadas
+## 11. Notas de implementación
+
+- **`CompleteSignIn` en `core`:** en el móvil, el código del enlace llega por un enlace profundo y hay que cambiarlo por una sesión a mano. Se añade al puerto `AuthGateway` el método `completeSignIn(linkCode)`, que el adaptador de Supabase implementa con `exchangeCodeForSession`, y el caso de uso `CompleteSignIn`. La web no lo necesita, porque `detectSessionInUrl` lo hace solo.
+- **`src/shell` en lugar de `src/app`:** Expo Router usa `src/app` como carpeta de rutas si existe, así que los proveedores de la raíz (`AppRoot`, sesión, preferencias y acciones) viven en `src/shell`. Las rutas de `app/` solo reexportan las pantallas de `src/screens`.
+- **Reinicio con aviso:** `restart(notice)` recrea el contenedor y muestra «Has entrado como…» o «Has cerrado sesión» cuando la app vuelve a estar lista. Es el equivalente al aviso que la web guarda en `sessionStorage`.
+- **Dobles de test sin Vitest:** `@applytrack/core/testing/doubles` exporta los dobles sin la suite de contrato, que importa Vitest y no se puede cargar desde Jest.
+- **Tests del móvil:** usan `renderRouter` de `expo-router/testing-library` con un `boot` falso. Están repartidos en `app.test.tsx` y `settings.test.tsx`, porque el router de Expo y NativeWind guardan estado global entre renders y Jest solo lo aísla por archivo.
+- **Dependencias directas:** con pnpm, `react-native-css-interop` tiene que ser una dependencia directa del móvil para que Metro la encuentre.
+- **Comprobación del empaquetado:** `expo export --platform android` genera el bundle sin errores. `expo-doctor` pasa las 21 comprobaciones.
+- **Pendiente de probar en un teléfono:** CA-109-05 (el enlace del correo abre Expo Go), CA-109-08 (sin parpadeos) y CA-109-09 (letra al 200 %).
+
+## 12. Decisiones tomadas
 
 1. **Raíz de composición en un paquete compartido** en lugar de duplicarla en el móvil.
 2. **NativeWind 4 con Tailwind 3** en el móvil: es la versión estable para Expo 57. Se revisará cuando salga NativeWind 5.

@@ -5,6 +5,7 @@ export class FakeAuthGateway implements AuthGateway {
   readonly requests: { email: Email; redirectTo: string }[] = [];
   failure: AuthFailure | null = null;
   validCode = "123456";
+  validLinkCode = "link-code";
   private account: Account | null = null;
 
   currentAccount(): Promise<Account | null> {
@@ -20,6 +21,13 @@ export class FakeAuthGateway implements AuthGateway {
     if (this.failure) return Promise.resolve(err(this.failure));
     if (code !== this.validCode) return Promise.resolve(err("INVALID_CODE"));
     this.account = { userId: toUserId(`user-${email}`), email };
+    return Promise.resolve(ok(this.account));
+  }
+
+  completeSignIn(linkCode: string): Promise<Result<Account, AuthFailure>> {
+    if (this.failure) return Promise.resolve(err(this.failure));
+    if (linkCode !== this.validLinkCode) return Promise.resolve(err("INVALID_CODE"));
+    this.account = { userId: toUserId("user-link"), email: "link@mail.com" as Email };
     return Promise.resolve(ok(this.account));
   }
 

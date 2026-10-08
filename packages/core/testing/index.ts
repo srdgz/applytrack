@@ -1,12 +1,3 @@
-export { calendarDate } from "./calendar-date";
+export * from "./doubles";
 export { describeApplicationRepositoryContract } from "./application-repository-contract";
-export { FakeDemoData } from "./fake-demo-data";
-export { FakeSessionProvider } from "./fake-session-provider";
-export { FixedClock } from "./fixed-clock";
-export { InMemoryApplicationRepository } from "./in-memory-application-repository";
-export { SequentialIdGenerator } from "./sequential-id-generator";
-export { aSnapshot } from "./snapshot-builder";
-export type { SnapshotOverrides } from "./snapshot-builder";
-export { FakeAuthGateway } from "./fake-auth-gateway";
-export { InMemoryPreferencesStore } from "./in-memory-preferences-store";
 export type { ContractOptions } from "./application-repository-contract";

@@ -69,6 +69,20 @@ export class VerifySignInCode {
   }
 }
 
+export class CompleteSignIn {
+  constructor(private readonly deps: AuthDeps) {}
+
+  async execute({
+    linkCode,
+  }: {
+    readonly linkCode: string;
+  }): Promise<Result<Account, AuthUseCaseError>> {
+    if (linkCode.trim() === "") return err({ code: "INVALID_CODE" });
+    const completed = await this.deps.auth.completeSignIn(linkCode);
+    return completed.ok ? ok(completed.value) : err({ code: completed.error });
+  }
+}
+
 export class SignOut {
   constructor(private readonly deps: AuthDeps) {}
 
