@@ -1,5 +1,1 @@
-import { PendingScreen } from "../../../src/screens/PendingScreen";
-
-export default function Screen() {
-  return <PendingScreen titleKey="application.editTitle" />;
-}
+export { EditApplicationScreen as default } from "../../../src/screens/FormScreens";

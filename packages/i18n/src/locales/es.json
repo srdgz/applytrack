@@ -363,6 +363,13 @@
     "currentStatus": "Estado actual: {status}",
     "opensOutside": "Se abre en el navegador",
     "salary": "Salario",
-    "moveHint": "Mantén pulsado para cambiar el estado"
+    "moveHint": "Mantén pulsado para cambiar el estado",
+    "chooseDate": "Elegir fecha",
+    "clearDate": "Quitar fecha",
+    "keepEditing": "Seguir editando",
+    "discard": "Descartar",
+    "unsavedTitle": "Cambios sin guardar",
+    "tagsHint": "Pulsa la tecla de enviar o escribe una coma para añadirla.",
+    "reviewFields": "Revisa los campos marcados."
   }
 }

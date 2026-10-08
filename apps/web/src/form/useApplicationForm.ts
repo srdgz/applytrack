@@ -2,16 +2,16 @@ import type { ApplicationStatus, FieldIssue } from "@applytrack/core";
 import { computed, nextTick, reactive, ref } from "vue";
 
 import { useUseCases } from "../di/use-cases";
-import type { FieldGroup, FormValues } from "./form-values";
+import type { FieldGroup, FormValues } from "@applytrack/presentation";
 import {
   copyValues,
-  FOCUS_TARGETS,
   groupOf,
   sameValues,
   showsAppliedAt,
   toDetailsDraft,
   toDraft,
-} from "./form-values";
+} from "@applytrack/presentation";
+import { FOCUS_TARGETS } from "./focus-targets";
 
 export interface FormOptions {
   readonly initial: FormValues;

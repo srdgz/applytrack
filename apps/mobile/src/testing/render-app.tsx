@@ -22,7 +22,7 @@ import { ComingSoonScreen } from "../screens/ComingSoonScreen";
 import { DetailScreen } from "../screens/DetailScreen";
 import { FiltersScreen } from "../screens/FiltersScreen";
 import { ListScreen } from "../screens/ListScreen";
-import { PendingScreen } from "../screens/PendingScreen";
+import { EditApplicationScreen, NewApplicationScreen } from "../screens/FormScreens";
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { SignInScreen } from "../screens/SignInScreen";
 import { SortScreen } from "../screens/SortScreen";
@@ -102,8 +102,8 @@ export const startApp = async (initialUrl: string, setup: Setup = {}) => {
       sort: SortScreen,
       "applications/[id]/index": DetailScreen,
       "applications/[id]/status": StatusScreen,
-      "applications/[id]/edit": () => <PendingScreen titleKey="application.editTitle" />,
-      "applications/new": () => <PendingScreen titleKey="application.newTitle" />,
+      "applications/[id]/edit": EditApplicationScreen,
+      "applications/new": NewApplicationScreen,
     },
     { initialUrl },
   );

@@ -363,6 +363,13 @@
     "currentStatus": "Current status: {status}",
     "opensOutside": "Opens in the browser",
     "salary": "Salary",
-    "moveHint": "Long press to change the status"
+    "moveHint": "Long press to change the status",
+    "chooseDate": "Choose date",
+    "clearDate": "Clear date",
+    "keepEditing": "Keep editing",
+    "discard": "Discard",
+    "unsavedTitle": "Unsaved changes",
+    "tagsHint": "Press the send key or type a comma to add it.",
+    "reviewFields": "Check the highlighted fields."
   }
 }

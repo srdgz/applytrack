@@ -1,4 +1,4 @@
-import { aSnapshot, calendarDate } from "@applytrack/core/testing";
+import { aSnapshot, calendarDate } from "@applytrack/core/testing/doubles";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -8,7 +8,7 @@ import {
   toDetailsDraft,
   toDraft,
   valuesFromSnapshot,
-} from "./form-values";
+} from "./form";
 
 describe("form-values", () => {
   it("un formulario nuevo empieza en «Me interesa» y en EUR", () => {

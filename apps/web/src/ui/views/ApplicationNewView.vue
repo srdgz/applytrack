@@ -4,8 +4,8 @@ import { useRouter } from "vue-router";
 
 import { useToast } from "../../composables/useToast";
 import { useUseCases } from "../../di/use-cases";
-import type { FormValues } from "../../form/form-values";
-import { emptyValues, toDraft } from "../../form/form-values";
+import type { FormValues } from "@applytrack/presentation";
+import { emptyValues, toDraft } from "@applytrack/presentation";
 import type { SaveOutcome } from "../form/ApplicationForm.vue";
 import BackButton from "../components/BackButton.vue";
 import ApplicationForm from "../form/ApplicationForm.vue";

@@ -102,20 +102,6 @@ export const groupOf = (issue: FieldIssue): FieldGroup => {
   return FIELD_GROUPS.find((group) => group === root) ?? "company";
 };
 
-export const FOCUS_TARGETS: Readonly<Record<FieldGroup, string>> = {
-  company: "field-company",
-  position: "field-position",
-  jobUrl: "field-jobUrl",
-  source: "field-source",
-  workMode: "field-workMode",
-  location: "field-location",
-  status: "field-status-wishlist",
-  appliedAt: "field-appliedAt",
-  salary: "field-salaryMin",
-  tags: "field-tags",
-  notes: "field-notes",
-};
-
 export const copyValues = (values: FormValues): FormValues => ({
   ...values,
   tags: [...values.tags],

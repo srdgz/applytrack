@@ -3,7 +3,7 @@
 | Campo      | Valor                                                           |
 | ---------- | --------------------------------------------------------------- |
 | Estado     | Aprobado                                                        |
-| Versión    | 0.1                                                             |
+| Versión    | 0.2                                                             |
 | Fecha      | 2026-10-08                                                      |
 | Requisitos | RF-02 y RF-03 de [000-producto](000-producto.md)                |
 | Hito       | M4 (la web se hizo en [100](100-crear-y-editar-candidatura.md)) |
@@ -112,7 +112,16 @@ Se reutilizan los de la web (`form`, `application`, `errors`, `notify`). Solo se
 | CA-112-08 | Con el teclado abierto, el campo activo y la barra de botones siguen a la vista.                                                               |
 | CA-112-09 | Todo funciona con VoiceOver y TalkBack, los textos nuevos están en español e inglés y con la letra al 200 % no se corta nada.                  |
 
-## 11. Decisiones tomadas
+## 11. Notas de implementación
+
+- **`usePreventRemove` de Expo Router:** Expo Router 57 incluye su propia copia de React Navigation, así que el hook se importa de `expo-router/react-navigation` y no de `@react-navigation/native`, que no encontraría el navegador.
+- **Identificadores de foco:** `FOCUS_TARGETS` depende del DOM y se queda en la web (`apps/web/src/form/focus-targets.ts`); el resto de `form-values` pasa a `presentation/src/form.ts`.
+- **Primer error:** al guardar con errores, la pantalla se desplaza a la sección del primer error. Si es un campo de texto, recibe el foco; si es un grupo de fichas o la fecha, el lector de pantalla se sitúa en él.
+- **Fecha:** en Android se abre el diálogo nativo con `DateTimePickerAndroid.open`; en iOS, el calendario en línea bajo el botón.
+- **`PendingScreen` eliminada:** ya no queda ninguna pantalla «Disponible pronto» salvo la pestaña de Estadísticas (spec 113).
+- **Pendiente de probar en un dispositivo:** CA-112-03 (selector nativo), CA-112-08 (teclado) y CA-112-09 (VoiceOver, TalkBack y letra al 200 %).
+
+## 12. Decisiones tomadas
 
 1. **Lógica del formulario en `presentation`**, como los filtros en la spec 110, en lugar de copiarla.
 2. **Fichas en lugar de desplegables** para fuente, modalidad, moneda y estado inicial: tienen pocas opciones, se ven todas de un vistazo y no necesitan otra pantalla.
