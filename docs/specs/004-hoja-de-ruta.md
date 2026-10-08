@@ -36,3 +36,4 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 9. [`108-identidad-visual.md`](108-identidad-visual.md) (transversal), implementada (web y recursos de la app; el APK, en M4)
 10. [`109-base-app-movil.md`](109-base-app-movil.md) (RF-01, RF-09, RF-11 en móvil), implementada (falta probarla en un teléfono)
 11. [`110-tablero-y-lista-movil.md`](110-tablero-y-lista-movil.md) (RF-06, RF-07, RF-08 en móvil), implementada
+12. [`111-detalle-movil.md`](111-detalle-movil.md) (RF-04, RF-05 en móvil), en implementación
