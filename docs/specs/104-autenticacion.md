@@ -3,8 +3,8 @@
 | Campo      | Valor                                                                  |
 | ---------- | ---------------------------------------------------------------------- |
 | Estado     | Aprobado                                                               |
-| Versión    | 0.2                                                                    |
-| Fecha      | 2026-10-07                                                             |
+| Versión    | 0.3                                                                    |
+| Fecha      | 2026-10-08                                                             |
 | Requisitos | RF-01 y RF-11 de [000-producto](000-producto.md), RNF-09               |
 | Hito       | M3 (núcleo, `adapter-supabase`, base de datos y web); la app móvil, M4 |
 
@@ -191,16 +191,14 @@ Se abre desde el botón «Entrar» de la pantalla de inicio, que deja de estar d
    - Campo de email con `autocomplete="email"` y `inputmode="email"`, y botón «Enviarme el enlace».
    - Validación al enviar con `validateEmail`, con el error junto al campo.
 2. **Paso 2 · Revisa tu correo:**
-   - Texto: «Te hemos enviado un enlace a `email`. Ábrelo en este navegador o escribe el código de 6 dígitos del mismo correo».
-   - Campo de código con `autocomplete="one-time-code"`, `inputmode="numeric"` y botón «Entrar».
+   - Texto: «Te hemos enviado un enlace a `email`. Ábrelo en este navegador para entrar». Debajo, en pequeño: «Si no lo encuentras, mira en la carpeta de spam».
    - **Reenviar** desactivado durante 60 s, con la cuenta atrás visible y anunciada solo al terminar, para no saturar el lector de pantalla.
    - «Usar otro email» vuelve al paso 1.
 3. Errores con aviso toast (spec 107) y mensaje junto al campo:
    - `RATE_LIMITED`: «Has pedido demasiados correos. Espera unos minutos».
-   - `INVALID_CODE`: «El código no es válido o ha caducado».
    - `AUTH_UNAVAILABLE`: «No se ha podido conectar. Revisa tu conexión».
 
-**Por qué también un código:** el enlace usa PKCE y solo funciona en el **mismo navegador** que lo pidió. El código sirve si el correo se abre en otro dispositivo, y será la forma de entrar en la app móvil desde Expo Go (M4), donde abrir enlaces profundos es poco fiable. Necesita cambiar la plantilla del correo en Supabase para incluir `{{ .Token }}` (sección 8).
+**Por qué la web no pide código (versión 0.3):** la plantilla de correo por defecto de Supabase solo incluye el enlace, y para cambiarla Supabase exige configurar un SMTP propio. Como el enlace funciona bien en la web, la pantalla deja de mencionar el código. `VerifySignInCode` y `SupabaseAuthGateway.verifyCode` se mantienen en `core` y en el adaptador para la app móvil (M4), donde el enlace no puede abrir Expo Go; allí habrá que configurar SMTP y la plantilla de `supabase/templates/magic-link.html`.
 
 ### 5.4 Vuelta desde el enlace (`/auth/callback`)
 
@@ -246,7 +244,7 @@ Pasos manuales, porque necesitan la cuenta de Supabase del proyecto:
 1. Crear un proyecto gratuito en [supabase.com](https://supabase.com) (región UE).
 2. Copiar la URL y la clave publicable en `apps/web/.env.local`.
 3. En Authentication → URL Configuration, añadir `http://localhost:5173/auth/callback` a las URL de redirección.
-4. En Authentication → Email Templates → Magic Link, usar la plantilla de `supabase/templates/magic-link.html`, con el enlace y el código.
+4. (Pendiente para M4) Configurar un SMTP propio y usar la plantilla de `supabase/templates/magic-link.html`, con el enlace y el código. La web no lo necesita.
 5. Ejecutar `pnpm supabase login`, `pnpm supabase link` y `pnpm supabase db push` para crear las tablas.
 
 ## 9. Criterios de aceptación
@@ -277,18 +275,18 @@ Pasos manuales, porque necesitan la cuenta de Supabase del proyecto:
 
 ### Web
 
-| Id        | Criterio                                                                                                                                       |
-| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| CA-104-15 | Sin variables de Supabase, la web arranca en modo demo y «Entrar» aparece desactivado con su explicación.                                      |
-| CA-104-16 | En «Entrar», un email inválido muestra el error junto al campo; uno válido pasa al paso 2 y el reenvío queda bloqueado 60 s.                   |
-| CA-104-17 | Con un código válido se recarga en `/board` en modo cuenta; con uno inválido se ve el mensaje y se puede reintentar.                           |
-| CA-104-18 | `/auth/callback` con un código válido entra; con uno caducado o de otro navegador muestra la explicación y «Volver a entrar».                  |
-| CA-104-19 | En modo cuenta no aparece el aviso de demo; se ven el email y «Cerrar sesión», que lleva a `/` sin sesión.                                     |
-| CA-104-20 | Con sesión, `/` y `/sign-in` redirigen a `/board`; sin sesión ni demo, las rutas internas redirigen a `/`.                                     |
-| CA-104-21 | Cambiar el tema a «Oscuro» se aplica al momento, se mantiene al recargar sin destello y «Sistema» vuelve a seguir al sistema operativo.        |
-| CA-104-22 | Con cuenta, cambiar idioma o tema en un navegador se ve al entrar desde otro navegador.                                                        |
-| CA-104-23 | Entrar por primera vez con el navegador en inglés deja el perfil en inglés.                                                                    |
-| CA-104-24 | Todos los textos nuevos existen en español e inglés, la pantalla «Entrar» funciona con teclado y no hay scroll horizontal de 320 px a 2560 px. |
+| Id        | Criterio                                                                                                                                                            |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CA-104-15 | Sin variables de Supabase, la web arranca en modo demo y «Entrar» aparece desactivado con su explicación.                                                           |
+| CA-104-16 | En «Entrar», un email inválido muestra el error junto al campo; uno válido pasa a «Revisa tu correo», que solo habla del enlace, y el reenvío queda bloqueado 60 s. |
+| CA-104-17 | Abrir el enlace del correo en el mismo navegador entra en `/board` en modo cuenta. La web no muestra ningún campo de código.                                        |
+| CA-104-18 | `/auth/callback` con un código válido entra; con uno caducado o de otro navegador muestra la explicación y «Volver a entrar».                                       |
+| CA-104-19 | En modo cuenta no aparece el aviso de demo; se ven el email y «Cerrar sesión», que lleva a `/` sin sesión.                                                          |
+| CA-104-20 | Con sesión, `/` y `/sign-in` redirigen a `/board`; sin sesión ni demo, las rutas internas redirigen a `/`.                                                          |
+| CA-104-21 | Cambiar el tema a «Oscuro» se aplica al momento, se mantiene al recargar sin destello y «Sistema» vuelve a seguir al sistema operativo.                             |
+| CA-104-22 | Con cuenta, cambiar idioma o tema en un navegador se ve al entrar desde otro navegador.                                                                             |
+| CA-104-23 | Entrar por primera vez con el navegador en inglés deja el perfil en inglés.                                                                                         |
+| CA-104-24 | Todos los textos nuevos existen en español e inglés, la pantalla «Entrar» funciona con teclado y no hay scroll horizontal de 320 px a 2560 px.                      |
 
 ## 10. Notas de implementación
 
@@ -303,7 +301,7 @@ Pasos manuales, porque necesitan la cuenta de Supabase del proyecto:
 
 ## 11. Decisiones tomadas
 
-1. **Enlace y código en el mismo correo**, por la limitación de PKCE y por Expo Go (5.3).
+1. **En la web, solo enlace** (versión 0.3). El código queda para la app móvil en M4, cuando se configure SMTP (5.3).
 2. **Recargar al entrar y salir** de la cuenta en vez de cambiar adaptadores en caliente (5.2).
 3. **Búsqueda en una función SQL** para que tenga las mismas reglas que el adaptador local (3.3).
 4. **El perfil gana**, salvo cuando está vacío, que hereda las del dispositivo (2.4).
