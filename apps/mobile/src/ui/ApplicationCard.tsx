@@ -31,10 +31,12 @@ export const ApplicationCard = ({
   application,
   showStatus,
   onPress,
+  onMove,
 }: {
   readonly application: ApplicationSummary;
   readonly showStatus: boolean;
   readonly onPress: () => void;
+  readonly onMove?: (() => void) | undefined;
 }) => {
   const { t, i18n } = useTranslation();
   const dark = useIsDark();
@@ -54,50 +56,66 @@ export const ApplicationCard = ({
     .filter(Boolean)
     .join(". ");
 
+  const muted = COLORS[dark ? "dark" : "light"]["ink-muted"];
+
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={label}
-      onPress={onPress}
-      className="gap-2 rounded-lg border border-border bg-surface p-4 active:opacity-80"
-    >
-      <Text numberOfLines={1} className="text-base font-semibold text-ink">
-        {application.company}
-      </Text>
-      <Text numberOfLines={2} className="text-sm text-ink-muted">
-        {application.position}
-      </Text>
-      <View className="flex-row flex-wrap items-center gap-2">
-        {showStatus && <Pill label={status} />}
-        <Pill label={t(`workMode.${application.workMode}`)} />
-        {application.archived && <Pill label={t("card.archived")} />}
-        {application.stale && (
-          <View
-            className="flex-row items-center gap-1 rounded-full bg-warning-soft px-2 py-0.5"
-            accessibilityHint={t("card.staleHint", { days: STALE_AFTER_DAYS })}
-          >
-            <Icon name="clock" size={12} color={COLORS[dark ? "dark" : "light"].warning} />
-            <Text className="text-xs font-medium text-warning">{t("card.stale")}</Text>
-          </View>
-        )}
-      </View>
-      {application.tags.length > 0 && (
-        <View className="flex-row flex-wrap gap-1">
-          {application.tags.slice(0, MAX_TAGS).map((tag) => (
-            <Text key={tag} className="rounded bg-accent-soft px-2 py-0.5 text-xs text-ink">
-              {tag}
-            </Text>
-          ))}
-          {extraTags > 0 && (
-            <Text className="px-1 py-0.5 text-xs text-ink-muted">
-              {t("card.moreTags", { count: extraTags })}
-            </Text>
+    <View className="relative rounded-lg border border-border bg-surface">
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        accessibilityHint={onMove ? t("mobile.moveHint") : undefined}
+        onPress={onPress}
+        onLongPress={onMove}
+        className={`gap-2 rounded-lg p-4 active:opacity-80 ${onMove ? "pr-14" : ""}`}
+      >
+        <Text numberOfLines={1} className="text-base font-semibold text-ink">
+          {application.company}
+        </Text>
+        <Text numberOfLines={2} className="text-sm text-ink-muted">
+          {application.position}
+        </Text>
+        <View className="flex-row flex-wrap items-center gap-2">
+          {showStatus && <Pill label={status} />}
+          <Pill label={t(`workMode.${application.workMode}`)} />
+          {application.archived && <Pill label={t("card.archived")} />}
+          {application.stale && (
+            <View
+              className="flex-row items-center gap-1 rounded-full bg-warning-soft px-2 py-0.5"
+              accessibilityHint={t("card.staleHint", { days: STALE_AFTER_DAYS })}
+            >
+              <Icon name="clock" size={12} color={COLORS[dark ? "dark" : "light"].warning} />
+              <Text className="text-xs font-medium text-warning">{t("card.stale")}</Text>
+            </View>
           )}
         </View>
+        {application.tags.length > 0 && (
+          <View className="flex-row flex-wrap gap-1">
+            {application.tags.slice(0, MAX_TAGS).map((tag) => (
+              <Text key={tag} className="rounded bg-accent-soft px-2 py-0.5 text-xs text-ink">
+                {tag}
+              </Text>
+            ))}
+            {extraTags > 0 && (
+              <Text className="px-1 py-0.5 text-xs text-ink-muted">
+                {t("card.moreTags", { count: extraTags })}
+              </Text>
+            )}
+          </View>
+        )}
+        <Text className="text-xs text-ink-muted">
+          {t("card.updated", { when: format.daysAgo(application.daysSinceUpdate) })}
+        </Text>
+      </Pressable>
+      {onMove && (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t("board.moveTo", { company: application.company })}
+          onPress={onMove}
+          className="absolute right-1 top-1 size-11 items-center justify-center rounded-full active:bg-surface-muted"
+        >
+          <Icon name="more" size={20} color={muted} />
+        </Pressable>
       )}
-      <Text className="text-xs text-ink-muted">
-        {t("card.updated", { when: format.daysAgo(application.daysSinceUpdate) })}
-      </Text>
-    </Pressable>
+    </View>
   );
 };

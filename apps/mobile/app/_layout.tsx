@@ -19,6 +19,7 @@ export default function RootLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="filters" options={{ presentation: "modal" }} />
         <Stack.Screen name="sort" options={{ presentation: "modal" }} />
+        <Stack.Screen name="applications/[id]/status" options={{ presentation: "modal" }} />
       </Stack>
     </AppRoot>
   );

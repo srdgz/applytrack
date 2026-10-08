@@ -3,7 +3,7 @@
 | Campo      | Valor                                                                                     |
 | ---------- | ----------------------------------------------------------------------------------------- |
 | Estado     | Aprobado                                                                                  |
-| Versión    | 0.1                                                                                       |
+| Versión    | 0.2                                                                                       |
 | Fecha      | 2026-10-08                                                                                |
 | Requisitos | RF-04 y RF-05 de [000-producto](000-producto.md)                                          |
 | Hito       | M4 (la web se hizo en [101](101-cambio-de-estado.md) y [106](106-archivar-y-eliminar.md)) |
@@ -130,7 +130,16 @@ Con la demo cargada:
 | CA-111-09 | El enlace a la oferta se abre en el navegador del sistema.                                                                        |
 | CA-111-10 | Todo funciona con VoiceOver y TalkBack, los textos nuevos están en español e inglés y con la letra al 200 % no se corta nada.     |
 
-## 11. Decisiones tomadas
+## 11. Notas de implementación
+
+- **Rutas:** el detalle vive en `app/applications/[id]/index.tsx`, con `status.tsx` (modal) y `edit.tsx` (pendiente de la spec 112) al lado.
+- **Tarjeta del tablero:** el botón de tres puntos es un hermano de la tarjeta y no está dentro de ella, para que VoiceOver y TalkBack lo encuentren por separado.
+- **Errores:** `describeApplicationError` traduce los errores de los casos de uso, incluida la transición no permitida con los nombres de los estados.
+- **Foco tras archivar:** se mueve a «Desarchivar» con `AccessibilityInfo.setAccessibilityFocus`, con un pequeño retraso para que el aviso ya esté en pantalla.
+- **Tests:** `detail.test.tsx` y dos casos nuevos en `board.test.tsx` (botón de tres puntos y pulsación larga).
+- **Pendiente de probar en un dispositivo:** CA-111-10 (VoiceOver, TalkBack y letra al 200 %) y la distribución en dos columnas en tableta.
+
+## 12. Decisiones tomadas
 
 1. **Cambio de estado en una pantalla modal**, la misma desde el detalle y desde el tablero, en lugar del panel de la web. En un teléfono, un panel que se despliega dentro del detalle obliga a desplazarse mucho.
 2. **Nota también desde el tablero:** al compartir pantalla con el detalle, sale gratis.

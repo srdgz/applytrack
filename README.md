@@ -6,7 +6,7 @@
 
 Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Native + Expo)** que comparten un núcleo de dominio con **arquitectura hexagonal**, escrito en TypeScript y desarrollado con **Spec-Driven Development**.
 
-> 🚧 En desarrollo. Hechos los hitos M0, M1 y M2 (núcleo, modo demo y web completa) y M3 (cuentas con Supabase). En curso: app móvil (M4), con la base, el tablero, la lista y los filtros listos. Después: calidad (M5). Ver la [hoja de ruta](docs/specs/004-hoja-de-ruta.md).
+> 🚧 En desarrollo. Hechos los hitos M0, M1 y M2 (núcleo, modo demo y web completa) y M3 (cuentas con Supabase). En curso: app móvil (M4), con la base, el tablero, la lista, los filtros y el detalle listos. Después: calidad (M5). Ver la [hoja de ruta](docs/specs/004-hoja-de-ruta.md).
 
 ## Qué hace
 
@@ -77,25 +77,26 @@ Sin más configuración, la web funciona en modo demo. Para activar las cuentas,
 
 ## Documentación
 
-| Documento                                                                    | Contenido                                            |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------- |
-| [000 · Producto](docs/specs/000-producto.md)                                 | Visión, alcance, modelo de dominio y requisitos      |
-| [001 · Arquitectura](docs/specs/001-arquitectura.md)                         | Hexagonal, SOLID, monorepo, datos y testing          |
-| [002 · i18n](docs/specs/002-i18n.md)                                         | Español e inglés: catálogos, formatos y verificación |
-| [003 · Responsive](docs/specs/003-responsive.md)                             | Breakpoints y comportamiento de cada pantalla        |
-| [004 · Hoja de ruta](docs/specs/004-hoja-de-ruta.md)                         | Hitos y estado de cada especificación                |
-| [100 · Crear y editar](docs/specs/100-crear-y-editar-candidatura.md)         | Validación, casos de uso y formulario                |
-| [101 · Cambio de estado](docs/specs/101-cambio-de-estado.md)                 | Transiciones, detalle y movimientos en el tablero    |
-| [102 · Tablero y lista](docs/specs/102-tablero-y-lista.md)                   | Búsqueda, filtros, orden y paginación                |
-| [103 · Modo demo](docs/specs/103-modo-demo.md)                               | Adaptador local y datos de ejemplo                   |
-| [104 · Autenticación](docs/specs/104-autenticacion.md)                       | Enlace mágico, preferencias y Supabase               |
-| [105 · Estadísticas](docs/specs/105-panel-estadisticas.md)                   | Métricas y panel                                     |
-| [106 · Archivar y eliminar](docs/specs/106-archivar-y-eliminar.md)           | Archivado reversible y borrado con confirmación      |
-| [109 · Base de la app móvil](docs/specs/109-base-app-movil.md)               | Navegación, modo demo, acceso y ajustes en el móvil  |
-| [110 · Tablero y lista en el móvil](docs/specs/110-tablero-y-lista-movil.md) | Tablero, lista, búsqueda y filtros en el móvil       |
-| [108 · Identidad visual](docs/specs/108-identidad-visual.md)                 | Logo, iconos y pantalla de carga                     |
-| [107 · Notificaciones](docs/specs/107-notificaciones.md)                     | Avisos compartidos web y móvil                       |
-| [ADR](docs/adr)                                                              | Decisiones de arquitectura                           |
+| Documento                                                                    | Contenido                                                  |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [000 · Producto](docs/specs/000-producto.md)                                 | Visión, alcance, modelo de dominio y requisitos            |
+| [001 · Arquitectura](docs/specs/001-arquitectura.md)                         | Hexagonal, SOLID, monorepo, datos y testing                |
+| [002 · i18n](docs/specs/002-i18n.md)                                         | Español e inglés: catálogos, formatos y verificación       |
+| [003 · Responsive](docs/specs/003-responsive.md)                             | Breakpoints y comportamiento de cada pantalla              |
+| [004 · Hoja de ruta](docs/specs/004-hoja-de-ruta.md)                         | Hitos y estado de cada especificación                      |
+| [100 · Crear y editar](docs/specs/100-crear-y-editar-candidatura.md)         | Validación, casos de uso y formulario                      |
+| [101 · Cambio de estado](docs/specs/101-cambio-de-estado.md)                 | Transiciones, detalle y movimientos en el tablero          |
+| [102 · Tablero y lista](docs/specs/102-tablero-y-lista.md)                   | Búsqueda, filtros, orden y paginación                      |
+| [103 · Modo demo](docs/specs/103-modo-demo.md)                               | Adaptador local y datos de ejemplo                         |
+| [104 · Autenticación](docs/specs/104-autenticacion.md)                       | Enlace mágico, preferencias y Supabase                     |
+| [105 · Estadísticas](docs/specs/105-panel-estadisticas.md)                   | Métricas y panel                                           |
+| [106 · Archivar y eliminar](docs/specs/106-archivar-y-eliminar.md)           | Archivado reversible y borrado con confirmación            |
+| [109 · Base de la app móvil](docs/specs/109-base-app-movil.md)               | Navegación, modo demo, acceso y ajustes en el móvil        |
+| [110 · Tablero y lista en el móvil](docs/specs/110-tablero-y-lista-movil.md) | Tablero, lista, búsqueda y filtros en el móvil             |
+| [111 · Detalle en el móvil](docs/specs/111-detalle-movil.md)                 | Detalle, cambio de estado, archivar y eliminar en el móvil |
+| [108 · Identidad visual](docs/specs/108-identidad-visual.md)                 | Logo, iconos y pantalla de carga                           |
+| [107 · Notificaciones](docs/specs/107-notificaciones.md)                     | Avisos compartidos web y móvil                             |
+| [ADR](docs/adr)                                                              | Decisiones de arquitectura                                 |
 
 ## Stack
 

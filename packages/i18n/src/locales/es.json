@@ -358,6 +358,11 @@
     "clearSearch": "Borrar búsqueda",
     "filtersCount": "Filtros ({count})",
     "loadingMore": "Cargando más…",
-    "sortDirection": "Sentido"
+    "sortDirection": "Sentido",
+    "statusScreenTitle": "Cambiar estado de {company}",
+    "currentStatus": "Estado actual: {status}",
+    "opensOutside": "Se abre en el navegador",
+    "salary": "Salario",
+    "moveHint": "Mantén pulsado para cambiar el estado"
   }
 }

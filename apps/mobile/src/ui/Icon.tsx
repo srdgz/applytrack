@@ -9,6 +9,7 @@ const paths = {
   chevronLeft: "m15 18-6-6 6-6",
   logout: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9",
   clock: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",
+  more: "M12 5h.01M12 12h.01M12 19h.01",
 } as const;
 
 export type IconName = keyof typeof paths;

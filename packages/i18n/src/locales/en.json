@@ -358,6 +358,11 @@
     "clearSearch": "Clear search",
     "filtersCount": "Filters ({count})",
     "loadingMore": "Loading more…",
-    "sortDirection": "Direction"
+    "sortDirection": "Direction",
+    "statusScreenTitle": "Change status of {company}",
+    "currentStatus": "Current status: {status}",
+    "opensOutside": "Opens in the browser",
+    "salary": "Salary",
+    "moveHint": "Long press to change the status"
   }
 }

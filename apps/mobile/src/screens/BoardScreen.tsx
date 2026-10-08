@@ -1,5 +1,11 @@
 import type { ApplicationSummary, BoardColumn, BoardColumnId } from "@applytrack/core";
-import { DEFAULT_SORT, groupForBoard, MAX_LIMIT, statusesForColumn } from "@applytrack/core";
+import {
+  DEFAULT_SORT,
+  groupForBoard,
+  isFinalStatus,
+  MAX_LIMIT,
+  statusesForColumn,
+} from "@applytrack/core";
 import { countActiveFilters, toApplicationQuery } from "@applytrack/presentation";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -77,6 +83,13 @@ export const BoardScreen = () => {
           onPress={() => {
             open(item);
           }}
+          onMove={
+            isFinalStatus(item.status)
+              ? undefined
+              : () => {
+                  router.push(`/applications/${item.id}/status`);
+                }
+          }
         />
       );
     };

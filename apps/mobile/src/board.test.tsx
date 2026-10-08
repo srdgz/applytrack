@@ -98,11 +98,36 @@ describe("Tablero", () => {
 
     await fireEvent.press(await screen.findByRole("button", { name: /^Nimbus Labs/ }));
     expect(pathname()).toMatch(/^\/applications\/.+/);
-    expect(await screen.findByText("Disponible pronto")).toBeOnTheScreen();
+    expect(await screen.findByRole("header", { name: "Nimbus Labs" })).toBeOnTheScreen();
 
     await fireEvent.press(screen.getByRole("button", { name: "Volver" }));
     await fireEvent.press(await screen.findByRole("button", { name: "Nueva candidatura" }));
     expect(pathname()).toBe("/applications/new");
+  });
+
+  it("CA-111-05 · el botón de tres puntos mueve la tarjeta a su nueva columna", async () => {
+    await startDemo();
+    await screen.findByText("Nimbus Labs");
+
+    await fireEvent.press(screen.getByRole("button", { name: "Mover Nimbus Labs a…" }));
+    await fireEvent.press(await screen.findByRole("radio", { name: "Aplicada" }));
+    await fireEvent.press(screen.getByRole("button", { name: "Guardar cambio" }));
+
+    expect(await screen.findByText("Nimbus Labs pasa a «Aplicada».")).toBeOnTheScreen();
+    await waitFor(() => {
+      expect(tabCounts()[1]).toEqual(["Aplicada", "4"]);
+    });
+    expect(tabCounts()[0]).toEqual(["Me interesa", "1"]);
+  });
+
+  it("CA-111-05 · mantener pulsada la tarjeta abre el cambio de estado", async () => {
+    await startDemo();
+
+    await fireEvent(await screen.findByRole("button", { name: /^Nimbus Labs/ }), "longPress");
+
+    expect(
+      await screen.findByRole("header", { name: "Cambiar estado de Nimbus Labs" }),
+    ).toBeOnTheScreen();
   });
 
   it("sin candidaturas da la bienvenida", async () => {

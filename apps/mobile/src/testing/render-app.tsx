@@ -19,12 +19,14 @@ import { resolveBooted } from "../di/booted";
 import { AuthCallbackScreen } from "../screens/AuthCallbackScreen";
 import { BoardScreen } from "../screens/BoardScreen";
 import { ComingSoonScreen } from "../screens/ComingSoonScreen";
+import { DetailScreen } from "../screens/DetailScreen";
 import { FiltersScreen } from "../screens/FiltersScreen";
 import { ListScreen } from "../screens/ListScreen";
 import { PendingScreen } from "../screens/PendingScreen";
 import { SettingsScreen } from "../screens/SettingsScreen";
 import { SignInScreen } from "../screens/SignInScreen";
 import { SortScreen } from "../screens/SortScreen";
+import { StatusScreen } from "../screens/StatusScreen";
 import { StartScreen } from "../screens/StartScreen";
 import { TabsLayout } from "../screens/TabsLayout";
 
@@ -98,7 +100,9 @@ export const startApp = async (initialUrl: string, setup: Setup = {}) => {
       "(app)/settings": SettingsScreen,
       filters: FiltersScreen,
       sort: SortScreen,
-      "applications/[id]": () => <PendingScreen titleKey="detail.title" />,
+      "applications/[id]/index": DetailScreen,
+      "applications/[id]/status": StatusScreen,
+      "applications/[id]/edit": () => <PendingScreen titleKey="application.editTitle" />,
       "applications/new": () => <PendingScreen titleKey="application.newTitle" />,
     },
     { initialUrl },
