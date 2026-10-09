@@ -104,4 +104,5 @@ La web ya usa `window.location.origin` para la dirección de vuelta del enlace m
   - CA-117-04: las páginas llevan las cuatro cabeceras de seguridad (más HSTS, que pone Vercel) y `/assets/`, incluida la fuente, la caché inmutable.
   - CA-117-07: Lighthouse en producción da 100 en rendimiento, accesibilidad y buenas prácticas en el inicio y el tablero.
   - El build de producción incluye la URL de Supabase, así que las cuentas están activas.
-- **Pendiente de comprobar:** entrar con email desde la web publicada (CA-117-03) y la previsualización de un PR (CA-117-05).
+  - CA-117-03: entrar con email en producción envía el enlace y vuelve a la web publicada con la sesión iniciada.
+- **Pendiente de comprobar:** la previsualización de un PR y que un commit que solo toca la app no despliegue (CA-117-05), cuando llegue el caso.
