@@ -25,6 +25,29 @@ const web: Record<ColorScheme, Record<string, string>> = {
 const channels = (hex: string) =>
   [1, 3, 5].map((start) => parseInt(hex.slice(start, start + 2), 16));
 
+const luminance = (hex: string) => {
+  const [r = 0, g = 0, b = 0] = channels(hex).map((value) => {
+    const c = value / 255;
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+
+const contrast = (first: string, second: string) => {
+  const [high, low] = [luminance(first), luminance(second)].sort((a, b) => b - a);
+  return ((high ?? 0) + 0.05) / ((low ?? 0) + 0.05);
+};
+
+const TONES = [
+  "wishlist",
+  "applied",
+  "screening",
+  "interviewing",
+  "offer",
+  "rejected",
+  "closed",
+] as const;
+
 describe("design-tokens", () => {
   it.each(["light", "dark"] as const)(
     "CA-109-02 · los colores %s coinciden con los de la web",
@@ -39,6 +62,18 @@ describe("design-tokens", () => {
             `${scheme} ${name}`,
           ).toBeLessThanOrEqual(1);
         });
+      }
+    },
+  );
+
+  it.each(["light", "dark"] as const)(
+    "CA-116-02 · los tonos de estado %s tienen contraste suficiente",
+    (scheme) => {
+      const colors = COLORS[scheme];
+      for (const tone of TONES) {
+        const strong = colors[`status-${tone}`];
+        expect(contrast(strong, colors[`status-${tone}-soft`]), tone).toBeGreaterThanOrEqual(4.5);
+        expect(contrast(strong, colors.surface), tone).toBeGreaterThanOrEqual(3);
       }
     },
   );

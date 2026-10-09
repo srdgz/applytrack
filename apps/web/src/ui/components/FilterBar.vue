@@ -90,7 +90,7 @@ const closeSheet = () => {
       <FilterControls layout="sheet" :tags="tags" />
       <button
         type="button"
-        class="bg-accent text-accent-ink mt-6 min-h-11 w-full rounded-md font-medium"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-6 min-h-11 w-full rounded-md font-medium"
         @click="closeSheet"
       >
         {{ t("filters.showResults") }}

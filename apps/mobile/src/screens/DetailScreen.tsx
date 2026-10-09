@@ -1,6 +1,6 @@
 import { isFinalStatus, toSummary } from "@applytrack/core";
 import { COLORS } from "@applytrack/design-tokens";
-import { createFormatter } from "@applytrack/presentation";
+import { createFormatter, statusTone } from "@applytrack/presentation";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import type { ReactNode } from "react";
 import { useMemo, useRef, useState } from "react";
@@ -12,7 +12,6 @@ import {
   findNodeHandle,
   Linking,
   Pressable,
-  Text,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -26,11 +25,18 @@ import { Icon } from "../ui/Icon";
 import { CardSkeleton, ResultState } from "../ui/ResultState";
 import { Screen } from "../ui/Screen";
 import { useApplication } from "./useApplication";
+import { Text } from "../ui/Text";
+import { Avatar } from "../ui/Avatar";
+import { StatusBadge } from "../ui/StatusBadge";
+import { CARD_SHADOW, TONE_CLASSES } from "../ui/tone";
 
 const WIDE = 768;
 
 const Section = ({ title, children }: { readonly title: string; readonly children: ReactNode }) => (
-  <View className="gap-3 rounded-lg border border-border bg-surface p-4">
+  <View
+    className="gap-3 rounded-2xl border border-border bg-surface p-4"
+    style={{ boxShadow: CARD_SHADOW }}
+  >
     <Text accessibilityRole="header" className="text-base font-semibold text-ink">
       {title}
     </Text>
@@ -105,7 +111,6 @@ export const DetailScreen = () => {
   const application = state.application;
   const summary = toSummary(application, today());
   const final = isFinalStatus(application.status);
-  const status = t(`status.${application.status}`);
 
   const archive = async () => {
     const result = await archiveApplication.execute({ id: application.id });
@@ -162,14 +167,17 @@ export const DetailScreen = () => {
 
   const header = (
     <View className="gap-3">
-      <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
-        {application.company}
-      </Text>
-      <Text className="text-base text-ink-muted">{application.position}</Text>
+      <View className="flex-row items-center gap-3">
+        <Avatar company={application.company} status={application.status} size="lg" />
+        <View className="flex-1 gap-0.5">
+          <Text accessibilityRole="header" className="text-2xl font-bold tracking-tight text-ink">
+            {application.company}
+          </Text>
+          <Text className="text-base text-ink-muted">{application.position}</Text>
+        </View>
+      </View>
       <View className="flex-row flex-wrap items-center gap-2">
-        <Text className="rounded-full bg-accent-soft px-3 py-1 text-sm font-medium text-ink">
-          {status}
-        </Text>
+        <StatusBadge status={application.status} />
         {summary.stale && (
           <View className="flex-row items-center gap-1 rounded-full bg-warning-soft px-3 py-1">
             <Icon name="clock" size={14} color={colors.warning} />
@@ -259,7 +267,10 @@ export const DetailScreen = () => {
         <Field label={t("filters.tags")}>
           <View className="flex-row flex-wrap gap-1">
             {application.tags.map((tag) => (
-              <Text key={tag} className="rounded bg-accent-soft px-2 py-0.5 text-sm text-ink">
+              <Text
+                key={tag}
+                className="overflow-hidden rounded-full bg-surface-muted px-2.5 py-0.5 text-sm text-ink-muted"
+              >
                 {tag}
               </Text>
             ))}
@@ -273,7 +284,10 @@ export const DetailScreen = () => {
   const historySection = (
     <Section title={t("detail.history")}>
       {history.map((change) => (
-        <View key={change.changedAt + change.to} className="gap-0.5 border-l-2 border-border pl-3">
+        <View
+          key={change.changedAt + change.to}
+          className={`gap-0.5 border-l-2 pl-3 ${TONE_CLASSES[statusTone(change.to)].border}`}
+        >
           <Text className="text-sm font-medium text-ink">
             {change.from
               ? t("detail.historyChange", {

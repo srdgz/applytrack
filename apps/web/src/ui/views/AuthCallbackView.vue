@@ -34,7 +34,7 @@ onMounted(async () => {
       <p class="text-ink-muted mt-2 text-pretty">{{ t("auth.callbackFailedDescription") }}</p>
       <RouterLink
         :to="{ name: 'sign-in' }"
-        class="bg-accent text-accent-ink mt-6 inline-flex min-h-12 items-center rounded-md px-6 font-semibold"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-6 inline-flex min-h-12 items-center rounded-md px-6 font-semibold"
       >
         {{ t("auth.tryAgain") }}
       </RouterLink>

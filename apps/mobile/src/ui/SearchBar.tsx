@@ -67,7 +67,7 @@ export const SearchBar = ({
         placeholderTextColor={colors["ink-muted"]}
         returnKeyType="search"
         autoCorrect={false}
-        className="min-h-11 flex-1 text-base text-ink"
+        className="font-sans min-h-11 flex-1 text-base text-ink"
       />
       {text !== "" && (
         <Pressable

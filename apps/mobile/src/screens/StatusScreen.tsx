@@ -4,7 +4,7 @@ import { COLORS } from "@applytrack/design-tokens";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 
 import { useToast } from "../notifications/ToastProvider";
 import { describeApplicationError } from "../shell/application-errors";
@@ -15,6 +15,7 @@ import { Chip } from "../ui/Chip";
 import { CardSkeleton } from "../ui/ResultState";
 import { Screen } from "../ui/Screen";
 import { useApplication } from "./useApplication";
+import { Text } from "../ui/Text";
 
 export const StatusScreen = () => {
   const { t } = useTranslation();
@@ -125,7 +126,7 @@ export const StatusScreen = () => {
           multiline
           maxLength={LIMITS.statusNote}
           placeholderTextColor={colors["ink-muted"]}
-          className={`min-h-24 rounded-md border bg-surface px-3 py-2 text-base text-ink ${
+          className={`font-sans min-h-24 rounded-md border bg-surface px-3 py-2 text-base text-ink ${
             issues.length > 0 ? "border-danger" : "border-border"
           }`}
           style={{ textAlignVertical: "top" }}

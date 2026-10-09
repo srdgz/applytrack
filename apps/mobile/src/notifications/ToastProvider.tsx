@@ -21,12 +21,12 @@ import {
   Easing,
   Pressable,
   StyleSheet,
-  Text,
   useColorScheme,
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Path } from "react-native-svg";
+import { Text } from "../ui/Text";
 
 const PILL_HEIGHT = 40;
 const EXPAND_DELAY_MS = 300;
@@ -378,7 +378,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: { flexShrink: 1, fontSize: 14, fontWeight: "600", maxWidth: 260, paddingRight: 4 },
+  title: {
+    flexShrink: 1,
+    fontFamily: "Inter_600SemiBold",
+    fontSize: 14,
+    maxWidth: 260,
+    paddingRight: 4,
+  },
   headerExpanded: { right: 40 },
   close: {
     position: "absolute",
@@ -399,7 +405,7 @@ const styles = StyleSheet.create({
     gap: 12,
     alignItems: "flex-start",
   },
-  description: { color: "#ffffff80", fontSize: 14, lineHeight: 20 },
+  description: { color: "#ffffff80", fontFamily: "Inter_400Regular", fontSize: 14, lineHeight: 20 },
   action: { minHeight: 36, paddingHorizontal: 16, borderRadius: 18, justifyContent: "center" },
-  actionText: { fontSize: 14, fontWeight: "600" },
+  actionText: { fontFamily: "Inter_600SemiBold", fontSize: 14 },
 });

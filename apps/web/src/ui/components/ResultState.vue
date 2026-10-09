@@ -39,7 +39,7 @@ const { activeCount, clear } = useFilters();
     <p class="text-ink-muted mt-1 text-sm">{{ t("feedback.errorDescription") }}</p>
     <button
       type="button"
-      class="bg-accent text-accent-ink mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
+      class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
       @click="$emit('retry')"
     >
       {{ t("feedback.retry") }}
@@ -65,7 +65,7 @@ const { activeCount, clear } = useFilters();
       <p class="text-ink-muted mt-1 text-sm">{{ t("empty.noneDescription") }}</p>
       <RouterLink
         :to="{ name: 'application-new' }"
-        class="bg-accent text-accent-ink mt-4 inline-flex min-h-10 items-center rounded-md px-4 text-sm font-medium"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-4 inline-flex min-h-10 items-center rounded-md px-4 text-sm font-medium"
       >
         {{ t("empty.noneAction") }}
       </RouterLink>

@@ -226,6 +226,9 @@ importers:
       '@applytrack/presentation':
         specifier: workspace:*
         version: link:../../packages/presentation
+      '@expo-google-fonts/inter':
+        specifier: ^0.4.2
+        version: 0.4.2
       '@formatjs/intl-getcanonicallocales':
         specifier: ^3.2.12
         version: 3.2.12
@@ -256,6 +259,9 @@ importers:
       expo-crypto:
         specifier: ~57.0.3
         version: 57.0.3(expo@57.0.27)
+      expo-font:
+        specifier: ~57.0.4
+        version: 57.0.4(expo@57.0.27)(react-native@0.86.3(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/jest-preset@0.86.3(@babel/core@7.29.7(supports-color@7.2.0))(react@19.2.3)(supports-color@7.2.0))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.2.18)(react@19.2.3)(supports-color@7.2.0))(react@19.2.3)
       expo-linking:
         specifier: ~57.0.12
         version: 57.0.12(expo@57.0.27)(react-native@0.86.3(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/jest-preset@0.86.3(@babel/core@7.29.7(supports-color@7.2.0))(react@19.2.3)(supports-color@7.2.0))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.2.18)(react@19.2.3)(supports-color@7.2.0))(react@19.2.3)(supports-color@7.2.0)
@@ -374,6 +380,9 @@ importers:
       '@applytrack/presentation':
         specifier: workspace:*
         version: link:../../packages/presentation
+      '@fontsource-variable/inter':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@supabase/supabase-js':
         specifier: ^2.117.2
         version: 2.117.2(@opentelemetry/api@1.9.1)
@@ -1275,6 +1284,9 @@ packages:
       '@noble/hashes':
         optional: true
 
+  '@expo-google-fonts/inter@0.4.2':
+    resolution: {integrity: sha512-syfiImMaDmq7cFi0of+waE2M4uSCyd16zgyWxdPOY7fN2VBmSLKEzkfbZgeOjJq61kSqPBNNtXjggiQiSD6gMQ==}
+
   '@expo-google-fonts/material-symbols@0.4.49':
     resolution: {integrity: sha512-HtoaXYCk7A9kOjwoxrjq6i0iDtAoQnOPm31zUn+TgmKlHVUU+yyqvQDxN830MvGmBQV8eINv/SK7JRtWhB2xcg==}
 
@@ -1542,6 +1554,9 @@ packages:
   '@expo/xcpretty@4.4.6':
     resolution: {integrity: sha512-uRaZZ/IsX1WkFW69xxTZtMeRvI5ziD9yoian+FMqdhITkU6NGvIWd5uRMh2Gbo/6xstpQ4v0GtF1V5YatTwzDA==}
     hasBin: true
+
+  '@fontsource-variable/inter@5.3.0':
+    resolution: {integrity: sha512-OupL48va4JNofb97w6NYeF9S7W/kHNKM0Er8Dem5nqi4jeOLrVJDoE8tZEpnMJmtkvNbB1EIPPwHcdkF6b1oUA==}
 
   '@formatjs/bigdecimal@0.2.7':
     resolution: {integrity: sha512-B4+XY/e4u5v261r3a37Kq2ax91gPZSKGyVpx8X5dygAggLlUz+6MeBpmAhaBFGB8WQ4JB1qD+QtKHk9aJkEb9Q==}
@@ -8185,6 +8200,8 @@ snapshots:
     optionalDependencies:
       '@noble/hashes': 1.8.0
 
+  '@expo-google-fonts/inter@0.4.2': {}
+
   '@expo-google-fonts/material-symbols@0.4.49': {}
 
   '@expo/cli@57.0.28(@expo/dom-webview@57.0.1)(@expo/metro-runtime@57.0.16)(expo-constants@57.0.21)(expo-font@57.0.4)(expo-router@57.0.25)(expo@57.0.27)(react-dom@19.3.0(react@19.2.3))(react-native@0.86.3(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/jest-preset@0.86.3(@babel/core@7.29.7(supports-color@7.2.0))(react@19.2.3)(supports-color@7.2.0))(@react-native/metro-config@0.87.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.2.18)(react@19.2.3)(supports-color@7.2.0))(react@19.2.3)(supports-color@7.2.0)(typescript@6.0.3)':
@@ -8677,6 +8694,8 @@ snapshots:
       '@babel/code-frame': 7.29.7
       chalk: 4.1.2
       js-yaml: 4.3.2
+
+  '@fontsource-variable/inter@5.3.0': {}
 
   '@formatjs/bigdecimal@0.2.7': {}
 

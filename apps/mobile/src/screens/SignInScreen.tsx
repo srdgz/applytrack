@@ -4,7 +4,7 @@ import * as Linking from "expo-linking";
 import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { AccessibilityInfo, Pressable, Text, View } from "react-native";
+import { AccessibilityInfo, Pressable, View } from "react-native";
 
 import { useSession } from "../shell/session";
 import { AppLogo } from "../brand/AppLogo";
@@ -15,6 +15,7 @@ import { Icon } from "../ui/Icon";
 import { Screen } from "../ui/Screen";
 import { TextField } from "../ui/TextField";
 import { usesPrivateIpHost } from "./redirect-url";
+import { Text } from "../ui/Text";
 
 const RESEND_SECONDS = 60;
 

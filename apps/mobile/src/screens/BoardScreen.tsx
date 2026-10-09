@@ -6,7 +6,7 @@ import {
   MAX_LIMIT,
   statusesForColumn,
 } from "@applytrack/core";
-import { countActiveFilters, toApplicationQuery } from "@applytrack/presentation";
+import { countActiveFilters, toApplicationQuery, columnTone } from "@applytrack/presentation";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,6 @@ import {
   Pressable,
   RefreshControl,
   ScrollView,
-  Text,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -27,6 +26,8 @@ import { Fab } from "../ui/Fab";
 import { CardSkeleton, ResultState } from "../ui/ResultState";
 import { Toolbar } from "../ui/Toolbar";
 import { useApplicationSearch } from "./useApplicationSearch";
+import { Text } from "../ui/Text";
+import { TONE_CLASSES } from "../ui/tone";
 
 const WIDE = 768;
 
@@ -132,9 +133,12 @@ export const BoardScreen = () => {
         >
           {columns.map((column) => (
             <View key={column.id} className="w-[280px] gap-2">
-              <Text accessibilityRole="header" className="font-semibold text-ink">
-                {title(column.id)} · {column.count}
-              </Text>
+              <View className="flex-row items-center gap-2 px-1">
+                <View className={`size-2 rounded-full ${TONE_CLASSES[columnTone(column.id)].bg}`} />
+                <Text accessibilityRole="header" className="flex-1 font-semibold text-ink">
+                  {title(column.id)} · {column.count}
+                </Text>
+              </View>
               <FlatList
                 data={column.items}
                 keyExtractor={({ id }) => id}
@@ -162,6 +166,7 @@ export const BoardScreen = () => {
         >
           {columns.map((column) => {
             const selected = column.id === activeId;
+            const tone = TONE_CLASSES[columnTone(column.id)];
             return (
               <Pressable
                 key={column.id}
@@ -175,13 +180,14 @@ export const BoardScreen = () => {
                   select(column.id);
                 }}
                 className={`min-h-11 flex-row items-center gap-2 rounded-full border px-4 ${
-                  selected ? "border-accent bg-accent-soft" : "border-border bg-surface"
+                  selected ? `${tone.border} ${tone.soft}` : "border-border bg-surface"
                 }`}
               >
+                <View className={`size-2 rounded-full ${tone.bg}`} />
                 <Text className={selected ? "font-semibold text-ink" : "text-ink-muted"}>
                   {title(column.id)}
                 </Text>
-                <Text className="text-xs text-ink-muted">{column.count}</Text>
+                <Text className={`text-xs font-semibold ${tone.text}`}>{column.count}</Text>
               </Pressable>
             );
           })}

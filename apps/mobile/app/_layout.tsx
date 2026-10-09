@@ -1,6 +1,13 @@
 import "../src/i18n/intl-polyfills";
 import "../global.css";
 
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+  useFonts,
+} from "@expo-google-fonts/inter";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -16,6 +23,15 @@ const hideSplash = () => {
 };
 
 export default function RootLayout() {
+  const [loaded, error] = useFonts({
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+  });
+
+  if (!loaded && !error) return null;
+
   return (
     <AppRoot boot={boot} onReady={hideSplash}>
       <Stack screenOptions={{ headerShown: false }}>

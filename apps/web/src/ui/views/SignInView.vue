@@ -149,7 +149,7 @@ const normalizedEmail = computed(() => email.value.trim().toLowerCase());
             />
             <button
               type="submit"
-              class="bg-accent text-accent-ink min-h-12 rounded-md px-6 font-semibold disabled:opacity-70"
+              class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 min-h-12 rounded-md px-6 font-semibold disabled:opacity-70"
               :disabled="busy || !accountsEnabled"
               :aria-busy="busy"
             >

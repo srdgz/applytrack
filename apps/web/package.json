@@ -25,6 +25,7 @@
     "@applytrack/i18n": "workspace:*",
     "@applytrack/notifications": "workspace:*",
     "@applytrack/presentation": "workspace:*",
+    "@fontsource-variable/inter": "^5.3.0",
     "@supabase/supabase-js": "^2.117.2",
     "intl-messageformat": "^12.1.2",
     "vue": "^3.5.43",

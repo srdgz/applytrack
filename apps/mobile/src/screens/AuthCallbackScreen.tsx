@@ -1,11 +1,12 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 import { useSession } from "../shell/session";
 import { Button } from "../ui/Button";
 import { Screen } from "../ui/Screen";
+import { Text } from "../ui/Text";
 
 export const AuthCallbackScreen = () => {
   const { t } = useTranslation();

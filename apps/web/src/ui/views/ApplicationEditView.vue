@@ -96,7 +96,7 @@ const save = async (values: FormValues): Promise<SaveOutcome> => {
       <p class="font-semibold">{{ t("feedback.errorTitle") }}</p>
       <button
         type="button"
-        class="bg-accent text-accent-ink mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
         @click="load"
       >
         {{ t("feedback.retry") }}

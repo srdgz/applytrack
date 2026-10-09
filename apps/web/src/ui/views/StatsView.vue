@@ -1,20 +1,25 @@
 <script setup lang="ts">
+import type { StatusTone } from "@applytrack/presentation";
 import { ACTIVE_STATUSES, CLOSED_STATUSES } from "@applytrack/core";
+import { statusTone } from "@applytrack/presentation";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink } from "vue-router";
 
 import { useDashboardStats } from "../../composables/useDashboardStats";
 import { useFormat } from "../../composables/useFormat";
+import AppIcon from "../components/AppIcon.vue";
 
 const { t } = useI18n();
 const { stats, status, reload } = useDashboardStats();
 const { ratio, shortCalendarDate } = useFormat();
 
-const rateTile = (label: string, count: number) => {
+const rateTile = (label: string, count: number, icon: "message" | "users", tone: StatusTone) => {
   const sent = stats.value?.sent ?? 0;
   return {
     label,
+    icon,
+    tone,
     value: sent ? ratio(count, sent) : "—",
     detail: sent ? t("stats.rateDetail", { count, total: sent }) : t("stats.notSentYet"),
   };
@@ -26,13 +31,17 @@ const tiles = computed(() => {
   return [
     {
       label: t("stats.active"),
+      icon: "briefcase" as const,
+      tone: "applied" as const,
       value: String(current.active),
       detail: t("stats.activeDetail", { closed: current.closed }),
     },
-    rateTile(t("stats.responseRate"), current.responded),
-    rateTile(t("stats.interviewRate"), current.interviewed),
+    rateTile(t("stats.responseRate"), current.responded, "message", "screening"),
+    rateTile(t("stats.interviewRate"), current.interviewed, "users", "interviewing"),
     {
       label: t("stats.offers"),
+      icon: "award" as const,
+      tone: "offer" as const,
       value: String(current.offered),
       detail: current.sent
         ? `${ratio(current.offered, current.sent)} · ${t("stats.rateDetail", { count: current.offered, total: current.sent })}`
@@ -80,7 +89,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
       <p class="font-semibold">{{ t("feedback.errorTitle") }}</p>
       <button
         type="button"
-        class="bg-accent text-accent-ink mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
         @click="reload"
       >
         {{ t("feedback.retry") }}
@@ -94,7 +103,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
       <h2 class="font-semibold">{{ t("stats.emptyTitle") }}</h2>
       <RouterLink
         :to="{ name: 'application-new' }"
-        class="bg-accent text-accent-ink mt-4 inline-flex min-h-10 items-center rounded-md px-4 text-sm font-medium"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-4 inline-flex min-h-10 items-center rounded-md px-4 text-sm font-medium"
       >
         {{ t("stats.emptyAction") }}
       </RouterLink>
@@ -107,10 +116,18 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
           <div
             v-for="tile in tiles"
             :key="tile.label"
-            class="border-border bg-surface flex flex-col gap-1 rounded-lg border p-4"
+            :data-tone="tile.tone"
+            class="border-border bg-surface flex flex-col gap-1 rounded-lg border p-4 shadow-sm"
           >
-            <dt class="text-ink-muted text-sm">{{ tile.label }}</dt>
-            <dd class="text-3xl font-bold tracking-tight">{{ tile.value }}</dd>
+            <dt class="text-ink-muted flex items-center gap-2 text-sm">
+              <span
+                class="flex size-8 items-center justify-center rounded-md bg-(--tone-soft) text-(--tone)"
+              >
+                <AppIcon :name="tile.icon" class="size-4" />
+              </span>
+              {{ tile.label }}
+            </dt>
+            <dd class="mt-1 text-3xl font-bold tracking-tight tabular-nums">{{ tile.value }}</dd>
             <dd class="text-ink-muted text-sm">{{ tile.detail }}</dd>
           </div>
         </dl>
@@ -119,7 +136,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
       <div class="grid gap-6 lg:grid-cols-2 lg:items-start">
         <div class="flex min-w-0 flex-col gap-6">
           <section
-            class="border-border bg-surface rounded-lg border p-4"
+            class="border-border bg-surface rounded-lg border p-4 shadow-sm"
             aria-labelledby="stats-weekly"
           >
             <h2 id="stats-weekly" class="mb-4 font-semibold">{{ t("stats.weekly") }}</h2>
@@ -140,7 +157,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
                 <span aria-hidden="true" class="text-sm font-semibold">{{ week.count }}</span>
                 <span aria-hidden="true" class="flex h-32 w-full items-end justify-center">
                   <span
-                    class="bg-accent block w-full max-w-10 min-h-0.5 rounded-t"
+                    class="bg-accent block w-full max-w-10 min-h-0.5 rounded-t-md"
                     :style="{ height: percentOf(week.count, weeklyMax) }"
                   />
                 </span>
@@ -152,7 +169,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
           </section>
 
           <section
-            class="border-border bg-surface rounded-lg border p-4"
+            class="border-border bg-surface rounded-lg border p-4 shadow-sm"
             aria-labelledby="stats-status"
           >
             <h2 id="stats-status" class="mb-4 font-semibold">{{ t("stats.byStatus") }}</h2>
@@ -163,12 +180,16 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
                   <div
                     v-for="item in group.statuses"
                     :key="item"
+                    :data-tone="statusTone(item)"
                     class="grid grid-cols-[minmax(0,8rem)_1fr_auto] items-center gap-3 text-sm"
                   >
-                    <dt class="truncate">{{ t(`status.${item}`) }}</dt>
+                    <dt class="flex min-w-0 items-center gap-2">
+                      <span aria-hidden="true" class="size-2 shrink-0 rounded-full bg-(--tone)" />
+                      <span class="truncate">{{ t(`status.${item}`) }}</span>
+                    </dt>
                     <span aria-hidden="true" class="bg-surface-muted h-2.5 rounded-full">
                       <span
-                        class="bg-accent block h-full min-w-0.5 rounded-full"
+                        class="block h-full min-w-0.5 rounded-full bg-(--tone)"
                         :style="{ width: percentOf(stats.byStatus[item], statusMax) }"
                       />
                     </span>
@@ -182,7 +203,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
 
         <div class="flex min-w-0 flex-col gap-6">
           <section
-            class="border-border bg-surface rounded-lg border p-4"
+            class="border-border bg-surface rounded-lg border p-4 shadow-sm"
             aria-labelledby="stats-source"
           >
             <h2 id="stats-source" class="mb-4 font-semibold">{{ t("stats.bySource") }}</h2>
@@ -233,7 +254,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
           </section>
 
           <section
-            class="border-border bg-surface rounded-lg border p-4"
+            class="border-border bg-surface rounded-lg border p-4 shadow-sm"
             aria-labelledby="stats-response-time"
           >
             <h2 id="stats-response-time" class="mb-2 font-semibold">
@@ -249,7 +270,7 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
           </section>
 
           <section
-            class="border-border bg-surface rounded-lg border p-4"
+            class="border-border bg-surface rounded-lg border p-4 shadow-sm"
             aria-labelledby="stats-stale"
           >
             <h2 id="stats-stale" class="mb-3 font-semibold">{{ t("stats.stale") }}</h2>

@@ -5,9 +5,10 @@ import type { Ref } from "react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { View as ViewType } from "react-native";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, View } from "react-native";
 
 import { Button } from "./Button";
+import { Text } from "./Text";
 
 const toDate = (value: string): Date => {
   const [year = 0, month = 1, day = 1] = value.split("-").map(Number);

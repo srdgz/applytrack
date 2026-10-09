@@ -301,7 +301,7 @@ const onSubmit = async () => {
       </button>
       <button
         type="submit"
-        class="bg-accent text-accent-ink min-h-11 flex-1 rounded-md px-6 font-semibold disabled:opacity-70 md:flex-none"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 min-h-11 flex-1 rounded-md px-6 font-semibold disabled:opacity-70 md:flex-none"
         :disabled="saving"
         :aria-busy="saving"
       >

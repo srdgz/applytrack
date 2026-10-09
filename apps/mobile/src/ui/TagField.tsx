@@ -5,10 +5,11 @@ import type { Ref } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TextInput as TextInputType } from "react-native";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Pressable, TextInput, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
 import { useIsDark } from "../theme/theme";
+import { Text } from "./Text";
 
 export const TagField = ({
   label,
@@ -108,7 +109,7 @@ export const TagField = ({
         accessibilityLabel={label}
         placeholder={t("form.placeholders.tags")}
         placeholderTextColor={colors["ink-muted"]}
-        className={`min-h-12 rounded-md border bg-surface px-3 text-base text-ink ${
+        className={`font-sans min-h-12 rounded-md border bg-surface px-3 text-base text-ink ${
           issues.length > 0 ? "border-danger" : "border-border"
         }`}
       />

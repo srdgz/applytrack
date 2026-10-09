@@ -27,14 +27,14 @@ const { account, signOut } = useAccount();
     <DemoBanner v-if="!account" />
 
     <header
-      class="border-border bg-surface flex items-center justify-between gap-4 border-b px-4 py-3"
+      class="border-border bg-surface/80 sticky top-0 z-30 flex items-center justify-between gap-4 border-b px-4 py-3 backdrop-blur-md"
     >
       <RouterLink :to="{ name: 'board' }" class="text-lg">
         <AppLogo :size="28" />
       </RouterLink>
       <RouterLink
         :to="{ name: 'application-new' }"
-        class="bg-accent text-accent-ink hidden items-center gap-2 rounded-md px-3 py-2 text-sm font-medium md:inline-flex"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 shadow-accent hidden items-center gap-2 rounded-md px-3.5 py-2 text-sm font-semibold transition hover:brightness-110 md:inline-flex"
       >
         <AppIcon name="plus" />
         {{ t("nav.newApplication") }}
@@ -85,7 +85,7 @@ const { account, signOut } = useAccount();
     </div>
 
     <div
-      class="border-border bg-surface fixed inset-x-0 bottom-0 z-20 border-t pb-[env(safe-area-inset-bottom)] md:hidden"
+      class="border-border bg-surface/90 fixed inset-x-0 bottom-0 z-20 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
     >
       <AppNav variant="bottom" />
     </div>
@@ -93,7 +93,7 @@ const { account, signOut } = useAccount();
     <RouterLink
       v-if="!route.meta.hideFab"
       :to="{ name: 'application-new' }"
-      class="bg-accent text-accent-ink fixed right-4 bottom-20 z-30 inline-flex size-14 items-center justify-center rounded-full shadow-lg md:hidden"
+      class="bg-accent text-accent-ink shadow-accent fixed right-4 bottom-20 z-30 inline-flex size-14 items-center justify-center rounded-2xl md:hidden"
       :aria-label="t('nav.newApplication')"
     >
       <AppIcon name="plus" class="size-6" />

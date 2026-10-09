@@ -2,12 +2,13 @@ import { SORT_DIRECTIONS, SORT_FIELDS } from "@applytrack/core";
 import { defaultDirection } from "@applytrack/presentation";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { useFilters } from "../shell/filters";
 import { Button } from "../ui/Button";
 import { Chip } from "../ui/Chip";
 import { Screen } from "../ui/Screen";
+import { Text } from "../ui/Text";
 
 export const SortScreen = () => {
   const { t } = useTranslation();

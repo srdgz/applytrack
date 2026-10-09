@@ -43,7 +43,7 @@ const tryDemo = async () => {
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <button
           type="button"
-          class="bg-accent text-accent-ink min-h-12 rounded-md px-6 font-semibold disabled:opacity-70"
+          class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 min-h-12 rounded-md px-6 font-semibold disabled:opacity-70"
           :disabled="starting"
           :aria-busy="starting"
           @click="tryDemo"

@@ -1,13 +1,14 @@
 import { Redirect, useRouter } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { useDemoActions } from "../shell/actions";
 import { useSession } from "../shell/session";
 import { AppLogo } from "../brand/AppLogo";
 import { Button } from "../ui/Button";
 import { Screen } from "../ui/Screen";
+import { Text } from "../ui/Text";
 
 export const StartScreen = () => {
   const { t } = useTranslation();

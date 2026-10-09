@@ -1,7 +1,7 @@
 import { COLORS } from "@applytrack/design-tokens";
 import { Redirect, Tabs } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useDemoActions } from "../shell/actions";
@@ -9,6 +9,7 @@ import { useSession } from "../shell/session";
 import { useIsDark } from "../theme/theme";
 import type { IconName } from "../ui/Icon";
 import { Icon } from "../ui/Icon";
+import { Text } from "../ui/Text";
 
 const tabs: readonly { name: string; icon: IconName; label: string }[] = [
   { name: "board", icon: "board", label: "nav.board" },
@@ -22,18 +23,26 @@ const DemoBanner = () => {
   const { reset, exit } = useDemoActions();
 
   return (
-    <View accessibilityLabel={t("settings.demoTitle")} className="gap-1 bg-accent-soft px-4 py-2">
-      <Text className="text-center text-sm text-ink">{t("demo.banner")}</Text>
-      <View className="flex-row justify-center gap-6">
-        <Pressable accessibilityRole="button" onPress={reset} className="min-h-11 justify-center">
-          <Text className="text-sm font-medium text-ink underline">{t("demo.reset")}</Text>
+    <View
+      accessibilityLabel={t("settings.demoTitle")}
+      className="flex-row flex-wrap items-center justify-center gap-x-3 border-b border-border bg-accent-soft px-4 py-1"
+    >
+      <View className="size-1.5 rounded-full bg-accent" />
+      <Text className="text-sm text-ink">{t("demo.banner")}</Text>
+      <View className="flex-row gap-1">
+        <Pressable
+          accessibilityRole="button"
+          onPress={reset}
+          className="min-h-11 justify-center rounded-lg px-2 active:bg-surface"
+        >
+          <Text className="text-sm font-semibold text-accent">{t("demo.reset")}</Text>
         </Pressable>
         <Pressable
           accessibilityRole="button"
           onPress={() => void exit()}
-          className="min-h-11 justify-center"
+          className="min-h-11 justify-center rounded-lg px-2 active:bg-surface"
         >
-          <Text className="text-sm font-medium text-ink underline">{t("demo.exit")}</Text>
+          <Text className="text-sm font-semibold text-accent">{t("demo.exit")}</Text>
         </Pressable>
       </View>
     </View>
@@ -59,6 +68,8 @@ export const TabsLayout = () => {
           tabBarInactiveTintColor: colors["ink-muted"],
           tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
           tabBarItemStyle: { minHeight: 48 },
+          tabBarIconStyle: { width: 56, height: 32 },
+          tabBarLabelStyle: { fontFamily: "Inter_500Medium", fontSize: 11 },
         }}
       >
         {tabs.map((tab) => (
@@ -67,7 +78,13 @@ export const TabsLayout = () => {
             name={tab.name}
             options={{
               title: t(tab.label),
-              tabBarIcon: ({ color }) => <Icon name={tab.icon} color={color} />,
+              tabBarIcon: ({ color, focused }) => (
+                <View
+                  className={`h-8 w-14 items-center justify-center rounded-full ${focused ? "bg-accent-soft" : ""}`}
+                >
+                  <Icon name={tab.icon} color={color} />
+                </View>
+              ),
             }}
           />
         ))}

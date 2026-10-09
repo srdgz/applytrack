@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ApplicationStatus } from "@applytrack/core";
-import { isActiveStatus } from "@applytrack/core";
+import { statusTone } from "@applytrack/presentation";
 import { useI18n } from "vue-i18n";
 
 defineProps<{ status: ApplicationStatus }>();
@@ -10,13 +10,10 @@ const { t } = useI18n();
 
 <template>
   <span
-    class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium"
-    :class="
-      isActiveStatus(status)
-        ? 'bg-accent-soft text-ink'
-        : 'border-border text-ink-muted border bg-transparent'
-    "
+    :data-tone="statusTone(status)"
+    class="inline-flex items-center gap-1.5 rounded-full bg-(--tone-soft) px-2 py-0.5 text-xs font-medium text-(--tone)"
   >
+    <span aria-hidden="true" class="size-1.5 rounded-full bg-(--tone)" />
     {{ t(`status.${status}`) }}
   </span>
 </template>

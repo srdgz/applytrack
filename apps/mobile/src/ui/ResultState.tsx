@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { Button } from "./Button";
+import { Text } from "./Text";
 
 export type ResultKind = "none" | "filtered" | "error";
 

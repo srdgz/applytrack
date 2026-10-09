@@ -17,7 +17,7 @@ import { useMediaQuery } from "../../composables/useMediaQuery";
 import { usePagedSearch } from "../../composables/usePagedSearch";
 import { useStatusChange } from "../../composables/useStatusChange";
 import { useToast } from "../../composables/useToast";
-import { toApplicationQuery } from "@applytrack/presentation";
+import { columnTone, toApplicationQuery } from "@applytrack/presentation";
 import ApplicationCard from "../components/ApplicationCard.vue";
 import FilterBar from "../components/FilterBar.vue";
 import ResultState from "../components/ResultState.vue";
@@ -199,12 +199,14 @@ const onDrop = async (event: DragEvent, column: BoardColumnId) => {
             :aria-selected="column.id === activeTab"
             :aria-controls="`tabpanel-${column.id}`"
             :tabindex="column.id === activeTab ? 0 : -1"
-            class="border-border aria-selected:border-accent aria-selected:bg-accent aria-selected:text-accent-ink inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border px-3 text-sm font-medium"
+            :data-tone="columnTone(column.id)"
+            class="border-border bg-surface text-ink-muted aria-selected:text-ink inline-flex min-h-10 shrink-0 items-center gap-2 rounded-full border px-3 text-sm font-medium aria-selected:border-(--tone) aria-selected:bg-(--tone-soft)"
             @click="activeTab = column.id"
             @keydown="onTabKeydown($event, index)"
           >
+            <span aria-hidden="true" class="size-2 rounded-full bg-(--tone)" />
             {{ columnTitle(column.id) }}
-            <span class="opacity-80">{{ column.count }}</span>
+            <span class="text-xs font-semibold text-(--tone)">{{ column.count }}</span>
           </button>
         </div>
         <div
@@ -235,17 +237,21 @@ const onDrop = async (event: DragEvent, column: BoardColumnId) => {
           :key="column.id"
           :aria-labelledby="`column-${column.id}`"
           :data-column="column.id"
-          class="bg-surface-muted flex w-72 shrink-0 flex-col rounded-lg p-3 transition lg:w-auto lg:min-w-0 lg:flex-1"
+          :data-tone="columnTone(column.id)"
+          class="bg-surface-muted/70 border-border/60 flex w-72 shrink-0 flex-col rounded-xl border p-3 transition lg:w-auto lg:min-w-0 lg:flex-1"
           :class="columnState(column.id)"
           @dragover="onDragOver($event, column.id)"
           @drop="onDrop($event, column.id)"
         >
           <h2
             :id="`column-${column.id}`"
-            class="mb-3 flex items-center justify-between font-semibold"
+            class="mb-3 flex items-center justify-between gap-2 px-1 text-sm font-semibold"
           >
-            <span>{{ columnTitle(column.id) }}</span>
-            <span class="bg-surface text-ink-muted rounded-full px-2 text-sm">{{
+            <span
+              class="flex min-w-0 items-center gap-2 before:size-2 before:shrink-0 before:rounded-full before:bg-(--tone)"
+              >{{ columnTitle(column.id) }}</span
+            >
+            <span class="rounded-full bg-(--tone-soft) px-2 text-xs leading-5 text-(--tone)">{{
               column.count
             }}</span>
           </h2>
@@ -310,7 +316,7 @@ const onDrop = async (event: DragEvent, column: BoardColumnId) => {
           </button>
           <button
             type="submit"
-            class="bg-accent text-accent-ink min-h-11 rounded-md px-5 font-semibold"
+            class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 min-h-11 rounded-md px-5 font-semibold"
           >
             {{ t("board.confirmMove") }}
           </button>

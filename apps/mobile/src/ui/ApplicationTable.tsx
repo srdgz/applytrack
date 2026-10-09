@@ -4,10 +4,12 @@ import { COLORS } from "@applytrack/design-tokens";
 import { createFormatter, defaultDirection } from "@applytrack/presentation";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { useIsDark } from "../theme/theme";
 import { Icon } from "./Icon";
+import { StatusBadge } from "./StatusBadge";
+import { Text } from "./Text";
 
 export const WIDE_TABLE = 768;
 
@@ -165,9 +167,9 @@ export const ApplicationRow = ({
           {application.archived ? ` · ${t("card.archived")}` : ""}
         </Text>
       </View>
-      <Text numberOfLines={2} className={`${STATUS_WIDTH} text-xs text-ink`}>
-        {status}
-      </Text>
+      <View className={STATUS_WIDTH}>
+        <StatusBadge status={application.status} size="xs" />
+      </View>
       {wide && (
         <Text className={`${MODE_WIDTH} text-xs text-ink-muted`}>
           {t(`workMode.${application.workMode}`)}

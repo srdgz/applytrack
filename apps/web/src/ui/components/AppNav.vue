@@ -38,10 +38,14 @@ const showTooltips = () => {
       <li v-for="item in items" :key="item.name" class="flex-1">
         <RouterLink
           :to="{ name: item.name }"
-          class="text-ink-muted hover:bg-surface-muted hover:text-ink flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-md px-2 text-xs"
-          active-class="!text-accent font-semibold"
+          class="group text-ink-muted hover:text-ink flex min-h-14 flex-col items-center justify-center gap-0.5 rounded-md px-2 text-xs"
+          active-class="!text-accent font-semibold is-active"
         >
-          <AppIcon :name="item.icon" class="shrink-0" />
+          <span
+            class="group-[.is-active]:bg-accent-soft flex h-7 w-12 items-center justify-center rounded-full transition-colors"
+          >
+            <AppIcon :name="item.icon" class="shrink-0" />
+          </span>
           <span>{{ t(item.label) }}</span>
         </RouterLink>
       </li>
@@ -53,7 +57,7 @@ const showTooltips = () => {
           :to="{ name: item.name }"
           class="group text-ink-muted hover:bg-surface-muted hover:text-ink relative flex min-h-11 items-center gap-3 rounded-md px-3 text-sm"
           :class="expanded ? 'justify-start' : 'justify-center'"
-          active-class="!text-accent font-semibold"
+          active-class="!text-accent !bg-accent-soft font-semibold"
         >
           <AppIcon :name="item.icon" class="shrink-0" />
           <span :class="{ 'sr-only': !expanded }">{{ t(item.label) }}</span>

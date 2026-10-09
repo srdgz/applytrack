@@ -1,22 +1,22 @@
 import type { ApplicationStatus, DashboardStats } from "@applytrack/core";
 import { ACTIVE_STATUSES, CLOSED_STATUSES } from "@applytrack/core";
-import { createFormatter } from "@applytrack/presentation";
+import { COLORS } from "@applytrack/design-tokens";
+import type { StatusTone } from "@applytrack/presentation";
+import { createFormatter, statusTone } from "@applytrack/presentation";
 import { useFocusEffect, useRouter } from "expo-router";
 import type { ReactNode } from "react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Pressable,
-  RefreshControl,
-  ScrollView,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Pressable, RefreshControl, ScrollView, useWindowDimensions, View } from "react-native";
 
 import { useUseCases } from "../shell/session";
+import { useIsDark } from "../theme/theme";
 import { Button } from "../ui/Button";
 import { CardSkeleton, ResultState } from "../ui/ResultState";
+import type { IconName } from "../ui/Icon";
+import { Icon } from "../ui/Icon";
+import { Text } from "../ui/Text";
+import { CARD_SHADOW, TONE_CLASSES } from "../ui/tone";
 
 const WIDE = 768;
 const SKELETON_DELAY_MS = 200;
@@ -28,7 +28,10 @@ type State =
   | { readonly kind: "error" };
 
 const Block = ({ title, children }: { readonly title: string; readonly children: ReactNode }) => (
-  <View className="gap-3 rounded-lg border border-border bg-surface p-4">
+  <View
+    className="gap-3 rounded-2xl border border-border bg-surface p-4"
+    style={{ boxShadow: CARD_SHADOW }}
+  >
     <Text accessibilityRole="header" className="text-base font-semibold text-ink">
       {title}
     </Text>
@@ -40,46 +43,65 @@ const Tile = ({
   label,
   value,
   detail,
+  icon,
+  tone,
   wide,
 }: {
   readonly label: string;
   readonly value: string;
   readonly detail: string;
+  readonly icon: IconName;
+  readonly tone: StatusTone;
   readonly wide: boolean;
-}) => (
-  <View
-    accessible
-    accessibilityLabel={`${label}: ${value}. ${detail}`}
-    className={`gap-1 rounded-lg border border-border bg-surface p-4 ${wide ? "flex-1" : "w-[48%] grow"}`}
-  >
-    <Text className="text-sm text-ink-muted">{label}</Text>
-    <Text className="text-2xl font-bold text-ink">{value}</Text>
-    <Text className="text-xs text-ink-muted">{detail}</Text>
-  </View>
-);
+}) => {
+  const dark = useIsDark();
+  return (
+    <View
+      accessible
+      accessibilityLabel={`${label}: ${value}. ${detail}`}
+      className={`gap-1 rounded-2xl border border-border bg-surface p-4 ${wide ? "flex-1" : "w-[48%] grow"}`}
+      style={{ boxShadow: CARD_SHADOW }}
+    >
+      <View
+        className={`mb-1 size-9 items-center justify-center rounded-md ${TONE_CLASSES[tone].soft}`}
+      >
+        <Icon name={icon} size={18} color={COLORS[dark ? "dark" : "light"][`status-${tone}`]} />
+      </View>
+      <Text className="text-sm text-ink-muted">{label}</Text>
+      <Text className="text-2xl font-bold tracking-tight text-ink">{value}</Text>
+      <Text className="text-xs text-ink-muted">{detail}</Text>
+    </View>
+  );
+};
 
 const HorizontalBar = ({
   label,
   value,
   max,
+  status,
 }: {
   readonly label: string;
   readonly value: number;
   readonly max: number;
-}) => (
-  <View accessible accessibilityLabel={`${label}: ${String(value)}`} className="gap-1">
-    <View className="flex-row justify-between gap-2">
-      <Text className="flex-1 text-sm text-ink">{label}</Text>
-      <Text className="text-sm font-semibold text-ink">{value}</Text>
+  readonly status: ApplicationStatus;
+}) => {
+  const tone = TONE_CLASSES[statusTone(status)];
+  return (
+    <View accessible accessibilityLabel={`${label}: ${String(value)}`} className="gap-1">
+      <View className="flex-row items-center justify-between gap-2">
+        <View className={`size-2 rounded-full ${tone.bg}`} />
+        <Text className="flex-1 text-sm text-ink">{label}</Text>
+        <Text className="text-sm font-semibold text-ink">{value}</Text>
+      </View>
+      <View className="h-2 overflow-hidden rounded-full bg-surface-muted">
+        <View
+          className={`h-2 rounded-full ${tone.bg}`}
+          style={{ width: `${String((value / max) * 100)}%` as `${number}%` }}
+        />
+      </View>
     </View>
-    <View className="h-2 overflow-hidden rounded-full bg-surface-muted">
-      <View
-        className="h-2 rounded-full bg-accent"
-        style={{ width: `${String((value / max) * 100)}%` as `${number}%` }}
-      />
-    </View>
-  </View>
-);
+  );
+};
 
 export const StatsScreen = () => {
   const { t, i18n } = useTranslation();
@@ -167,13 +189,27 @@ export const StatsScreen = () => {
     const tiles = [
       {
         label: t("stats.active"),
+        icon: "briefcase" as const,
+        tone: "applied" as const,
         value: String(stats.active),
         detail: t("stats.activeDetail", { closed: stats.closed }),
       },
-      { label: t("stats.responseRate"), ...rate(stats.responded) },
-      { label: t("stats.interviewRate"), ...rate(stats.interviewed) },
+      {
+        label: t("stats.responseRate"),
+        icon: "message" as const,
+        tone: "screening" as const,
+        ...rate(stats.responded),
+      },
+      {
+        label: t("stats.interviewRate"),
+        icon: "users" as const,
+        tone: "interviewing" as const,
+        ...rate(stats.interviewed),
+      },
       {
         label: t("stats.offers"),
+        icon: "award" as const,
+        tone: "offer" as const,
         value: String(stats.offered),
         detail: stats.sent
           ? `${format.ratio(stats.offered, stats.sent)} · ${t("stats.rateDetail", { count: stats.offered, total: stats.sent })}`
@@ -206,7 +242,7 @@ export const StatsScreen = () => {
               >
                 <Text className="text-xs font-semibold text-ink">{week.count}</Text>
                 <View
-                  className="w-full rounded-t bg-accent"
+                  className="w-full rounded-t-md bg-accent"
                   style={{ height: Math.max(2, (week.count / weeklyMax) * WEEK_BAR_HEIGHT) }}
                 />
                 <Text className="text-center text-[11px] text-ink-muted">{date}</Text>
@@ -230,6 +266,7 @@ export const StatsScreen = () => {
             {group.statuses.map((status: ApplicationStatus) => (
               <HorizontalBar
                 key={status}
+                status={status}
                 label={t(`status.${status}`)}
                 value={stats.byStatus[status]}
                 max={statusMax}

@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
-  Text,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -20,6 +19,7 @@ import { Fab } from "../ui/Fab";
 import { CardSkeleton, ResultState } from "../ui/ResultState";
 import { Toolbar, ToolbarButton } from "../ui/Toolbar";
 import { useApplicationSearch } from "./useApplicationSearch";
+import { Text } from "../ui/Text";
 
 export const ListScreen = () => {
   const { t } = useTranslation();

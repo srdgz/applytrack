@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ApplicationSnapshot } from "@applytrack/core";
 import { isFinalStatus, STALE_AFTER_DAYS, toSummary } from "@applytrack/core";
+import { companyInitials, statusTone } from "@applytrack/presentation";
 import { computed, nextTick, ref, shallowRef, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink, useRouter } from "vue-router";
@@ -152,7 +153,7 @@ const onSaved = async (updated: ApplicationSnapshot) => {
       <p class="font-semibold">{{ t("feedback.errorTitle") }}</p>
       <button
         type="button"
-        class="bg-accent text-accent-ink mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
+        class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 mt-4 min-h-10 rounded-md px-4 text-sm font-medium"
         @click="load"
       >
         {{ t("feedback.retry") }}
@@ -164,10 +165,23 @@ const onSaved = async (updated: ApplicationSnapshot) => {
       class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-start"
     >
       <div class="flex min-w-0 flex-col gap-4">
-        <header class="border-border bg-surface flex flex-col gap-3 rounded-lg border p-4">
-          <div class="min-w-0">
-            <h1 class="text-2xl font-bold tracking-tight break-words">{{ application.company }}</h1>
-            <p class="text-ink-muted break-words">{{ application.position }}</p>
+        <header
+          :data-tone="statusTone(application.status)"
+          class="border-border bg-surface flex flex-col gap-3 rounded-lg border border-t-4 border-t-(--tone) p-4 shadow-sm"
+        >
+          <div class="flex min-w-0 items-start gap-3">
+            <span
+              aria-hidden="true"
+              class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-(--tone-soft) font-semibold text-(--tone)"
+            >
+              {{ companyInitials(application.company) }}
+            </span>
+            <div class="min-w-0">
+              <h1 class="text-2xl font-bold tracking-tight break-words">
+                {{ application.company }}
+              </h1>
+              <p class="text-ink-muted break-words">{{ application.position }}</p>
+            </div>
           </div>
           <div class="flex flex-wrap items-center gap-2">
             <StatusBadge :status="application.status" />
@@ -185,7 +199,7 @@ const onSaved = async (updated: ApplicationSnapshot) => {
               v-if="!isFinalStatus(application.status)"
               ref="changeButton"
               type="button"
-              class="bg-accent text-accent-ink min-h-11 rounded-md px-4 font-semibold"
+              class="bg-accent text-accent-ink shadow-accent transition hover:brightness-110 min-h-11 rounded-md px-4 font-semibold"
               :aria-expanded="panelOpen"
               aria-controls="status-panel"
               @click="panelOpen = !panelOpen"
@@ -255,7 +269,7 @@ const onSaved = async (updated: ApplicationSnapshot) => {
         </div>
 
         <section
-          class="border-border bg-surface rounded-lg border p-4"
+          class="border-border bg-surface rounded-lg border p-4 shadow-sm"
           aria-labelledby="detail-data-title"
         >
           <h2 id="detail-data-title" class="mb-3 font-semibold">{{ t("detail.data") }}</h2>
@@ -302,7 +316,7 @@ const onSaved = async (updated: ApplicationSnapshot) => {
       </div>
 
       <section
-        class="border-border bg-surface rounded-lg border p-4"
+        class="border-border bg-surface rounded-lg border p-4 shadow-sm"
         aria-labelledby="detail-history-title"
       >
         <h2 id="detail-history-title" class="mb-3 font-semibold">{{ t("detail.history") }}</h2>
@@ -310,7 +324,8 @@ const onSaved = async (updated: ApplicationSnapshot) => {
           <li
             v-for="change in history"
             :key="change.changedAt + change.to"
-            class="before:bg-accent relative before:absolute before:top-1.5 before:-left-[1.3rem] before:size-2.5 before:rounded-full"
+            :data-tone="statusTone(change.to)"
+            class="before:ring-surface relative before:absolute before:top-1.5 before:-left-[1.3rem] before:size-2.5 before:rounded-full before:bg-(--tone) before:ring-4"
           >
             <p class="font-medium">
               {{

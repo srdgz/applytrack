@@ -18,7 +18,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Text,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,6 +28,7 @@ import { DateField } from "../ui/DateField";
 import { TagField } from "../ui/TagField";
 import { TextField } from "../ui/TextField";
 import type { ApplicationFormState } from "./useApplicationForm";
+import { Text } from "../ui/Text";
 
 type Section = "offer" | "process" | "salary" | "tags" | "notes";
 

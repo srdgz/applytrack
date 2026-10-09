@@ -1,13 +1,17 @@
 import type { ApplicationSummary } from "@applytrack/core";
 import { STALE_AFTER_DAYS } from "@applytrack/core";
 import { COLORS } from "@applytrack/design-tokens";
-import { createFormatter } from "@applytrack/presentation";
+import { createFormatter, statusTone } from "@applytrack/presentation";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { useIsDark } from "../theme/theme";
+import { Avatar } from "./Avatar";
 import { Icon } from "./Icon";
+import { StatusBadge } from "./StatusBadge";
+import { Text } from "./Text";
+import { CARD_SHADOW, TONE_CLASSES } from "./tone";
 
 const MAX_TAGS = 3;
 
@@ -57,25 +61,34 @@ export const ApplicationCard = ({
     .join(". ");
 
   const muted = COLORS[dark ? "dark" : "light"]["ink-muted"];
+  const tone = TONE_CLASSES[statusTone(application.status)];
 
   return (
-    <View className="relative rounded-lg border border-border bg-surface">
+    <View
+      className={`relative rounded-2xl border border-t-[3px] border-border bg-surface ${tone.borderTop}`}
+      style={{ boxShadow: CARD_SHADOW }}
+    >
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label}
         accessibilityHint={onMove ? t("mobile.moveHint") : undefined}
         onPress={onPress}
         onLongPress={onMove}
-        className={`gap-2 rounded-lg p-4 active:opacity-80 ${onMove ? "pr-14" : ""}`}
+        className={`gap-3 rounded-2xl p-4 active:opacity-80 ${onMove ? "pr-14" : ""}`}
       >
-        <Text numberOfLines={1} className="text-base font-semibold text-ink">
-          {application.company}
-        </Text>
-        <Text numberOfLines={2} className="text-sm text-ink-muted">
-          {application.position}
-        </Text>
+        <View className="flex-row items-center gap-3">
+          <Avatar company={application.company} status={application.status} />
+          <View className="flex-1 gap-0.5">
+            <Text numberOfLines={1} className="text-base font-semibold text-ink">
+              {application.company}
+            </Text>
+            <Text numberOfLines={2} className="text-sm text-ink-muted">
+              {application.position}
+            </Text>
+          </View>
+        </View>
         <View className="flex-row flex-wrap items-center gap-2">
-          {showStatus && <Pill label={status} />}
+          {showStatus && <StatusBadge status={application.status} size="xs" />}
           <Pill label={t(`workMode.${application.workMode}`)} />
           {application.archived && <Pill label={t("card.archived")} />}
           {application.stale && (
@@ -91,7 +104,10 @@ export const ApplicationCard = ({
         {application.tags.length > 0 && (
           <View className="flex-row flex-wrap gap-1">
             {application.tags.slice(0, MAX_TAGS).map((tag) => (
-              <Text key={tag} className="rounded bg-accent-soft px-2 py-0.5 text-xs text-ink">
+              <Text
+                key={tag}
+                className="overflow-hidden rounded-full bg-surface-muted px-2 py-0.5 text-xs text-ink-muted"
+              >
                 {tag}
               </Text>
             ))}

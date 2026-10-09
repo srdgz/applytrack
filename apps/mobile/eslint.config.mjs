@@ -6,6 +6,24 @@ export default [
   ...createBaseConfig({ tsconfigRootDir: import.meta.dirname }),
   {
     files: ["src/**/*.tsx", "app/**/*.tsx"],
+    ignores: ["src/**/*.test.tsx", "src/testing/**", "src/ui/Text.tsx"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "react-native",
+              importNames: ["Text"],
+              message: "Usa Text de src/ui/Text para que el texto use Inter.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ["src/**/*.tsx", "app/**/*.tsx"],
     ignores: ["src/**/*.test.tsx", "src/testing/**"],
     plugins: { i18next },
     rules: {

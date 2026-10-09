@@ -3,9 +3,10 @@ import { COLORS } from "@applytrack/design-tokens";
 import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 import type { TextInputProps } from "react-native";
-import { Text, TextInput, View } from "react-native";
+import { TextInput, View } from "react-native";
 
 import { useIsDark } from "../theme/theme";
+import { Text } from "./Text";
 
 export const TextField = ({
   label,
@@ -56,7 +57,7 @@ export const TextField = ({
         autoCapitalize="none"
         autoCorrect={false}
         placeholderTextColor={COLORS[dark ? "dark" : "light"]["ink-muted"]}
-        className={`min-h-12 rounded-md border bg-surface px-3 text-base text-ink ${
+        className={`font-sans min-h-12 rounded-md border bg-surface px-3 text-base text-ink ${
           input.multiline ? "min-h-28 py-2" : ""
         } ${invalid ? "border-danger" : "border-border"}`}
         {...input}

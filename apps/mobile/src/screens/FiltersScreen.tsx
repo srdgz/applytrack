@@ -10,13 +10,14 @@ import { useRouter } from "expo-router";
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 import { useFilters } from "../shell/filters";
 import { useUseCases } from "../shell/session";
 import { Button } from "../ui/Button";
 import { Chip } from "../ui/Chip";
 import { Screen } from "../ui/Screen";
+import { Text } from "../ui/Text";
 
 const toggle = <T,>(list: readonly T[], value: T): T[] =>
   list.includes(value) ? list.filter((item) => item !== value) : [...list, value];

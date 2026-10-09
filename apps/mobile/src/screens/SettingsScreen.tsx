@@ -3,12 +3,13 @@ import { THEME_PREFERENCES } from "@applytrack/core";
 import { SUPPORTED_LOCALES } from "@applytrack/i18n";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { useAccount, useDemoActions } from "../shell/actions";
 import { usePreferences } from "../shell/preferences";
 import { Button } from "../ui/Button";
 import { Screen } from "../ui/Screen";
+import { Text } from "../ui/Text";
 
 const Section = ({ title, children }: { readonly title: string; readonly children: ReactNode }) => (
   <View className="gap-3 rounded-lg border border-border bg-surface p-4">

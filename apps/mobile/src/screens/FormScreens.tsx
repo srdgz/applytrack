@@ -6,7 +6,7 @@ import { usePreventRemove } from "expo-router/react-navigation";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Alert, Pressable, View } from "react-native";
 
 import { useToast } from "../notifications/ToastProvider";
 import { describeApplicationError } from "../shell/application-errors";
@@ -20,6 +20,7 @@ import type { ApplicationFormHandle } from "./ApplicationForm";
 import { ApplicationForm } from "./ApplicationForm";
 import { useApplication } from "./useApplication";
 import { useApplicationForm } from "./useApplicationForm";
+import { Text } from "../ui/Text";
 
 const Header = ({ title, onBack }: { readonly title: string; readonly onBack: () => void }) => {
   const { t } = useTranslation();

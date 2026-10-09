@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ApplicationStatus, ApplicationSummary } from "@applytrack/core";
 import { STALE_AFTER_DAYS } from "@applytrack/core";
+import { companyInitials, statusTone } from "@applytrack/presentation";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { RouterLink } from "vue-router";
@@ -34,6 +35,8 @@ const onDragStart = (event: DragEvent) => {
 const { t } = useI18n();
 const { daysAgo } = useFormat();
 
+const tone = computed(() => statusTone(props.application.status));
+const initials = computed(() => companyInitials(props.application.company));
 const visibleTags = computed(() => props.application.tags.slice(0, MAX_TAGS));
 const hiddenTags = computed(() => props.application.tags.length - visibleTags.value.length);
 const label = computed(() =>
@@ -47,22 +50,33 @@ const label = computed(() =>
 
 <template>
   <article
-    class="group border-border bg-surface hover:border-accent has-[a:focus-visible]:outline-accent relative rounded-lg border p-3 shadow-xs transition-colors has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2"
+    :data-tone="tone"
+    class="group border-border bg-surface has-[a:focus-visible]:outline-accent relative rounded-lg border border-t-3 border-t-(--tone) p-3.5 shadow-sm transition-shadow duration-200 hover:shadow-md has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2"
     :class="{ 'cursor-grab active:cursor-grabbing': draggable }"
     :draggable="draggable ? 'true' : undefined"
     @dragstart="onDragStart"
     @dragend="emit('dragend')"
   >
-    <h3 class="text-ink truncate font-semibold" :title="application.company">
-      <RouterLink
-        :to="{ name: 'application', params: { id: application.id } }"
-        :aria-label="label"
-        class="after:absolute after:inset-0 after:rounded-lg focus-visible:outline-none"
+    <div class="flex items-start gap-3">
+      <span
+        aria-hidden="true"
+        class="flex size-9 shrink-0 items-center justify-center rounded-md bg-(--tone-soft) text-xs font-semibold text-(--tone) lg:hidden 2xl:flex"
       >
-        {{ application.company }}
-      </RouterLink>
-    </h3>
-    <p class="text-ink-muted mt-0.5 line-clamp-2 text-sm">{{ application.position }}</p>
+        {{ initials }}
+      </span>
+      <div class="min-w-0">
+        <h3 class="text-ink truncate font-semibold tracking-tight" :title="application.company">
+          <RouterLink
+            :to="{ name: 'application', params: { id: application.id } }"
+            :aria-label="label"
+            class="after:absolute after:inset-0 after:rounded-lg focus-visible:outline-none"
+          >
+            {{ application.company }}
+          </RouterLink>
+        </h3>
+        <p class="text-ink-muted mt-0.5 line-clamp-2 text-sm">{{ application.position }}</p>
+      </div>
+    </div>
 
     <div class="mt-3 flex flex-wrap items-center gap-1.5 text-xs">
       <StatusBadge v-if="showStatus" :status="application.status" />
@@ -89,7 +103,7 @@ const label = computed(() =>
       <li
         v-for="tag in visibleTags"
         :key="tag"
-        class="border-border text-ink-muted rounded border px-1.5"
+        class="bg-surface-muted text-ink-muted rounded-full px-2 py-0.5"
       >
         {{ tag }}
       </li>

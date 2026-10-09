@@ -2,10 +2,11 @@ import { countActiveFilters } from "@applytrack/presentation";
 import { useRouter } from "expo-router";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { useFilters } from "../shell/filters";
 import { SearchBar } from "./SearchBar";
+import { Text } from "./Text";
 
 export const ToolbarButton = ({
   label,
