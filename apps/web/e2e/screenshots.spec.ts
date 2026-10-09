@@ -30,10 +30,9 @@ const screens = [
 
 const README_SHOTS = new Set([
   "board-1280-light-es",
-  "board-360-dark-es",
   "list-1280-light-es",
+  "form-1280-light-es",
   "stats-1280-dark-es",
-  "form-360-light-es",
 ]);
 
 const settle = async (page: Page) => {

@@ -12,7 +12,7 @@ name: Modo demo
 - assertVisible: "Modo demo · los datos solo se guardan en este dispositivo"
 - assertVisible: "Me interesa, 2 candidaturas"
 - assertVisible: "Aplicada, 3 candidaturas"
-- assertVisible: "Primer contacto, 2 candidaturas"
+- tapOn: "Primer contacto, 2 candidaturas"
 - tapOn: "Entrevistas, 2 candidaturas"
 - tapOn: "Oferta, 1 candidatura"
 - assertVisible: "Cerradas, 4 candidaturas"
