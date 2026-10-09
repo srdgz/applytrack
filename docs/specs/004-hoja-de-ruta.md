@@ -41,3 +41,4 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 14. [`113-estadisticas-movil.md`](113-estadisticas-movil.md) (RF-10 en móvil), implementada
 15. [`114-calidad-web.md`](114-calidad-web.md) (RNF-03 a RNF-07 en web), implementada
 16. [`115-calidad-movil-y-readme.md`](115-calidad-movil-y-readme.md) (RNF-07 en móvil y README), implementada
+17. [`116-rediseno-visual.md`](116-rediseno-visual.md) (transversal, web y móvil), implementada (faltan las capturas de la app)
