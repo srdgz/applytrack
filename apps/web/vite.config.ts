@@ -14,6 +14,9 @@ export default defineConfig({
     __VUE_I18N_LEGACY_API__: false,
     __INTLIFY_PROD_DEVTOOLS__: false,
   },
+  build: {
+    manifest: true,
+  },
   server: {
     port: 5173,
     strictPort: true,

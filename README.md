@@ -66,14 +66,17 @@ El emulador de Android necesita Android Studio con un dispositivo virtual creado
 
 Sin más configuración, la web funciona en modo demo. Para activar las cuentas, copia `apps/web/.env.example` y `apps/mobile/.env.example` a `.env.local` en la misma carpeta, con la URL y la clave publicable de un proyecto de Supabase, y aplica las migraciones con `pnpm supabase link` y `pnpm supabase db push`. Los pasos completos están en la [spec 104](docs/specs/104-autenticacion.md#8-configuración-del-proyecto-en-supabase).
 
-| Comando          | Qué hace                                              |
-| ---------------- | ----------------------------------------------------- |
-| `pnpm lint`      | ESLint en todos los paquetes                          |
-| `pnpm typecheck` | Comprobación de tipos con TypeScript                  |
-| `pnpm test`      | Vitest (paquetes y web) y Jest (móvil), con cobertura |
-| `pnpm depcruise` | Reglas de dependencia de la arquitectura hexagonal    |
-| `pnpm format`    | Formatea el código con Prettier                       |
-| `pnpm build`     | Compila la web                                        |
+| Comando            | Qué hace                                              |
+| ------------------ | ----------------------------------------------------- |
+| `pnpm lint`        | ESLint en todos los paquetes                          |
+| `pnpm typecheck`   | Comprobación de tipos con TypeScript                  |
+| `pnpm test`        | Vitest (paquetes y web) y Jest (móvil), con cobertura |
+| `pnpm depcruise`   | Reglas de dependencia de la arquitectura hexagonal    |
+| `pnpm format`      | Formatea el código con Prettier                       |
+| `pnpm build`       | Compila la web                                        |
+| `pnpm e2e`         | E2E y accesibilidad de la web con Playwright y axe    |
+| `pnpm lighthouse`  | Presupuesto de JavaScript y Lighthouse en móvil       |
+| `pnpm screenshots` | Capturas de la web para el README                     |
 
 ## Documentación
 
@@ -96,15 +99,16 @@ Sin más configuración, la web funciona en modo demo. Para activar las cuentas,
 | [111 · Detalle en el móvil](docs/specs/111-detalle-movil.md)                 | Detalle, cambio de estado, archivar y eliminar en el móvil |
 | [112 · Formulario en el móvil](docs/specs/112-formulario-movil.md)           | Crear y editar candidaturas en el móvil                    |
 | [113 · Estadísticas en el móvil](docs/specs/113-estadisticas-movil.md)       | Panel de estadísticas en el móvil                          |
+| [114 · Calidad de la web](docs/specs/114-calidad-web.md)                     | E2E, accesibilidad, rendimiento y textos sin traducir      |
 | [108 · Identidad visual](docs/specs/108-identidad-visual.md)                 | Logo, iconos y pantalla de carga                           |
 | [107 · Notificaciones](docs/specs/107-notificaciones.md)                     | Avisos compartidos web y móvil                             |
 | [ADR](docs/adr)                                                              | Decisiones de arquitectura                                 |
 
 ## Stack
 
-**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions
+**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · Playwright · axe · Lighthouse · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions
 
-**Previsto:** Playwright · axe · Maestro (M5) · Vercel · EAS
+**Previsto:** Maestro (M5) · Vercel · EAS
 
 ## Forma de trabajo
 

@@ -1,6 +1,4 @@
 import { fromSyncStorage } from "@applytrack/adapter-local";
-import { createSupabaseAdapters } from "@applytrack/adapter-supabase";
-import { createClient } from "@supabase/supabase-js";
 
 import { createContainer } from "./container";
 import type { UseCases } from "./use-cases";
@@ -20,6 +18,10 @@ export const createBrowserContainer = async (): Promise<UseCases> => {
   const config = readSupabaseConfig(import.meta.env);
   if (!config) return createContainer({ store, warn });
 
+  const [{ createClient }, { createSupabaseAdapters }] = await Promise.all([
+    import("@supabase/supabase-js"),
+    import("@applytrack/adapter-supabase"),
+  ]);
   const client = createClient(config.url, config.publishableKey, {
     auth: {
       flowType: "pkce",

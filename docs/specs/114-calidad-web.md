@@ -3,7 +3,7 @@
 | Campo      | Valor                                                                                                                                          |
 | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
 | Estado     | Aprobado                                                                                                                                       |
-| Versión    | 0.1                                                                                                                                            |
+| Versión    | 0.2                                                                                                                                            |
 | Fecha      | 2026-10-09                                                                                                                                     |
 | Requisitos | RNF-03, RNF-04, RNF-05, RNF-06 y RNF-07 de [000-producto](000-producto.md); [002](002-i18n.md), sección 7; [003](003-responsive.md), sección 5 |
 | Hito       | M5 (primera parte; el móvil, en la spec 115)                                                                                                   |
@@ -113,7 +113,18 @@ Los escenarios de [000-producto](000-producto.md) (sección 8), más los que cub
 | CA-114-07 | Las reglas de textos sin traducir están activas en web y móvil, y el lint pasa.                                   |
 | CA-114-08 | La CI sube el informe de Playwright, las 48 capturas de referencia y el informe de Lighthouse como artefactos.    |
 
-## 10. Decisiones tomadas
+## 10. Notas de implementación
+
+- **Lighthouse con un script propio** (`apps/web/scripts/lighthouse.mjs`) en lugar de `@lhci/cli`. Para medir el tablero hay que iniciar antes la demo, y Lighthouse CI lo hace con Puppeteer y su propio Chrome. El script usa la API de Lighthouse sobre el Chromium de Playwright y el servidor de `vite preview`, hace 3 ejecuciones por página y compara la mediana. Los informes HTML quedan en `apps/web/.lighthouseci/`. Resultado actual: 100 en rendimiento, accesibilidad y buenas prácticas, y 91 en SEO, en inicio y tablero.
+- **Supabase se carga solo si hace falta:** `createBrowserContainer` importa `@supabase/supabase-js` y `adapter-supabase` de forma diferida cuando hay claves. El JavaScript inicial bajó de 185 a 131 KB comprimidos.
+- **Fallo de accesibilidad corregido:** axe detectó que la tabla de «Por fuente» de Estadísticas se desplazaba en horizontal a 360 px sin poder alcanzarla con el teclado. Ahora es una región con nombre y `tabindex="0"`.
+- **Meta descripción** en `index.html`, que sube SEO de 82 a 91.
+- **Avisos en los E2E:** cada aviso tiene una copia en una región `status` para el lector de pantalla. El helper `expectToast` lo busca ahí para no encontrar el texto dos veces.
+- **Textos sin traducir:** al activar las dos reglas no apareció ningún texto escrito a mano. Se comprobó con un componente de prueba que las reglas sí fallan.
+- **Navegadores dentro del proyecto:** `PLAYWRIGHT_BROWSERS_PATH=0` instala Chromium en `node_modules` (`pnpm --filter @applytrack/web e2e:install`), sin escribir en carpetas globales.
+- **Capturas para el README:** `pnpm screenshots` las genera en `docs/screenshots/`; se añadirán al README en la spec 115.
+
+## 11. Decisiones tomadas
 
 1. **Dividir M5 en dos specs:** la web (114) y el móvil con Maestro y el README con capturas (115).
 2. **Solo Chromium,** para que la CI sea rápida; los demás navegadores quedan como mejora.

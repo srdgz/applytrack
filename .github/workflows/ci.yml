@@ -96,3 +96,84 @@ jobs:
 
       - name: Contrato y RLS
         run: pnpm --filter @applytrack/adapter-supabase test
+
+  e2e:
+    name: E2E, accesibilidad y capturas de la web
+    runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: "0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Instalar Chromium
+        run: pnpm --filter @applytrack/web exec playwright install --with-deps chromium
+
+      - name: E2E y axe en los 4 tamaños
+        run: pnpm --filter @applytrack/web e2e
+
+      - name: Capturas de referencia
+        if: always()
+        run: pnpm --filter @applytrack/web screenshots
+
+      - name: Informe de Playwright
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report
+          retention-days: 14
+
+      - name: Capturas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: apps/web/screenshots
+          retention-days: 14
+
+  lighthouse:
+    name: Rendimiento de la web
+    runs-on: ubuntu-latest
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: "0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Instalar Chromium
+        run: pnpm --filter @applytrack/web exec playwright install --with-deps chromium
+
+      - name: Build
+        run: pnpm --filter @applytrack/web build
+
+      - name: Presupuesto de JavaScript
+        run: pnpm --filter @applytrack/web size
+
+      - name: Lighthouse
+        run: pnpm --filter @applytrack/web lighthouse
+
+      - name: Informes de Lighthouse
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse
+          path: apps/web/.lighthouseci
+          include-hidden-files: true
+          retention-days: 14

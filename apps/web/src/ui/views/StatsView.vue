@@ -189,7 +189,13 @@ const percentOf = (value: number, max: number) => `${String((value / max) * 100)
             <p v-if="!stats.bySource.length" class="text-ink-muted text-sm">
               {{ t("stats.notSentYet") }}
             </p>
-            <div v-else class="overflow-x-auto">
+            <div
+              v-else
+              class="overflow-x-auto"
+              tabindex="0"
+              role="region"
+              :aria-label="t('stats.bySource')"
+            >
               <table class="w-full text-left text-sm">
                 <caption class="sr-only">
                   {{

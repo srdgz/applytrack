@@ -10,3 +10,7 @@ coverage/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+test-results/
+playwright-report/
+.lighthouseci/
+apps/web/screenshots/
