@@ -42,4 +42,4 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 15. [`114-calidad-web.md`](114-calidad-web.md) (RNF-03 a RNF-07 en web), implementada
 16. [`115-calidad-movil-y-readme.md`](115-calidad-movil-y-readme.md) (RNF-07 en móvil y README), implementada
 17. [`116-rediseno-visual.md`](116-rediseno-visual.md) (transversal, web y móvil), implementada
-18. [`117-despliegue-web.md`](117-despliegue-web.md) (RNF-08, despliegue de la web y README de la app), implementada (falta crear el proyecto en Vercel)
+18. [`117-despliegue-web.md`](117-despliegue-web.md) (RNF-08, despliegue de la web y README de la app), implementada (web publicada en applytrack-roan.vercel.app)

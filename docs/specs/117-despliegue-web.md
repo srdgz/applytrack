@@ -3,7 +3,7 @@
 | Campo      | Valor                                                                                   |
 | ---------- | --------------------------------------------------------------------------------------- |
 | Estado     | Aprobado                                                                                |
-| Versión    | 0.2                                                                                     |
+| Versión    | 0.3                                                                                     |
 | Fecha      | 2026-10-09                                                                              |
 | Requisitos | RNF-08 de [000](000-producto.md); sección de CD de [001](001-arquitectura.md); ADR-0006 |
 | Hito       | M5 (cierre)                                                                             |
@@ -96,5 +96,12 @@ La web ya usa `window.location.origin` para la dirección de vuelta del enlace m
 - **`vercel.json`** declara también `framework`, `buildCommand` (`pnpm run build`) y `outputDirectory`, para que el despliegue no dependa de lo que se elija en el panel.
 - **Sin cabecera propia para `index.html`:** con la reescritura, las páginas se piden como `/board` o `/list`, no como `/index.html`, así que una regla para ese archivo no se aplicaría. Vercel ya sirve el HTML con `max-age=0, must-revalidate`.
 - **Test de la configuración:** `apps/web/vercel.test.ts` comprueba la reescritura, las cabeceras de caché y seguridad y el `ignoreCommand` (CA-117-02, 04 y 05 en lo que se puede comprobar sin desplegar).
-- **Dominio en el README:** se usa `applytrack.vercel.app`. Si Vercel asigna otro, hay que cambiarlo en el README y en Supabase.
-- **Pendiente:** crear el proyecto en Vercel, configurar Supabase y comprobar CA-117-01, 03, 05 y 07 sobre la web publicada.
+- **Dominio:** `applytrack.vercel.app` estaba ocupado y Vercel asignó `applytrack-roan.vercel.app`, que es el que usan el README y Supabase.
+- **Lighthouse en producción:** `pnpm --filter @applytrack/web lighthouse:production` ejecuta el mismo script contra la URL publicada (variable `LIGHTHOUSE_URL`, sin servidor local).
+- **Comprobado en producción (2026-10-09):**
+  - CA-117-01: «Probar sin cuenta» abre el tablero con los datos de ejemplo.
+  - CA-117-02: `/`, `/board`, `/list`, `/stats`, `/applications/demo-01` y `/auth/callback` devuelven la web, y al recargar el detalle se ve la candidatura.
+  - CA-117-04: las páginas llevan las cuatro cabeceras de seguridad (más HSTS, que pone Vercel) y `/assets/`, incluida la fuente, la caché inmutable.
+  - CA-117-07: Lighthouse en producción da 100 en rendimiento, accesibilidad y buenas prácticas en el inicio y el tablero.
+  - El build de producción incluye la URL de Supabase, así que las cuentas están activas.
+- **Pendiente de comprobar:** entrar con email desde la web publicada (CA-117-03) y la previsualización de un PR (CA-117-05).

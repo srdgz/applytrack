@@ -3,11 +3,11 @@
 # ApplyTrack
 
 [![CI](https://github.com/srdgz/applytrack/actions/workflows/ci.yml/badge.svg)](https://github.com/srdgz/applytrack/actions/workflows/ci.yml)
-[![Demo](https://img.shields.io/badge/demo-applytrack.vercel.app-4f46e5)](https://applytrack.vercel.app)
+[![Demo](https://img.shields.io/badge/demo-applytrack--roan.vercel.app-4f46e5)](https://applytrack-roan.vercel.app)
 
 Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Native + Expo)** que comparten un núcleo de dominio con **arquitectura hexagonal**, escrito en TypeScript y desarrollado con **Spec-Driven Development**.
 
-**Pruébalo en [applytrack.vercel.app](https://applytrack.vercel.app)** con «Probar sin cuenta», o entra con tu email.
+**Pruébalo en [applytrack-roan.vercel.app](https://applytrack-roan.vercel.app)** con «Probar sin cuenta», o entra con tu email.
 
 ## Capturas
 
@@ -53,7 +53,7 @@ Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Nativ
 
 ### En el navegador
 
-Abre [applytrack.vercel.app](https://applytrack.vercel.app) y pulsa «Probar sin cuenta» para ver la web con 15 candidaturas de ejemplo guardadas solo en tu navegador, o entra con tu email para guardar las tuyas.
+Abre [applytrack-roan.vercel.app](https://applytrack-roan.vercel.app) y pulsa «Probar sin cuenta» para ver la web con 15 candidaturas de ejemplo guardadas solo en tu navegador, o entra con tu email para guardar las tuyas.
 
 ### App móvil
 

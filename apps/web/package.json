@@ -16,7 +16,8 @@
     "e2e:install": "cross-env PLAYWRIGHT_BROWSERS_PATH=0 playwright install chromium",
     "screenshots:readme": "cross-env PLAYWRIGHT_BROWSERS_PATH=0 README_SCREENSHOTS=1 playwright test --project=screenshots",
     "size": "node scripts/check-bundle-size.mjs",
-    "lighthouse": "cross-env PLAYWRIGHT_BROWSERS_PATH=0 node scripts/lighthouse.mjs"
+    "lighthouse": "cross-env PLAYWRIGHT_BROWSERS_PATH=0 node scripts/lighthouse.mjs",
+    "lighthouse:production": "cross-env PLAYWRIGHT_BROWSERS_PATH=0 LIGHTHOUSE_URL=https://applytrack-roan.vercel.app node scripts/lighthouse.mjs"
   },
   "dependencies": {
     "@applytrack/adapter-local": "workspace:*",

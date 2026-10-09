@@ -12,7 +12,8 @@ const RUNS = 3;
 const MINIMUM = { performance: 0.9, accessibility: 0.9 };
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUTPUT = join(ROOT, ".lighthouseci");
-const BASE = `http://localhost:${String(PORT)}`;
+const REMOTE = process.env.LIGHTHOUSE_URL?.replace(/\/$/, "");
+const BASE = REMOTE ?? `http://localhost:${String(PORT)}`;
 
 const pages = [
   { name: "inicio", path: "/", demo: false },
@@ -25,7 +26,9 @@ const median = (values) => {
 };
 
 mkdirSync(OUTPUT, { recursive: true });
-const server = await preview({ root: ROOT, preview: { port: PORT, strictPort: true } });
+const server = REMOTE
+  ? null
+  : await preview({ root: ROOT, preview: { port: PORT, strictPort: true } });
 const browser = await chromium.launch({ args: [`--remote-debugging-port=${String(DEBUG_PORT)}`] });
 let failed = false;
 
@@ -82,7 +85,7 @@ try {
   }
 } finally {
   await browser.close();
-  await server.close();
+  await server?.close();
 }
 
 if (failed) process.exit(1);
