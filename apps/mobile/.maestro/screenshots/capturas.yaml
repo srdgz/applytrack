@@ -2,21 +2,21 @@ appId: host.exp.exponent
 name: Capturas para el README
 ---
 - runFlow: ../common/start-demo.yaml
-- takeScreenshot: ../../docs/screenshots/mobile-board-light
+- takeScreenshot: mobile-board-light
 - tapOn: "Lista"
-- takeScreenshot: ../../docs/screenshots/mobile-list-light
+- takeScreenshot: mobile-list-light
 - tapOn: "Kraken Games"
-- takeScreenshot: ../../docs/screenshots/mobile-detail-light
+- takeScreenshot: mobile-detail-light
 - tapOn: "Volver"
 - tapOn: "Nueva candidatura"
-- takeScreenshot: ../../docs/screenshots/mobile-form-light
+- takeScreenshot: mobile-form-light
 - tapOn: "Cancelar"
 - tapOn: "Estadísticas"
-- takeScreenshot: ../../docs/screenshots/mobile-stats-light
+- takeScreenshot: mobile-stats-light
 - tapOn: "Ajustes"
 - tapOn: "Oscuro"
-- takeScreenshot: ../../docs/screenshots/mobile-settings-dark
+- takeScreenshot: mobile-settings-dark
 - tapOn: "Tablero"
-- takeScreenshot: ../../docs/screenshots/mobile-board-dark
+- takeScreenshot: mobile-board-dark
 - tapOn: "Estadísticas"
-- takeScreenshot: ../../docs/screenshots/mobile-stats-dark
+- takeScreenshot: mobile-stats-dark

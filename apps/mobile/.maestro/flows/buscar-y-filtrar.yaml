@@ -5,11 +5,10 @@ name: Buscar y filtrar
 - tapOn: "Lista"
 - tapOn: "Buscar"
 - inputText: "nordica"
-- hideKeyboard
 - extendedWaitUntil:
-    visible: "Mostrando 1 de 1"
+    visible: "Nórdica Media"
     timeout: 10000
-- assertVisible: "Nórdica Media"
+- assertNotVisible: "Nimbus Labs"
 - tapOn: "Borrar búsqueda"
 - tapOn: "Filtros"
 - tapOn:

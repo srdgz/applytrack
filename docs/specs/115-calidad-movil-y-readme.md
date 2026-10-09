@@ -3,7 +3,7 @@
 | Campo      | Valor                                                                              |
 | ---------- | ---------------------------------------------------------------------------------- |
 | Estado     | Aprobado                                                                           |
-| Versión    | 0.2                                                                                |
+| Versión    | 0.3                                                                                |
 | Fecha      | 2026-10-09                                                                         |
 | Requisitos | RNF-07 de [000-producto](000-producto.md); sección 8 de [001](001-arquitectura.md) |
 | Hito       | M5 (segunda parte; la web se hizo en [114](114-calidad-web.md))                    |
@@ -99,7 +99,16 @@ Un flujo de Maestro, `capturas.yaml`, recorre el inicio, el tablero, el detalle,
 - **Botones de los diálogos de Android:** pueden mostrarse en mayúsculas, así que se buscan sin distinguir mayúsculas (`(?i)`).
 - **Opciones repetidas en pantalla:** cuando un texto aparece también en la pantalla de debajo (por ejemplo, «Aplicada» en las pestañas del tablero y en el cambio de estado), se usa un selector relativo (`below`).
 - **Capturas de la web:** generadas con `pnpm screenshots` (entre 20 y 100 KB cada una, sin necesidad de optimizarlas más).
-- **Pendiente de ejecutar en el equipo de desarrollo:** los flujos de Maestro (CA-115-01) y las capturas de la app (CA-115-03), que necesitan Maestro instalado y el emulador abierto. Cuando existan, se añade al README la fila de capturas de la app.
+- **Resultado:** los 6 flujos pasan en el emulador de Android (`Medium_Phone_API_37.0`) con Expo Go, y `pnpm screenshots:mobile` genera las 8 capturas de la app.
+- **Fallos reales que encontró Maestro** (los tests de Jest no los veían porque corren en Node, no en el dispositivo):
+  - **Crear candidatura fallaba siempre en el móvil:** el id se generaba con `crypto.randomUUID()`, que Hermes no tiene. Ahora la app usa `expo-crypto` (`src/di/boot.ts`) y un test comprueba que funciona sin `crypto` global.
+  - **La Lista se colgaba en Android** con «addViewAt: failed to insert view» al aparecer la cabecera fija dentro de la `FlatList` (`stickyHeaderIndices`). La cabecera de la tabla pasa a estar fuera de la lista y sigue fija.
+  - **El modal de filtros se abría al arrancar:** sin ruta inicial clara, Expo Router abría la primera pantalla declarada. Se fija `initialRouteName: "index"`, se declara la primera y «Listo»/«Volver» tienen una ruta de vuelta si no hay pantalla anterior.
+  - **El botón flotante de Expo Go tapaba «Listo»** en filtros y orden: las acciones pasan a una barra inferior, y esas pantallas, la de cambiar estado y el formulario respetan el área segura superior.
+- **La X de los avisos** queda fija en la esquina superior derecha de la burbuja en el móvil.
+- **Capturas de Maestro:** `takeScreenshot` solo puede escribir en su carpeta de resultados, así que el flujo guarda en `apps/mobile/.maestro-output/` (ignorada por git) y `scripts/copy-screenshots.mjs` las copia a `docs/screenshots/`.
+- **Ajustes de los flujos:** el aviso «Continue» de Expo Go se toca solo si sigue visible; no se cierra el teclado con `hideKeyboard` en las pestañas, porque en Android pulsa «atrás» y sale de la app; los campos con la misma etiqueta que su título se tocan por índice; y las pestañas del tablero se recorren tocándolas, porque la fila se desplaza sola hasta la elegida.
+- **Datos de ejemplo:** si el emulador está en inglés, la demo se crea en inglés antes de que el flujo cambie la app a español, y algunas capturas muestran puestos y notas en inglés.
 
 ## 7. Decisiones tomadas
 

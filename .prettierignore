@@ -6,3 +6,4 @@ playwright-report
 test-results
 apps/web/screenshots
 .lighthouseci
+apps/mobile/.maestro-output

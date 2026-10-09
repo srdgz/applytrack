@@ -18,6 +18,12 @@ Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Nativ
   <img src="docs/screenshots/web-stats-1280-dark-es.png" alt="Panel de estadísticas en tema oscuro con tasas de respuesta, envíos por semana y resultados por fuente" width="560">
   <img src="docs/screenshots/web-form-360-light-es.png" alt="Formulario de nueva candidatura en un móvil" width="180">
 </p>
+<p>
+  <img src="docs/screenshots/mobile-board-light.png" alt="App móvil: tablero con las columnas como pestañas y tarjetas de candidaturas" width="180">
+  <img src="docs/screenshots/mobile-detail-light.png" alt="App móvil: detalle de una candidatura con sus datos y acciones" width="180">
+  <img src="docs/screenshots/mobile-stats-dark.png" alt="App móvil: estadísticas en tema oscuro" width="180">
+  <img src="docs/screenshots/mobile-settings-dark.png" alt="App móvil: ajustes de idioma, tema y modo demo en tema oscuro" width="180">
+</p>
 
 ## Qué hace
 

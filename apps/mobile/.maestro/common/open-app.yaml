@@ -7,7 +7,9 @@ appId: host.exp.exponent
     when:
       visible: "Continue"
     commands:
-      - tapOn: "Continue"
+      - tapOn:
+          text: "Continue"
+          optional: true
 - extendedWaitUntil:
     visible: "Probar sin cuenta|Try without an account"
     timeout: 120000

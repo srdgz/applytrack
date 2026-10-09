@@ -2,7 +2,7 @@ import { createBaseConfig } from "@applytrack/config/eslint/base";
 import i18next from "eslint-plugin-i18next";
 
 export default [
-  { ignores: ["*.config.js", "jest.setup.js"] },
+  { ignores: ["*.config.js", "jest.setup.js", "scripts/**", ".maestro-output/**"] },
   ...createBaseConfig({ tsconfigRootDir: import.meta.dirname }),
   {
     files: ["src/**/*.tsx", "app/**/*.tsx"],

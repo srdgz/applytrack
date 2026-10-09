@@ -7,7 +7,9 @@ name: Cambiar estado con nota
 - tapOn:
     text: "Aplicada"
     below: "Nuevo estado"
-- tapOn: 'Nota \(opcional\)'
+- tapOn:
+    text: 'Nota \(opcional\)'
+    index: 1
 - inputText: "Enviado el CV"
 - hideKeyboard
 - tapOn: "Guardar cambio"
