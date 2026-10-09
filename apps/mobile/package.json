@@ -13,7 +13,7 @@
     "doctor": "npx expo-doctor@latest",
     "test": "jest",
     "e2e:mobile": "maestro test -e APP_URL=exp://10.0.2.2:8081 .maestro/flows",
-    "screenshots:mobile": "maestro test -e APP_URL=exp://10.0.2.2:8081 .maestro/screenshots"
+    "screenshots:mobile": "maestro test -e APP_URL=exp://10.0.2.2:8081 --test-output-dir .maestro-output .maestro/screenshots && node scripts/copy-screenshots.mjs"
   },
   "dependencies": {
     "@applytrack/adapter-local": "workspace:*",
@@ -33,6 +33,7 @@
     "@supabase/supabase-js": "^2.117.2",
     "expo": "~57.0.27",
     "expo-constants": "~57.0.21",
+    "expo-crypto": "~57.0.3",
     "expo-linking": "~57.0.12",
     "expo-localization": "~57.0.2",
     "expo-router": "~57.0.25",

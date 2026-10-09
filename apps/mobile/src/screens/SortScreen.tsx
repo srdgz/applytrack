@@ -15,19 +15,22 @@ export const SortScreen = () => {
   const { filters, update } = useFilters();
 
   return (
-    <Screen edges={["bottom", "left", "right"]}>
-      <View className="flex-row items-center justify-between">
-        <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
-          {t("list.sortBy")}
-        </Text>
-        <Button
-          variant="link"
-          label={t("mobile.done")}
-          onPress={() => {
-            router.back();
-          }}
-        />
-      </View>
+    <Screen
+      footer={
+        <View className="flex-1">
+          <Button
+            label={t("mobile.done")}
+            onPress={() => {
+              if (router.canGoBack()) router.back();
+              else router.replace("/list");
+            }}
+          />
+        </View>
+      }
+    >
+      <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
+        {t("list.sortBy")}
+      </Text>
 
       <View accessibilityRole="radiogroup" className="flex-row flex-wrap gap-2">
         {SORT_FIELDS.map((field) => (

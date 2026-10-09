@@ -38,7 +38,7 @@ export const StatusScreen = () => {
 
   if (state.kind !== "ready") {
     return (
-      <Screen edges={["bottom", "left", "right"]}>
+      <Screen>
         {state.kind === "loading" ? (
           <CardSkeleton />
         ) : (
@@ -85,7 +85,7 @@ export const StatusScreen = () => {
   };
 
   return (
-    <Screen edges={["bottom", "left", "right"]}>
+    <Screen>
       <View className="gap-1">
         <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
           {t("mobile.statusScreenTitle", { company: application.company })}

@@ -45,36 +45,41 @@ export const FiltersScreen = () => {
   }, [listTags]);
 
   return (
-    <Screen edges={["bottom", "left", "right"]}>
-      <View className="flex-row items-center justify-between gap-3">
-        <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
-          {t("filters.title")}
-        </Text>
-        <View className="flex-row gap-3">
+    <Screen
+      footer={
+        <>
           {active > 0 && (
+            <View className="flex-1">
+              <Button
+                variant="secondary"
+                label={t("filters.clear", { count: active })}
+                onPress={() => {
+                  update({
+                    statuses: [],
+                    workModes: [],
+                    sources: [],
+                    tags: [],
+                    archived: "exclude",
+                  });
+                }}
+              />
+            </View>
+          )}
+          <View className="flex-1">
             <Button
-              variant="link"
-              label={t("filters.clear", { count: active })}
+              label={t("mobile.done")}
               onPress={() => {
-                update({
-                  statuses: [],
-                  workModes: [],
-                  sources: [],
-                  tags: [],
-                  archived: "exclude",
-                });
+                if (router.canGoBack()) router.back();
+                else router.replace("/board");
               }}
             />
-          )}
-          <Button
-            variant="link"
-            label={t("mobile.done")}
-            onPress={() => {
-              router.back();
-            }}
-          />
-        </View>
-      </View>
+          </View>
+        </>
+      }
+    >
+      <Text accessibilityRole="header" className="text-2xl font-bold text-ink">
+        {t("filters.title")}
+      </Text>
 
       <Group title={t("filters.status")}>
         {APPLICATION_STATUSES.map((status) => (

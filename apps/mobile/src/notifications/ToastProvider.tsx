@@ -244,35 +244,32 @@ const ToastItem = ({ toast, queue, labels, maxWidth, dark }: ToastItemProps) => 
         }}
       >
         <Animated.View style={[styles.surface, dark && styles.surfaceDark, { width, height }]}>
-          <View style={styles.header} onLayout={onHeaderLayout}>
+          <View
+            style={[styles.header, expanded && styles.headerExpanded]}
+            onLayout={expanded ? undefined : onHeaderLayout}
+          >
             <ToastIcon toast={toast} />
             <Text style={[styles.title, { color }]} numberOfLines={1}>
               {toast.title}
             </Text>
-            {expanded ? (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={labels.close}
-                hitSlop={8}
-                onPress={() => {
-                  queue.dismiss(toast.id);
-                }}
-                style={styles.close}
-              >
-                <Svg width={14} height={14} viewBox="0 0 24 24" fill="none">
-                  {TOAST_ICONS.x.map((d) => (
-                    <Path
-                      key={d}
-                      d={d}
-                      stroke="#ffffff99"
-                      strokeWidth={2.5}
-                      strokeLinecap="round"
-                    />
-                  ))}
-                </Svg>
-              </Pressable>
-            ) : null}
           </View>
+          {expanded ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={labels.close}
+              hitSlop={8}
+              onPress={() => {
+                queue.dismiss(toast.id);
+              }}
+              style={styles.close}
+            >
+              <Svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+                {TOAST_ICONS.x.map((d) => (
+                  <Path key={d} d={d} stroke="#ffffff99" strokeWidth={2.5} strokeLinecap="round" />
+                ))}
+              </Svg>
+            </Pressable>
+          ) : null}
           {hasBody ? (
             <Animated.View
               style={[styles.content, { opacity: progress }]}
@@ -381,8 +378,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: { fontSize: 14, fontWeight: "600", maxWidth: 260, paddingRight: 4 },
-  close: { width: 28, height: 28, alignItems: "center", justifyContent: "center" },
+  title: { flexShrink: 1, fontSize: 14, fontWeight: "600", maxWidth: 260, paddingRight: 4 },
+  headerExpanded: { right: 40 },
+  close: {
+    position: "absolute",
+    top: (PILL_HEIGHT - 28) / 2,
+    right: 8,
+    width: 28,
+    height: 28,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   content: {
     position: "absolute",
     top: PILL_HEIGHT,

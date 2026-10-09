@@ -7,6 +7,8 @@ import * as SplashScreen from "expo-splash-screen";
 import { AppRoot } from "../src/shell/AppRoot";
 import { boot } from "../src/di/boot";
 
+export const unstable_settings = { initialRouteName: "index" };
+
 void SplashScreen.preventAutoHideAsync();
 
 const hideSplash = () => {
@@ -17,6 +19,7 @@ export default function RootLayout() {
   return (
     <AppRoot boot={boot} onReady={hideSplash}>
       <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
         <Stack.Screen name="filters" options={{ presentation: "modal" }} />
         <Stack.Screen name="sort" options={{ presentation: "modal" }} />
         <Stack.Screen name="applications/[id]/status" options={{ presentation: "modal" }} />

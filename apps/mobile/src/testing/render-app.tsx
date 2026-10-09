@@ -87,7 +87,11 @@ export const startApp = async (initialUrl: string, setup: Setup = {}) => {
     {
       _layout: () => (
         <AppRoot boot={boot}>
-          <Stack screenOptions={{ headerShown: false }} />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="filters" options={{ presentation: "modal" }} />
+            <Stack.Screen name="sort" options={{ presentation: "modal" }} />
+          </Stack>
         </AppRoot>
       ),
       index: StartScreen,

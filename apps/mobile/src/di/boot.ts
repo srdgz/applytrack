@@ -1,15 +1,19 @@
 import "react-native-url-polyfill/auto";
 
 import type { KeyValueStore } from "@applytrack/adapter-local";
+import { UuidGenerator } from "@applytrack/adapter-local";
 import { createSupabaseAdapters } from "@applytrack/adapter-supabase";
 import type { UseCases } from "@applytrack/composition";
 import { createContainer } from "@applytrack/composition";
 import type { Preferences } from "@applytrack/core";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient } from "@supabase/supabase-js";
+import { randomUUID } from "expo-crypto";
 
 import type { Booted } from "./booted";
 import { resolveBooted } from "./booted";
+
+export const ids = new UuidGenerator(() => randomUUID());
 
 const warn = (message: string) => {
   console.warn(message);
@@ -33,7 +37,7 @@ const loadUseCases = async (store: KeyValueStore): Promise<UseCases> => {
     EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY as
       string | undefined,
   });
-  if (!config) return createContainer({ store, warn });
+  if (!config) return createContainer({ store, warn, ids });
 
   const client = createClient(config.url, config.publishableKey, {
     auth: {
@@ -50,6 +54,7 @@ const loadUseCases = async (store: KeyValueStore): Promise<UseCases> => {
   return createContainer({
     store,
     warn,
+    ids,
     auth: adapters.auth,
     ...(account && { signedIn: { account, adapters } }),
   });

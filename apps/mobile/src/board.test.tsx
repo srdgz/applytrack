@@ -130,6 +130,18 @@ describe("Tablero", () => {
     ).toBeOnTheScreen();
   });
 
+  it("«Listo» en los filtros vuelve al tablero aunque no haya pantalla anterior", async () => {
+    const store = await spanishStore();
+    await createContainer({ store, clock }).startDemo.execute("es");
+    await startApp("/filters", { store });
+
+    await fireEvent.press(await screen.findByRole("button", { name: "Listo" }));
+
+    await waitFor(() => {
+      expect(pathname()).toBe("/board");
+    });
+  });
+
   it("sin candidaturas da la bienvenida", async () => {
     await startApp("/board", { signedIn: true });
 

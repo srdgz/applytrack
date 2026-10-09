@@ -100,34 +100,36 @@ export const ListScreen = () => {
           }}
         />
       </Toolbar>
-      <FlatList
-        testID="applications-list"
-        data={search.status === "ready" ? search.items : []}
-        keyExtractor={({ id }) => id}
-        renderItem={renderItem}
-        contentContainerClassName="pb-24"
-        className="overflow-hidden rounded-lg border border-border"
-        style={hasRows ? undefined : { borderWidth: 0 }}
-        ListHeaderComponent={
-          hasRows ? (
-            <ApplicationTableHeader
-              wide={wide}
-              sort={filters.sort}
-              onSort={(sort) => {
-                update({ sort });
-              }}
+      <View
+        className={`flex-1 ${hasRows ? "overflow-hidden rounded-lg border border-border" : ""}`}
+      >
+        {hasRows && (
+          <ApplicationTableHeader
+            wide={wide}
+            sort={filters.sort}
+            onSort={(sort) => {
+              update({ sort });
+            }}
+          />
+        )}
+        <FlatList
+          testID="applications-list"
+          data={search.status === "ready" ? search.items : []}
+          keyExtractor={({ id }) => id}
+          renderItem={renderItem}
+          contentContainerClassName="pb-24"
+          ListEmptyComponent={empty()}
+          ListFooterComponent={footer}
+          onEndReached={() => void search.loadMore()}
+          onEndReachedThreshold={0.5}
+          refreshControl={
+            <RefreshControl
+              refreshing={search.refreshing}
+              onRefresh={() => void search.refresh()}
             />
-          ) : null
-        }
-        stickyHeaderIndices={hasRows ? [0] : undefined}
-        ListEmptyComponent={empty()}
-        ListFooterComponent={footer}
-        onEndReached={() => void search.loadMore()}
-        onEndReachedThreshold={0.5}
-        refreshControl={
-          <RefreshControl refreshing={search.refreshing} onRefresh={() => void search.refresh()} />
-        }
-      />
+          }
+        />
+      </View>
       <Fab
         label={t("nav.newApplication")}
         onPress={() => {

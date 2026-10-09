@@ -114,7 +114,8 @@ export const SignInScreen = () => {
       <Pressable
         accessibilityRole="button"
         onPress={() => {
-          router.back();
+          if (router.canGoBack()) router.back();
+          else router.replace("/");
         }}
         className="min-h-11 flex-row items-center gap-2 self-start"
       >

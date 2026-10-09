@@ -202,7 +202,7 @@ export const ApplicationForm = forwardRef<
       : null;
 
   return (
-    <SafeAreaView edges={["bottom", "left", "right"]} className="flex-1 bg-canvas">
+    <SafeAreaView className="flex-1 bg-canvas">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         className="flex-1"
