@@ -1,6 +1,6 @@
 # ADR-0006 · Distribución móvil sin tiendas ni cuentas de desarrollador
 
-- **Estado:** Aceptada
+- **Estado:** Aceptada, revisada el 2026-10-09
 - **Fecha:** 2026-10-05
 
 ## Contexto
@@ -21,6 +21,12 @@ Para que el canal 1 funcione:
 - Solo se usan módulos nativos **incluidos en Expo Go**. Por ejemplo, AsyncStorage en lugar de MMKV para el modo demo.
 - Los recordatorios de la fase 2 usan **notificaciones locales** (`expo-notifications` programadas en el dispositivo), no push remotas.
 - La versión del SDK de Expo se mantiene en la que soporte la versión actual de Expo Go en las tiendas.
+
+## Revisión del 2026-10-09
+
+No se genera el APK ni se publica la app con EAS Update. Para un proyecto de portfolio basta con ejecutarla desde el código: Expo Go escaneando el QR de `pnpm dev:mobile`, o el emulador de Android y el simulador de iOS. El README explica los pasos (ver [117](../specs/117-despliegue-web.md)).
+
+Se mantienen las reglas de la decisión (solo módulos incluidos en Expo Go y notificaciones locales), para que publicar más adelante con EAS no exija cambios.
 
 ## Consecuencias
 

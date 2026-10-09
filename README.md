@@ -3,10 +3,11 @@
 # ApplyTrack
 
 [![CI](https://github.com/srdgz/applytrack/actions/workflows/ci.yml/badge.svg)](https://github.com/srdgz/applytrack/actions/workflows/ci.yml)
+[![Demo](https://img.shields.io/badge/demo-applytrack.vercel.app-4f46e5)](https://applytrack.vercel.app)
 
 Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Native + Expo)** que comparten un núcleo de dominio con **arquitectura hexagonal**, escrito en TypeScript y desarrollado con **Spec-Driven Development**.
 
-> Hitos M0 a M5 terminados: núcleo, modo demo, web, cuentas con Supabase, app móvil y calidad. Queda el despliegue de la web y el APK de Android. Ver la [hoja de ruta](docs/specs/004-hoja-de-ruta.md).
+**Pruébalo en [applytrack.vercel.app](https://applytrack.vercel.app)** con «Probar sin cuenta», o entra con tu email.
 
 ## Capturas
 
@@ -50,6 +51,31 @@ Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Nativ
 
 ## Cómo probarlo
 
+### En el navegador
+
+Abre [applytrack.vercel.app](https://applytrack.vercel.app) y pulsa «Probar sin cuenta» para ver la web con 15 candidaturas de ejemplo guardadas solo en tu navegador, o entra con tu email para guardar las tuyas.
+
+### App móvil
+
+La app no se publica en las tiendas: se ejecuta desde el código con [Expo Go](https://expo.dev/go) o en un emulador.
+
+1. Instala **Expo Go** en tu teléfono desde la App Store o Google Play.
+2. Clona el repositorio e instala las dependencias (requisitos en el apartado siguiente):
+   ```bash
+   git clone https://github.com/srdgz/applytrack.git
+   cd applytrack
+   pnpm install
+   ```
+3. Arranca la app y escanea el QR que aparece en la terminal, con la cámara en iOS o desde Expo Go en Android. El teléfono y el ordenador deben estar en la misma red.
+   ```bash
+   pnpm dev:mobile
+   ```
+4. Pulsa «Probar sin cuenta». Para entrar con email, arranca con `pnpm dev:mobile:tunnel` (Supabase no acepta enlaces de vuelta a una IP local) y configura `apps/mobile/.env.local` como se explica abajo.
+
+**En el ordenador:** `pnpm dev:android` la abre en el emulador de Android (necesita Android Studio con un dispositivo virtual; Expo instala Expo Go si hace falta) y `pnpm dev:ios` en el simulador de iOS, solo en macOS.
+
+### En local
+
 Requisitos: **Node 24** (mínimo 22.12, ver `.nvmrc`) y **pnpm 12**.
 
 ```bash
@@ -63,7 +89,6 @@ pnpm dev:ios            # app en el simulador de iOS (solo en macOS)
 
 - **Sin configurar nada,** la web y la app funcionan en **modo demo**: pulsa «Probar sin cuenta».
 - **Para las cuentas,** copia `apps/web/.env.example` y `apps/mobile/.env.example` a `.env.local` en la misma carpeta, con la URL y la clave publicable de un proyecto de Supabase, y aplica las migraciones con `pnpm supabase link` y `pnpm supabase db push`. Los pasos completos están en la [spec 104](docs/specs/104-autenticacion.md#8-configuración-del-proyecto-en-supabase).
-- **El emulador de Android** necesita Android Studio con un dispositivo virtual; Expo lo arranca e instala Expo Go si hace falta. El simulador de iOS solo existe en macOS.
 
 ## Arquitectura
 
@@ -149,13 +174,12 @@ La primera vez, `pnpm --filter @applytrack/web e2e:install` descarga Chromium de
 | [114 · Calidad de la web](docs/specs/114-calidad-web.md)                     | E2E, accesibilidad, rendimiento y textos sin traducir      |
 | [115 · Calidad del móvil y README](docs/specs/115-calidad-movil-y-readme.md) | E2E con Maestro y capturas                                 |
 | [116 · Rediseño visual](docs/specs/116-rediseno-visual.md)                   | Color por estado, Inter y superficies                      |
+| [117 · Despliegue de la web](docs/specs/117-despliegue-web.md)               | Vercel, Supabase en producción y cómo ejecutar la app      |
 | [ADR](docs/adr)                                                              | Decisiones de arquitectura                                 |
 
 ## Stack
 
-**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · Inter · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · Playwright · axe · Lighthouse · Maestro · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions
-
-**Previsto:** Vercel (web) · EAS (APK de Android)
+**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · Inter · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · Playwright · axe · Lighthouse · Maestro · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions · Vercel
 
 ## Forma de trabajo
 

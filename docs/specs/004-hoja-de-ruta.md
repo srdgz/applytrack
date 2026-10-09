@@ -10,14 +10,14 @@ Las estimaciones suponen **unas 20 h a la semana**. Cada hito termina con un PR 
 
 Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<funcionalidad>.md`) con criterios de aceptación. Después se implementa, se prueba y se documenta.
 
-| Hito                     | Contenido                                                                                                                                   | Estimación | Resultado visible                                                 |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------------- |
-| **M0 · Base** ✅         | Monorepo, configuración compartida, CI, `dependency-cruiser`, Husky, commitlint                                                             | 3–4 días   | Repo público con la CI en verde                                   |
-| **M1 · Núcleo**          | Esqueletos de web y móvil enlazados con `core` ✅; dominio, casos de uso, `core/testing`, suite de contrato, `adapter-local` con datos demo | 1 semana   | `core` con ≥ 90 % de cobertura                                    |
-| **M2 · Web (modo demo)** | Tokens, componentes base, layout responsive, i18n, tema, tablero, lista, formulario, detalle                                                | 2 semanas  | Web desplegada en Vercel que funciona sin cuenta                  |
-| **M3 · Supabase**        | Migraciones, RLS, `adapter-supabase`, enlace mágico, preferencias en el perfil                                                              | 1 semana   | Web con cuentas reales                                            |
-| **M4 · Móvil**           | Expo + NativeWind, mismas pantallas que la web, AsyncStorage para el modo demo                                                              | 2 semanas  | App que se abre en Expo Go con un QR y APK de Android descargable |
-| **M5 · Calidad**         | E2E con Playwright a 4 anchos, axe, Maestro, Lighthouse, README con capturas y GIF                                                          | 3–4 días   | Proyecto listo para el portfolio                                  |
+| Hito                     | Contenido                                                                                                                                   | Estimación | Resultado visible                                |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------------------------------ |
+| **M0 · Base** ✅         | Monorepo, configuración compartida, CI, `dependency-cruiser`, Husky, commitlint                                                             | 3–4 días   | Repo público con la CI en verde                  |
+| **M1 · Núcleo**          | Esqueletos de web y móvil enlazados con `core` ✅; dominio, casos de uso, `core/testing`, suite de contrato, `adapter-local` con datos demo | 1 semana   | `core` con ≥ 90 % de cobertura                   |
+| **M2 · Web (modo demo)** | Tokens, componentes base, layout responsive, i18n, tema, tablero, lista, formulario, detalle                                                | 2 semanas  | Web desplegada en Vercel que funciona sin cuenta |
+| **M3 · Supabase**        | Migraciones, RLS, `adapter-supabase`, enlace mágico, preferencias en el perfil                                                              | 1 semana   | Web con cuentas reales                           |
+| **M4 · Móvil**           | Expo + NativeWind, mismas pantallas que la web, AsyncStorage para el modo demo                                                              | 2 semanas  | App que se abre en Expo Go con un QR             |
+| **M5 · Calidad**         | E2E con Playwright a 4 anchos, axe, Maestro, Lighthouse, README con capturas y GIF                                                          | 3–4 días   | Proyecto listo para el portfolio                 |
 
 **Total MVP:** de 6,5 a 8 semanas.
 
@@ -33,7 +33,7 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 6. [`105-panel-estadisticas.md`](105-panel-estadisticas.md) (RF-10), implementada (núcleo y web; la app móvil, en M4)
 7. [`106-archivar-y-eliminar.md`](106-archivar-y-eliminar.md) (RF-04), implementada (núcleo y web; la app móvil, en M4)
 8. [`107-notificaciones.md`](107-notificaciones.md) (transversal), implementada con estilo Sileo (web y componente móvil)
-9. [`108-identidad-visual.md`](108-identidad-visual.md) (transversal), implementada (web y recursos de la app; el APK, en M4)
+9. [`108-identidad-visual.md`](108-identidad-visual.md) (transversal), implementada (web y recursos de la app)
 10. [`109-base-app-movil.md`](109-base-app-movil.md) (RF-01, RF-09, RF-11 en móvil), implementada (falta probarla en un teléfono)
 11. [`110-tablero-y-lista-movil.md`](110-tablero-y-lista-movil.md) (RF-06, RF-07, RF-08 en móvil), implementada
 12. [`111-detalle-movil.md`](111-detalle-movil.md) (RF-04, RF-05 en móvil), implementada
@@ -42,3 +42,4 @@ Antes de cada funcionalidad se escribe su especificación (`docs/specs/1xx-<func
 15. [`114-calidad-web.md`](114-calidad-web.md) (RNF-03 a RNF-07 en web), implementada
 16. [`115-calidad-movil-y-readme.md`](115-calidad-movil-y-readme.md) (RNF-07 en móvil y README), implementada
 17. [`116-rediseno-visual.md`](116-rediseno-visual.md) (transversal, web y móvil), implementada
+18. [`117-despliegue-web.md`](117-despliegue-web.md) (RNF-08, despliegue de la web y README de la app), implementada (falta crear el proyecto en Vercel)

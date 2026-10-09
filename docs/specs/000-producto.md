@@ -202,17 +202,17 @@ El dominio no lanza mensajes de texto: devuelve **códigos de error** que la int
 
 ## 7. Requisitos no funcionales
 
-| Id     | Requisito                  | Criterio verificable                                                                                                                                             |
-| ------ | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| RNF-01 | **Arquitectura hexagonal** | El paquete `core` no importa nada de Vue, React, React Native ni Supabase. Una regla de lint lo hace cumplir en CI. Ver [001-arquitectura](001-arquitectura.md). |
-| RNF-02 | **SOLID**                  | Cada caso de uso es una clase o función con una sola responsabilidad y recibe sus dependencias por constructor. Ver 001, sección 5.                              |
-| RNF-03 | **Responsive**             | Sin scroll horizontal ni contenido cortado de 320 px a 2560 px de ancho. Ver [003-responsive](003-responsive.md).                                                |
-| RNF-04 | **i18n**                   | Español e inglés al 100 %. Un test de CI falla si a un idioma le falta alguna clave. Ver [002-i18n](002-i18n.md).                                                |
-| RNF-05 | **Accesibilidad**          | WCAG 2.2 AA. Sin infracciones graves de axe en las pantallas principales. Todo se puede usar con teclado y lector de pantalla.                                   |
-| RNF-06 | **Rendimiento web**        | Lighthouse ≥ 90 en Performance y Accessibility en móvil. JS inicial < 200 KB comprimido.                                                                         |
-| RNF-07 | **Testing**                | `core` con ≥ 90 % de cobertura de líneas. Flujos principales cubiertos con E2E (Playwright en web, Maestro en móvil).                                            |
-| RNF-08 | **CI/CD**                  | Cada PR pasa lint, typecheck y tests. `main` despliega la web en Vercel y publica la versión de prueba del móvil (ver ADR-0006).                                 |
-| RNF-09 | **Seguridad**              | RLS activado en todas las tablas. Ninguna clave privada en el cliente. Variables por entorno.                                                                    |
+| Id     | Requisito                  | Criterio verificable                                                                                                                                                     |
+| ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| RNF-01 | **Arquitectura hexagonal** | El paquete `core` no importa nada de Vue, React, React Native ni Supabase. Una regla de lint lo hace cumplir en CI. Ver [001-arquitectura](001-arquitectura.md).         |
+| RNF-02 | **SOLID**                  | Cada caso de uso es una clase o función con una sola responsabilidad y recibe sus dependencias por constructor. Ver 001, sección 5.                                      |
+| RNF-03 | **Responsive**             | Sin scroll horizontal ni contenido cortado de 320 px a 2560 px de ancho. Ver [003-responsive](003-responsive.md).                                                        |
+| RNF-04 | **i18n**                   | Español e inglés al 100 %. Un test de CI falla si a un idioma le falta alguna clave. Ver [002-i18n](002-i18n.md).                                                        |
+| RNF-05 | **Accesibilidad**          | WCAG 2.2 AA. Sin infracciones graves de axe en las pantallas principales. Todo se puede usar con teclado y lector de pantalla.                                           |
+| RNF-06 | **Rendimiento web**        | Lighthouse ≥ 90 en Performance y Accessibility en móvil. JS inicial < 200 KB comprimido.                                                                                 |
+| RNF-07 | **Testing**                | `core` con ≥ 90 % de cobertura de líneas. Flujos principales cubiertos con E2E (Playwright en web, Maestro en móvil).                                                    |
+| RNF-08 | **CI/CD**                  | Cada PR pasa lint, typecheck y tests. `main` despliega la web en Vercel, con previsualización por PR. El móvil no se publica: se ejecuta desde el código (ver ADR-0006). |
+| RNF-09 | **Seguridad**              | RLS activado en todas las tablas. Ninguna clave privada en el cliente. Variables por entorno.                                                                            |
 
 ## 8. Criterios de aceptación del MVP
 

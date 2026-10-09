@@ -253,7 +253,7 @@ Los E2E web se ejecutan en **modo demo**, así no necesitan backend y son rápid
 - **TypeScript** en modo `strict`, con `noUncheckedIndexedAccess` y `exactOptionalPropertyTypes`.
 - **Calidad**: ESLint (configuración plana compartida), Prettier, Husky + lint-staged, commits convencionales con commitlint.
 - **CI** (GitHub Actions): `lint → typecheck → test → dependency-cruiser → build`. Los E2E web van en un job aparte.
-- **CD**: web en Vercel (previsualización por PR). Móvil sin tiendas (ver ADR-0006): `eas update` en un canal de previsualización por PR y en el canal estable desde `main`. En las etiquetas `v*` se genera además un APK de Android con `eas build --profile preview`.
+- **CD**: web en Vercel desde `main`, con previsualización por PR (ver [117](117-despliegue-web.md)). El móvil no se publica ni se compila en la nube: se ejecuta desde el código con Expo Go o en un emulador (ver ADR-0006).
 - **Restricción del móvil**: solo se usan módulos nativos incluidos en Expo Go, para que la app se pueda abrir desde Expo Go en iOS y Android.
 
 ## 10. Decisiones registradas
