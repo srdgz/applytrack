@@ -37,7 +37,7 @@ try {
     const scores = { performance: [], accessibility: [], "best-practices": [], seo: [] };
 
     for (let run = 0; run < RUNS; run += 1) {
-      const context = await browser.newContext();
+      const context = await browser.newContext({ locale: "es-ES" });
       const tab = await context.newPage();
       if (page.demo) {
         await tab.goto(`${BASE}/`);

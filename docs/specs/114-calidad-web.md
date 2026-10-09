@@ -123,6 +123,7 @@ Los escenarios de [000-producto](000-producto.md) (sección 8), más los que cub
 - **Textos sin traducir:** al activar las dos reglas no apareció ningún texto escrito a mano. Se comprobó con un componente de prueba que las reglas sí fallan.
 - **Navegadores dentro del proyecto:** `PLAYWRIGHT_BROWSERS_PATH=0` instala Chromium en `node_modules` (`pnpm --filter @applytrack/web e2e:install`), sin escribir en carpetas globales.
 - **Capturas para el README:** `pnpm screenshots` las genera en `docs/screenshots/`; se añadirán al README en la spec 115.
+- **Lighthouse en la CI (2026-10-09):** el script abría el navegador con el idioma del sistema. En el servidor de GitHub está en inglés, así que la web salía en inglés y no encontraba «Probar sin cuenta», y el job «Rendimiento de la web» fallaba desde que se añadió. Ahora el contexto del navegador usa `es-ES`, igual que la configuración de Playwright.
 
 ## 11. Decisiones tomadas
 
