@@ -3,7 +3,7 @@
 | Campo      | Valor                                                                |
 | ---------- | -------------------------------------------------------------------- |
 | Estado     | Aprobado                                                             |
-| Versión    | 0.2                                                                  |
+| Versión    | 0.3                                                                  |
 | Fecha      | 2026-10-09                                                           |
 | Requisitos | Transversal (web y móvil); RNF-04 y RNF-05 de [000](000-producto.md) |
 | Hito       | M5, antes del despliegue en Vercel y del APK                         |
@@ -105,4 +105,5 @@ Cada tono tiene dos tokens: `status-{tono}` (el color fuerte: puntos, bordes y t
 - **Inter en la web:** un `@font-face` propio carga solo el archivo latino (48 KB), con `font-display: swap`. No se precarga porque Vite cambia el nombre del archivo al compilar; Lighthouse sigue en 100 de rendimiento y el JS no cambia (132 KB).
 - **Inter en la app:** `src/ui/Text.tsx` envuelve el `Text` de React Native y añade `font-sans`; una regla de ESLint impide importar `Text` directamente de `react-native`. Un plugin de Tailwind hace que `font-medium`, `font-semibold` y `font-bold` cambien de familia (`Inter_500Medium`…) con peso 400, para que Android no engorde la letra dos veces. `app/_layout.tsx` no pinta nada hasta que las fuentes están cargadas, así que la pantalla de carga sigue visible mientras tanto.
 - **Sombras en la app:** se usa la propiedad `boxShadow` de React Native (nueva arquitectura), igual en Android y en iOS.
-- **Pendiente:** probar la app en el emulador, pasar los 6 flujos de Maestro y regenerar sus capturas con `pnpm screenshots:mobile`.
+- **App en el emulador:** los 6 flujos de Maestro pasan. En el de «Modo demo», las pestañas ahora son más anchas y «Entrevistas» empieza fuera de la pantalla, así que el flujo toca antes «Primer contacto» para que la fila se desplace.
+- **Capturas del README:** se reducen a las mismas cuatro pantallas en la web (a 1280 px) y en la app (tablero, lista, nueva candidatura y estadísticas en oscuro), en una tabla con una fila para cada una. Playwright y Maestro solo generan esas ocho.

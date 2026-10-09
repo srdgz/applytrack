@@ -10,26 +10,35 @@ Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Nativ
 
 ## Capturas
 
-<p>
-  <img src="docs/screenshots/web-board-1280-light-es.png" alt="Tablero de la web en escritorio con las columnas Me interesa, Aplicada, Primer contacto, Entrevistas, Oferta y Cerradas" width="560">
-  <img src="docs/screenshots/web-board-360-dark-es.png" alt="Tablero de la web en un móvil, en tema oscuro, con las columnas como pestañas" width="180">
-</p>
-<p>
-  <img src="docs/screenshots/web-stats-1280-dark-es.png" alt="Panel de estadísticas en tema oscuro con tasas de respuesta, envíos por semana y resultados por fuente" width="560">
-  <img src="docs/screenshots/web-form-360-light-es.png" alt="Formulario de nueva candidatura en un móvil" width="180">
-</p>
-<p>
-  <img src="docs/screenshots/mobile-board-light.png" alt="App móvil: tablero con las columnas como pestañas y tarjetas de candidaturas" width="180">
-  <img src="docs/screenshots/mobile-detail-light.png" alt="App móvil: detalle de una candidatura con sus datos y acciones" width="180">
-  <img src="docs/screenshots/mobile-stats-dark.png" alt="App móvil: estadísticas en tema oscuro" width="180">
-  <img src="docs/screenshots/mobile-settings-dark.png" alt="App móvil: ajustes de idioma, tema y modo demo en tema oscuro" width="180">
-</p>
+<table>
+  <tr>
+    <th></th>
+    <th>Tablero</th>
+    <th>Lista</th>
+    <th>Nueva candidatura</th>
+    <th>Estadísticas</th>
+  </tr>
+  <tr>
+    <th>Web</th>
+    <td><img src="docs/screenshots/web-board-1280-light-es.png" alt="Web: tablero con una columna por estado, cada una con su color" width="190"></td>
+    <td><img src="docs/screenshots/web-list-1280-light-es.png" alt="Web: lista ordenable con la insignia de color de cada estado" width="190"></td>
+    <td><img src="docs/screenshots/web-form-1280-light-es.png" alt="Web: formulario de nueva candidatura" width="190"></td>
+    <td><img src="docs/screenshots/web-stats-1280-dark-es.png" alt="Web: estadísticas en tema oscuro" width="190"></td>
+  </tr>
+  <tr>
+    <th>App</th>
+    <td align="center"><img src="docs/screenshots/mobile-board-light.png" alt="App: tablero con las columnas como pestañas de color" width="120"></td>
+    <td align="center"><img src="docs/screenshots/mobile-list-light.png" alt="App: lista compacta en forma de tabla" width="120"></td>
+    <td align="center"><img src="docs/screenshots/mobile-form-light.png" alt="App: formulario de nueva candidatura" width="120"></td>
+    <td align="center"><img src="docs/screenshots/mobile-stats-dark.png" alt="App: estadísticas en tema oscuro" width="120"></td>
+  </tr>
+</table>
 
 ## Qué hace
 
 - **Cuentas sin contraseña:** enlace mágico por email, con los datos en Supabase y Row Level Security.
 - **Modo demo sin registro:** 15 candidaturas de ejemplo guardadas solo en el dispositivo.
-- **Tablero** por estados, con arrastrar y soltar (ratón) y menú «Mover a…» (teclado y táctil).
+- **Tablero** por estados, cada uno con su color, con arrastrar y soltar (ratón) y menú «Mover a…» (teclado y táctil).
 - **Lista** con orden por columnas, búsqueda sin tildes y filtros (en la web, en la URL).
 - **Formulario** de crear y editar con validación en vivo y las mismas reglas que el dominio.
 - **Detalle** con historial de cambios de estado y solo las transiciones permitidas.
@@ -94,7 +103,7 @@ docs/
 | Arquitectura         | `dependency-cruiser` en cada PR.                                                                                                             |
 | E2E de la web        | Playwright en 360, 768, 1280 y 1920 px, incluido un recorrido solo con teclado y la ausencia de scroll horizontal.                           |
 | Accesibilidad        | axe en las pantallas principales, en tema claro y oscuro, sin infracciones graves.                                                           |
-| Rendimiento          | Lighthouse en móvil: 100 en rendimiento, accesibilidad y buenas prácticas. JavaScript inicial de 131 KB comprimido, con un límite de 200 KB. |
+| Rendimiento          | Lighthouse en móvil: 100 en rendimiento, accesibilidad y buenas prácticas. JavaScript inicial de 132 KB comprimido, con un límite de 200 KB. |
 | E2E del móvil        | Maestro en el emulador de Android con Expo Go (`pnpm e2e:mobile`).                                                                           |
 | Textos               | Paridad de claves entre idiomas y reglas de lint que impiden textos sin traducir.                                                            |
 
@@ -139,11 +148,12 @@ La primera vez, `pnpm --filter @applytrack/web e2e:install` descarga Chromium de
 | [113 · Estadísticas en el móvil](docs/specs/113-estadisticas-movil.md)       | Panel de estadísticas en el móvil                          |
 | [114 · Calidad de la web](docs/specs/114-calidad-web.md)                     | E2E, accesibilidad, rendimiento y textos sin traducir      |
 | [115 · Calidad del móvil y README](docs/specs/115-calidad-movil-y-readme.md) | E2E con Maestro y capturas                                 |
+| [116 · Rediseño visual](docs/specs/116-rediseno-visual.md)                   | Color por estado, Inter y superficies                      |
 | [ADR](docs/adr)                                                              | Decisiones de arquitectura                                 |
 
 ## Stack
 
-**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · Playwright · axe · Lighthouse · Maestro · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions
+**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · Inter · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · Playwright · axe · Lighthouse · Maestro · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions
 
 **Previsto:** Vercel (web) · EAS (APK de Android)
 
