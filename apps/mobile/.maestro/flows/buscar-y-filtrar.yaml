@@ -1,0 +1,21 @@
+appId: host.exp.exponent
+name: Buscar y filtrar
+---
+- runFlow: ../common/start-demo.yaml
+- tapOn: "Lista"
+- tapOn: "Buscar"
+- inputText: "nordica"
+- hideKeyboard
+- extendedWaitUntil:
+    visible: "Mostrando 1 de 1"
+    timeout: 10000
+- assertVisible: "Nórdica Media"
+- tapOn: "Borrar búsqueda"
+- tapOn: "Filtros"
+- tapOn:
+    text: "Oferta"
+    below: "Estado"
+- tapOn: "Listo"
+- assertVisible: 'Filtros \(1\)'
+- assertVisible: "Mostrando 1 de 1"
+- assertVisible: "Tejo Cloud"

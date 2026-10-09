@@ -1,0 +1,24 @@
+appId: host.exp.exponent
+name: Idioma y tema
+---
+- runFlow: ../common/start-demo.yaml
+- tapOn: "Ajustes"
+- tapOn: "English"
+- assertVisible: "Settings"
+- tapOn: "Dark"
+- assertVisible:
+    text: "Dark"
+    checked: true
+- stopApp
+- launchApp
+- openLink: ${APP_URL}
+- extendedWaitUntil:
+    visible: "Board"
+    timeout: 60000
+- tapOn: "Settings"
+- assertVisible:
+    text: "English"
+    checked: true
+- assertVisible:
+    text: "Dark"
+    checked: true

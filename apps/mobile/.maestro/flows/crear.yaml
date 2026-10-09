@@ -1,0 +1,22 @@
+appId: host.exp.exponent
+name: Crear candidatura
+---
+- runFlow: ../common/start-demo.yaml
+- tapOn: "Nueva candidatura"
+- assertVisible: 'Los campos con \* son obligatorios\.'
+- tapOn: "Empresa"
+- inputText: "Acme"
+- tapOn: "Puesto"
+- inputText: "Frontend Developer"
+- hideKeyboard
+- scrollUntilVisible:
+    element: "LinkedIn"
+- tapOn: "LinkedIn"
+- scrollUntilVisible:
+    element: "Remoto"
+- tapOn: "Remoto"
+- tapOn: "Guardar"
+- extendedWaitUntil:
+    visible: "Me interesa, 3 candidaturas"
+    timeout: 15000
+- assertVisible: "Acme"

@@ -3,7 +3,7 @@
 | Campo      | Valor                                                                              |
 | ---------- | ---------------------------------------------------------------------------------- |
 | Estado     | Aprobado                                                                           |
-| Versión    | 0.1                                                                                |
+| Versión    | 0.2                                                                                |
 | Fecha      | 2026-10-09                                                                         |
 | Requisitos | RNF-07 de [000-producto](000-producto.md); sección 8 de [001](001-arquitectura.md) |
 | Hito       | M5 (segunda parte; la web se hizo en [114](114-calidad-web.md))                    |
@@ -93,7 +93,15 @@ Un flujo de Maestro, `capturas.yaml`, recorre el inicio, el tablero, el detalle,
 | CA-115-04 | El README muestra las capturas de la web y de la app, explica cómo probar el proyecto y resume la calidad. |
 | CA-115-05 | Todas las specs están enlazadas en el README y en la hoja de ruta con su estado.                           |
 
-## 6. Decisiones tomadas
+## 6. Notas de implementación
+
+- **Idioma del emulador:** el subflujo `common/start-demo.yaml` empieza la demo en el idioma que tenga el emulador (los textos se buscan con expresiones regulares en español o inglés) y después cambia la app a español y tema claro en Ajustes, para que los flujos no dependan de la configuración del dispositivo.
+- **Botones de los diálogos de Android:** pueden mostrarse en mayúsculas, así que se buscan sin distinguir mayúsculas (`(?i)`).
+- **Opciones repetidas en pantalla:** cuando un texto aparece también en la pantalla de debajo (por ejemplo, «Aplicada» en las pestañas del tablero y en el cambio de estado), se usa un selector relativo (`below`).
+- **Capturas de la web:** generadas con `pnpm screenshots` (entre 20 y 100 KB cada una, sin necesidad de optimizarlas más).
+- **Pendiente de ejecutar en el equipo de desarrollo:** los flujos de Maestro (CA-115-01) y las capturas de la app (CA-115-03), que necesitan Maestro instalado y el emulador abierto. Cuando existan, se añade al README la fila de capturas de la app.
+
+## 7. Decisiones tomadas
 
 1. **Maestro con Expo Go en local,** y en la CI solo cuando exista el APK.
 2. **Sin `testID`,** para que los flujos también validen la accesibilidad.

@@ -11,7 +11,9 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "doctor": "npx expo-doctor@latest",
-    "test": "jest"
+    "test": "jest",
+    "e2e:mobile": "maestro test -e APP_URL=exp://10.0.2.2:8081 .maestro/flows",
+    "screenshots:mobile": "maestro test -e APP_URL=exp://10.0.2.2:8081 .maestro/screenshots"
   },
   "dependencies": {
     "@applytrack/adapter-local": "workspace:*",

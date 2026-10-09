@@ -1,0 +1,14 @@
+appId: host.exp.exponent
+---
+- runFlow: open-app.yaml
+- tapOn: "Probar sin cuenta|Try without an account"
+- extendedWaitUntil:
+    visible: "Ajustes|Settings"
+    timeout: 30000
+- tapOn: "Ajustes|Settings"
+- tapOn: "Español"
+- tapOn: "Claro"
+- tapOn: "Tablero"
+- extendedWaitUntil:
+    visible: "Nimbus Labs"
+    timeout: 30000

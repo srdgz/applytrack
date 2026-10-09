@@ -1,0 +1,17 @@
+appId: host.exp.exponent
+name: Modo demo
+---
+- runFlow: ../common/open-app.yaml
+- tapOn: "Probar sin cuenta|Try without an account"
+- extendedWaitUntil:
+    visible: "Nimbus Labs"
+    timeout: 30000
+- tapOn: "Ajustes|Settings"
+- tapOn: "Español"
+- tapOn: "Tablero"
+- assertVisible: "Modo demo · los datos solo se guardan en este dispositivo"
+- assertVisible: "Me interesa, 2 candidaturas"
+- assertVisible: "Aplicada, 3 candidaturas"
+- assertVisible: "Cerradas, 4 candidaturas"
+- tapOn: "Salir"
+- assertVisible: "Organiza tu búsqueda de empleo"

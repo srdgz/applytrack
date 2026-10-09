@@ -1,0 +1,21 @@
+appId: host.exp.exponent
+name: Cambiar estado con nota
+---
+- runFlow: ../common/start-demo.yaml
+- tapOn: "Mover Nimbus Labs a…"
+- assertVisible: "Cambiar estado de Nimbus Labs"
+- tapOn:
+    text: "Aplicada"
+    below: "Nuevo estado"
+- tapOn: 'Nota \(opcional\)'
+- inputText: "Enviado el CV"
+- hideKeyboard
+- tapOn: "Guardar cambio"
+- extendedWaitUntil:
+    visible: "Aplicada, 4 candidaturas"
+    timeout: 15000
+- tapOn: "Aplicada, 4 candidaturas"
+- tapOn: "Nimbus Labs"
+- scrollUntilVisible:
+    element: "Enviado el CV"
+- assertVisible: "De «Me interesa» a «Aplicada»"

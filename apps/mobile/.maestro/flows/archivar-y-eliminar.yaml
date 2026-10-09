@@ -1,0 +1,19 @@
+appId: host.exp.exponent
+name: Archivar y eliminar
+---
+- runFlow: ../common/start-demo.yaml
+- tapOn: "Nimbus Labs"
+- tapOn: "Archivar"
+- assertVisible: "Esta candidatura está archivada: no aparece en el tablero ni en la lista."
+- tapOn: "Desarchivar"
+- assertNotVisible: "Esta candidatura está archivada: no aparece en el tablero ni en la lista."
+- tapOn: "Eliminar"
+- assertVisible: '¿Eliminar la candidatura de Nimbus Labs\?'
+- tapOn: "(?i)cancelar"
+- assertVisible: "Archivar"
+- tapOn: "Eliminar"
+- tapOn: "(?i)eliminar definitivamente"
+- extendedWaitUntil:
+    visible: "Me interesa, 1 candidatura"
+    timeout: 15000
+- assertNotVisible: "Nimbus Labs"
