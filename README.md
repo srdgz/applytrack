@@ -2,189 +2,193 @@
 
 # ApplyTrack
 
+**English** | [Español](README.es.md)
+
 [![CI](https://github.com/srdgz/applytrack/actions/workflows/ci.yml/badge.svg)](https://github.com/srdgz/applytrack/actions/workflows/ci.yml)
 [![Demo](https://img.shields.io/badge/demo-applytrack--roan.vercel.app-4f46e5)](https://applytrack-roan.vercel.app)
 
-Gestor de candidaturas de empleo con **web (Vue 3)** y **app móvil (React Native + Expo)** que comparten un núcleo de dominio con **arquitectura hexagonal**, escrito en TypeScript y desarrollado con **Spec-Driven Development**.
+Job application tracker with a **web app (Vue 3)** and a **mobile app (React Native + Expo)** that share a domain core built with **hexagonal architecture**, written in TypeScript and developed with **Spec-Driven Development**.
 
-**Pruébalo en [applytrack-roan.vercel.app](https://applytrack-roan.vercel.app)** con «Probar sin cuenta», o entra con tu email.
+**Try it at [applytrack-roan.vercel.app](https://applytrack-roan.vercel.app)**: press "Probar sin cuenta" (try without an account), or sign in with your email. The interface is available in Spanish and English.
 
-## Capturas
+## Screenshots
 
 <table>
   <tr>
     <th></th>
-    <th>Tablero</th>
-    <th>Lista</th>
-    <th>Nueva candidatura</th>
-    <th>Estadísticas</th>
+    <th>Board</th>
+    <th>List</th>
+    <th>New application</th>
+    <th>Stats</th>
   </tr>
   <tr>
     <th>Web</th>
-    <td><img src="docs/screenshots/web-board-1280-light-es.png" alt="Web: tablero con una columna por estado, cada una con su color" width="190"></td>
-    <td><img src="docs/screenshots/web-list-1280-light-es.png" alt="Web: lista ordenable con la insignia de color de cada estado" width="190"></td>
-    <td><img src="docs/screenshots/web-form-1280-light-es.png" alt="Web: formulario de nueva candidatura" width="190"></td>
-    <td><img src="docs/screenshots/web-stats-1280-dark-es.png" alt="Web: estadísticas en tema oscuro" width="190"></td>
+    <td><img src="docs/screenshots/web-board-1280-light-es.png" alt="Web: board with one column per status, each with its own colour" width="190"></td>
+    <td><img src="docs/screenshots/web-list-1280-light-es.png" alt="Web: sortable list with a coloured badge for each status" width="190"></td>
+    <td><img src="docs/screenshots/web-form-1280-light-es.png" alt="Web: new application form" width="190"></td>
+    <td><img src="docs/screenshots/web-stats-1280-dark-es.png" alt="Web: stats in the dark theme" width="190"></td>
   </tr>
   <tr>
     <th>App</th>
-    <td align="center"><img src="docs/screenshots/mobile-board-light.png" alt="App: tablero con las columnas como pestañas de color" width="120"></td>
-    <td align="center"><img src="docs/screenshots/mobile-list-light.png" alt="App: lista compacta en forma de tabla" width="120"></td>
-    <td align="center"><img src="docs/screenshots/mobile-form-light.png" alt="App: formulario de nueva candidatura" width="120"></td>
-    <td align="center"><img src="docs/screenshots/mobile-stats-dark.png" alt="App: estadísticas en tema oscuro" width="120"></td>
+    <td align="center"><img src="docs/screenshots/mobile-board-light.png" alt="App: board with the columns as coloured tabs" width="120"></td>
+    <td align="center"><img src="docs/screenshots/mobile-list-light.png" alt="App: compact list laid out as a table" width="120"></td>
+    <td align="center"><img src="docs/screenshots/mobile-form-light.png" alt="App: new application form" width="120"></td>
+    <td align="center"><img src="docs/screenshots/mobile-stats-dark.png" alt="App: stats in the dark theme" width="120"></td>
   </tr>
 </table>
 
-## Qué hace
+## Features
 
-- **Cuentas sin contraseña:** enlace mágico por email, con los datos en Supabase y Row Level Security.
-- **Modo demo sin registro:** 15 candidaturas de ejemplo guardadas solo en el dispositivo.
-- **Tablero** por estados, cada uno con su color, con arrastrar y soltar (ratón) y menú «Mover a…» (teclado y táctil).
-- **Lista** con orden por columnas, búsqueda sin tildes y filtros (en la web, en la URL).
-- **Formulario** de crear y editar con validación en vivo y las mismas reglas que el dominio.
-- **Detalle** con historial de cambios de estado y solo las transiciones permitidas.
-- **Estadísticas:** tasas de respuesta, entrevista y oferta, actividad semanal, efectividad por fuente y candidaturas paradas.
-- **Archivar, desarchivar y eliminar.**
-- **Avisos** inspirados en [Sileo](https://sileo.aaryan.design): siete tipos, promesas y «Deshacer».
-- **Español e inglés**, tema claro, oscuro o del sistema (guardados en el perfil), y diseño responsive de 320 px a 2560 px.
-- **La app móvil tiene las mismas funciones** que la web, con componentes nativos.
+- **Passwordless accounts:** a magic link by email, with the data in Supabase and Row Level Security.
+- **Demo mode without signing up:** 15 sample applications stored only on the device.
+- **Board** by status, each with its own colour, with drag and drop (mouse) and a "Move to…" menu (keyboard and touch).
+- **List** with column sorting, accent-insensitive search and filters (kept in the URL on the web).
+- **Create and edit form** with live validation and the same rules as the domain.
+- **Detail** with the history of status changes and only the allowed transitions.
+- **Stats:** response, interview and offer rates, weekly activity, results by source and stale applications.
+- **Archive, unarchive and delete.**
+- **Toasts** inspired by [Sileo](https://sileo.aaryan.design): seven types, promises and "Undo".
+- **Spanish and English**, light, dark or system theme (saved in the profile), and a responsive layout from 320 px to 2560 px.
+- **The mobile app has the same features** as the web, with native components.
 
-## Cómo probarlo
+## Getting started
 
-### En el navegador
+### In the browser
 
-Abre [applytrack-roan.vercel.app](https://applytrack-roan.vercel.app) y pulsa «Probar sin cuenta» para ver la web con 15 candidaturas de ejemplo guardadas solo en tu navegador, o entra con tu email para guardar las tuyas.
+Open [applytrack-roan.vercel.app](https://applytrack-roan.vercel.app) and press "Probar sin cuenta" to see the web app with 15 sample applications stored only in your browser, or sign in with your email to save your own.
 
-### App móvil
+### Mobile app
 
-La app no se publica en las tiendas: se ejecuta desde el código con [Expo Go](https://expo.dev/go) o en un emulador.
+The app is not published on the stores: you run it from the source code with [Expo Go](https://expo.dev/go) or in an emulator.
 
-1. Instala **Expo Go** en tu teléfono desde la App Store o Google Play.
-2. Clona el repositorio e instala las dependencias (requisitos en el apartado siguiente):
+1. Install **Expo Go** on your phone from the App Store or Google Play.
+2. Clone the repository and install the dependencies (requirements in the next section):
    ```bash
    git clone https://github.com/srdgz/applytrack.git
    cd applytrack
    pnpm install
    ```
-3. Arranca la app y escanea el QR que aparece en la terminal, con la cámara en iOS o desde Expo Go en Android. El teléfono y el ordenador deben estar en la misma red.
+3. Start the app and scan the QR code shown in the terminal, with the camera on iOS or from Expo Go on Android. The phone and the computer must be on the same network.
    ```bash
    pnpm dev:mobile
    ```
-4. Pulsa «Probar sin cuenta». Para entrar con email, arranca con `pnpm dev:mobile:tunnel` (Supabase no acepta enlaces de vuelta a una IP local) y configura `apps/mobile/.env.local` como se explica abajo.
+4. Press "Probar sin cuenta". To sign in with your email, start with `pnpm dev:mobile:tunnel` (Supabase does not accept redirect links to a local IP address) and set up `apps/mobile/.env.local` as explained below.
 
-**En el ordenador:** `pnpm dev:android` la abre en el emulador de Android (necesita Android Studio con un dispositivo virtual; Expo instala Expo Go si hace falta) y `pnpm dev:ios` en el simulador de iOS, solo en macOS.
+**On your computer:** `pnpm dev:android` opens it in the Android emulator (it needs Android Studio with a virtual device; Expo installs Expo Go if needed) and `pnpm dev:ios` in the iOS simulator, on macOS only.
 
-### En local
+### Running locally
 
-Requisitos: **Node 24** (mínimo 22.12, ver `.nvmrc`) y **pnpm 12**.
+Requirements: **Node 24** (at least 22.12, see `.nvmrc`) and **pnpm 12**.
 
 ```bash
 pnpm install
-pnpm dev:web            # web en http://localhost:5173
-pnpm dev:mobile         # app en Expo Go: escanea el QR
-pnpm dev:mobile:tunnel  # igual, con túnel: necesario para entrar con email en Expo Go
-pnpm dev:android        # app en el emulador de Android
-pnpm dev:ios            # app en el simulador de iOS (solo en macOS)
+pnpm dev:web            # web app at http://localhost:5173
+pnpm dev:mobile         # app in Expo Go: scan the QR code
+pnpm dev:mobile:tunnel  # same, through a tunnel: needed to sign in with email in Expo Go
+pnpm dev:android        # app in the Android emulator
+pnpm dev:ios            # app in the iOS simulator (macOS only)
 ```
 
-- **Sin configurar nada,** la web y la app funcionan en **modo demo**: pulsa «Probar sin cuenta».
-- **Para las cuentas,** copia `apps/web/.env.example` y `apps/mobile/.env.example` a `.env.local` en la misma carpeta, con la URL y la clave publicable de un proyecto de Supabase, y aplica las migraciones con `pnpm supabase link` y `pnpm supabase db push`. Los pasos completos están en la [spec 104](docs/specs/104-autenticacion.md#8-configuración-del-proyecto-en-supabase).
+- **With no setup,** the web and mobile apps work in **demo mode**: press "Probar sin cuenta".
+- **For accounts,** copy `apps/web/.env.example` and `apps/mobile/.env.example` to `.env.local` in the same folder, with the URL and publishable key of a Supabase project, and apply the migrations with `pnpm supabase link` and `pnpm supabase db push`. The full steps are in [spec 104](docs/specs/104-autenticacion.md#8-configuración-del-proyecto-en-supabase).
 
-## Arquitectura
+## Architecture
 
 ```
 apps/
   web/              Vue 3 · Vite · Tailwind CSS 4 · vue-router · vue-i18n
   mobile/           Expo · Expo Router · NativeWind · i18next
 packages/
-  core/             Dominio y casos de uso. Sin dependencias de runtime.
-  adapter-local/    Repositorio del modo demo sobre localStorage / AsyncStorage
-  adapter-supabase/ Repositorio, sesión, acceso y perfil sobre Supabase
-  composition/      Raíz de composición compartida por la web y el móvil
-  presentation/     Filtros, formatos y formulario compartidos por la web y el móvil
-  i18n/             Catálogos ES/EN compartidos en formato ICU
-  notifications/    Cola de avisos compartida por web y móvil
-  design-tokens/    Colores comunes de la web y el móvil
-  config/           tsconfig y ESLint compartidos
-brand/              Logo en SVG; `pnpm brand` genera los iconos de la web y la app
-supabase/           Migraciones SQL con RLS, configuración local y plantilla del correo
+  core/             Domain and use cases. No runtime dependencies.
+  adapter-local/    Demo mode repository on localStorage / AsyncStorage
+  adapter-supabase/ Repository, session, access and profile on Supabase
+  composition/      Composition root shared by the web and mobile apps
+  presentation/     Filters, formatting and form logic shared by the web and mobile apps
+  i18n/             Shared ES/EN catalogues in ICU format
+  notifications/    Toast queue shared by the web and mobile apps
+  design-tokens/    Colours shared by the web and mobile apps
+  config/           Shared tsconfig and ESLint
+brand/              SVG logo; `pnpm brand` generates the web and app icons
+supabase/           SQL migrations with RLS, local config and the email template
 docs/
-  specs/            Especificaciones con criterios de aceptación
-  adr/              Decisiones de arquitectura
-  screenshots/      Capturas generadas para este README
+  specs/            Specifications with acceptance criteria
+  adr/              Architecture decision records
+  screenshots/      Screenshots generated for this README
 ```
 
-- **Puertos y adaptadores:** `core` define los puertos (repositorio, sesión, acceso, reloj…) y los adaptadores los implementan. Las apps solo conectan las piezas en su carpeta `di/`.
-- **Reglas comprobadas en CI** con `dependency-cruiser`: el dominio no importa nada externo, `core` no usa paquetes de npm, la interfaz no importa adaptadores y no hay dependencias circulares.
-- **Errores de negocio como datos:** los casos de uso devuelven `Result` con códigos de error, y la interfaz los traduce.
-- **Suite de contrato:** el repositorio en memoria, el local y el de Supabase pasan los mismos tests de búsqueda, orden, paginación y aislamiento entre usuarios.
+- **Ports and adapters:** `core` defines the ports (repository, session, access, clock…) and the adapters implement them. The apps only wire the pieces together in their `di/` folder.
+- **Rules checked in CI** with `dependency-cruiser`: the domain imports nothing external, `core` uses no npm packages, the UI does not import adapters and there are no circular dependencies.
+- **Business errors as data:** use cases return a `Result` with error codes, and the UI translates them.
+- **Contract suite:** the in-memory, local and Supabase repositories pass the same tests for search, sorting, pagination and isolation between users.
 
-## Calidad
+## Quality
 
-| Qué                  | Cómo                                                                                                                                         |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tests unitarios      | Vitest en los paquetes y la web; Jest y Testing Library en el móvil. `core` por encima del 90 % de cobertura.                                |
-| Contrato y seguridad | La suite de contrato y los tests de RLS contra un Supabase local en la CI.                                                                   |
-| Arquitectura         | `dependency-cruiser` en cada PR.                                                                                                             |
-| E2E de la web        | Playwright en 360, 768, 1280 y 1920 px, incluido un recorrido solo con teclado y la ausencia de scroll horizontal.                           |
-| Accesibilidad        | axe en las pantallas principales, en tema claro y oscuro, sin infracciones graves.                                                           |
-| Rendimiento          | Lighthouse en móvil: 100 en rendimiento, accesibilidad y buenas prácticas. JavaScript inicial de 132 KB comprimido, con un límite de 200 KB. |
-| E2E del móvil        | Maestro en el emulador de Android con Expo Go (`pnpm e2e:mobile`).                                                                           |
-| Textos               | Paridad de claves entre idiomas y reglas de lint que impiden textos sin traducir.                                                            |
+| What                  | How                                                                                                                                  |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| Unit tests            | Vitest in the packages and the web app; Jest and Testing Library in the mobile app. `core` above 90 % coverage.                      |
+| Contract and security | The contract suite and the RLS tests against a local Supabase in CI.                                                                 |
+| Architecture          | `dependency-cruiser` on every PR.                                                                                                    |
+| Web E2E               | Playwright at 360, 768, 1280 and 1920 px, including a keyboard-only walkthrough and no horizontal scrolling.                         |
+| Accessibility         | WCAG 2.2 AA. axe on the main screens, in the light and dark themes, with no serious violations.                                      |
+| Performance           | Lighthouse on mobile: 100 for performance, accessibility and best practices. 132 KB of initial JavaScript gzipped, capped at 200 KB. |
+| Mobile E2E            | Maestro in the Android emulator with Expo Go (`pnpm e2e:mobile`).                                                                    |
+| Copy                  | Key parity between languages and lint rules that block untranslated text.                                                            |
 
-| Comando                   | Qué hace                                                   |
+| Command                   | What it does                                               |
 | ------------------------- | ---------------------------------------------------------- |
-| `pnpm lint`               | ESLint en todos los paquetes                               |
-| `pnpm typecheck`          | Comprobación de tipos con TypeScript                       |
-| `pnpm test`               | Vitest (paquetes y web) y Jest (móvil), con cobertura      |
-| `pnpm depcruise`          | Reglas de dependencia de la arquitectura hexagonal         |
-| `pnpm format`             | Formatea el código con Prettier                            |
-| `pnpm build`              | Compila la web                                             |
-| `pnpm e2e`                | E2E y accesibilidad de la web con Playwright y axe         |
-| `pnpm lighthouse`         | Presupuesto de JavaScript y Lighthouse en móvil            |
-| `pnpm e2e:mobile`         | E2E del móvil con Maestro (con `pnpm dev:android` abierto) |
-| `pnpm screenshots`        | Capturas de la web para este README                        |
-| `pnpm screenshots:mobile` | Capturas de la app para este README                        |
+| `pnpm lint`               | ESLint in every package                                    |
+| `pnpm typecheck`          | Type checks with TypeScript                                |
+| `pnpm test`               | Vitest (packages and web) and Jest (mobile), with coverage |
+| `pnpm depcruise`          | Dependency rules of the hexagonal architecture             |
+| `pnpm format`             | Formats the code with Prettier                             |
+| `pnpm build`              | Builds the web app                                         |
+| `pnpm e2e`                | Web E2E and accessibility with Playwright and axe          |
+| `pnpm lighthouse`         | JavaScript budget and Lighthouse on mobile                 |
+| `pnpm e2e:mobile`         | Mobile E2E with Maestro (with `pnpm dev:android` running)  |
+| `pnpm screenshots`        | Web screenshots for this README                            |
+| `pnpm screenshots:mobile` | App screenshots for this README                            |
 
-La primera vez, `pnpm --filter @applytrack/web e2e:install` descarga Chromium dentro del proyecto. Maestro se instala aparte siguiendo [su guía](https://docs.maestro.dev/getting-started/installing-maestro) y necesita Java 17 o superior.
+The first time, `pnpm --filter @applytrack/web e2e:install` downloads Chromium inside the project. Maestro is installed separately by following [its guide](https://docs.maestro.dev/getting-started/installing-maestro) and needs Java 17 or later.
 
-## Documentación
+## Documentation
 
-| Documento                                                                    | Contenido                                                  |
-| ---------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [000 · Producto](docs/specs/000-producto.md)                                 | Visión, alcance, modelo de dominio y requisitos            |
-| [001 · Arquitectura](docs/specs/001-arquitectura.md)                         | Hexagonal, SOLID, monorepo, datos y testing                |
-| [002 · i18n](docs/specs/002-i18n.md)                                         | Español e inglés: catálogos, formatos y verificación       |
-| [003 · Responsive](docs/specs/003-responsive.md)                             | Breakpoints y comportamiento de cada pantalla              |
-| [004 · Hoja de ruta](docs/specs/004-hoja-de-ruta.md)                         | Hitos y estado de cada especificación                      |
-| [100 · Crear y editar](docs/specs/100-crear-y-editar-candidatura.md)         | Validación, casos de uso y formulario                      |
-| [101 · Cambio de estado](docs/specs/101-cambio-de-estado.md)                 | Transiciones, detalle y movimientos en el tablero          |
-| [102 · Tablero y lista](docs/specs/102-tablero-y-lista.md)                   | Búsqueda, filtros, orden y paginación                      |
-| [103 · Modo demo](docs/specs/103-modo-demo.md)                               | Adaptador local y datos de ejemplo                         |
-| [104 · Autenticación](docs/specs/104-autenticacion.md)                       | Enlace mágico, preferencias y Supabase                     |
-| [105 · Estadísticas](docs/specs/105-panel-estadisticas.md)                   | Métricas y panel                                           |
-| [106 · Archivar y eliminar](docs/specs/106-archivar-y-eliminar.md)           | Archivado reversible y borrado con confirmación            |
-| [107 · Notificaciones](docs/specs/107-notificaciones.md)                     | Avisos compartidos web y móvil                             |
-| [108 · Identidad visual](docs/specs/108-identidad-visual.md)                 | Logo, iconos y pantalla de carga                           |
-| [109 · Base de la app móvil](docs/specs/109-base-app-movil.md)               | Navegación, modo demo, acceso y ajustes en el móvil        |
-| [110 · Tablero y lista en el móvil](docs/specs/110-tablero-y-lista-movil.md) | Tablero, lista, búsqueda y filtros en el móvil             |
-| [111 · Detalle en el móvil](docs/specs/111-detalle-movil.md)                 | Detalle, cambio de estado, archivar y eliminar en el móvil |
-| [112 · Formulario en el móvil](docs/specs/112-formulario-movil.md)           | Crear y editar candidaturas en el móvil                    |
-| [113 · Estadísticas en el móvil](docs/specs/113-estadisticas-movil.md)       | Panel de estadísticas en el móvil                          |
-| [114 · Calidad de la web](docs/specs/114-calidad-web.md)                     | E2E, accesibilidad, rendimiento y textos sin traducir      |
-| [115 · Calidad del móvil y README](docs/specs/115-calidad-movil-y-readme.md) | E2E con Maestro y capturas                                 |
-| [116 · Rediseño visual](docs/specs/116-rediseno-visual.md)                   | Color por estado, Inter y superficies                      |
-| [117 · Despliegue de la web](docs/specs/117-despliegue-web.md)               | Vercel, Supabase en producción y cómo ejecutar la app      |
-| [ADR](docs/adr)                                                              | Decisiones de arquitectura                                 |
+The specifications and architecture decisions are written in Spanish.
 
-## Stack
+| Document                                                                    | Contents                                              |
+| --------------------------------------------------------------------------- | ----------------------------------------------------- |
+| [000 · Product](docs/specs/000-producto.md)                                 | Vision, scope, domain model and requirements          |
+| [001 · Architecture](docs/specs/001-arquitectura.md)                        | Hexagonal, SOLID, monorepo, data and testing          |
+| [002 · i18n](docs/specs/002-i18n.md)                                        | Spanish and English: catalogues, formats and checks   |
+| [003 · Responsive](docs/specs/003-responsive.md)                            | Breakpoints and the behaviour of each screen          |
+| [004 · Roadmap](docs/specs/004-hoja-de-ruta.md)                             | Milestones and the status of each specification       |
+| [100 · Create and edit](docs/specs/100-crear-y-editar-candidatura.md)       | Validation, use cases and form                        |
+| [101 · Status change](docs/specs/101-cambio-de-estado.md)                   | Transitions, detail and moves on the board            |
+| [102 · Board and list](docs/specs/102-tablero-y-lista.md)                   | Search, filters, sorting and pagination               |
+| [103 · Demo mode](docs/specs/103-modo-demo.md)                              | Local adapter and sample data                         |
+| [104 · Authentication](docs/specs/104-autenticacion.md)                     | Magic link, preferences and Supabase                  |
+| [105 · Stats](docs/specs/105-panel-estadisticas.md)                         | Metrics and dashboard                                 |
+| [106 · Archive and delete](docs/specs/106-archivar-y-eliminar.md)           | Reversible archiving and deletion with confirmation   |
+| [107 · Notifications](docs/specs/107-notificaciones.md)                     | Toasts shared by the web and mobile apps              |
+| [108 · Visual identity](docs/specs/108-identidad-visual.md)                 | Logo, icons and splash screen                         |
+| [109 · Mobile app foundation](docs/specs/109-base-app-movil.md)             | Navigation, demo mode, access and settings on mobile  |
+| [110 · Mobile board and list](docs/specs/110-tablero-y-lista-movil.md)      | Board, list, search and filters on mobile             |
+| [111 · Mobile detail](docs/specs/111-detalle-movil.md)                      | Detail, status change, archive and delete on mobile   |
+| [112 · Mobile form](docs/specs/112-formulario-movil.md)                     | Creating and editing applications on mobile           |
+| [113 · Mobile stats](docs/specs/113-estadisticas-movil.md)                  | Stats dashboard on mobile                             |
+| [114 · Web quality](docs/specs/114-calidad-web.md)                          | E2E, accessibility, performance and untranslated text |
+| [115 · Mobile quality and README](docs/specs/115-calidad-movil-y-readme.md) | E2E with Maestro and screenshots                      |
+| [116 · Visual redesign](docs/specs/116-rediseno-visual.md)                  | Status colours, Inter and surfaces                    |
+| [117 · Web deployment](docs/specs/117-despliegue-web.md)                    | Vercel, Supabase in production and how to run the app |
+| [ADR](docs/adr)                                                             | Architecture decision records                         |
 
-**En uso:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · Inter · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · Playwright · axe · Lighthouse · Maestro · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions · Vercel
+## Tech stack
 
-## Forma de trabajo
+**In use:** TypeScript · Vue 3 · Vite · Tailwind CSS 4 · Inter · vue-router · vue-i18n · React Native · Expo · Expo Router · NativeWind · i18next · Supabase (Auth, Postgres, RLS) · Zod · Vitest · Testing Library · Jest · Playwright · axe · Lighthouse · Maestro · ESLint · Prettier · dependency-cruiser · pnpm · Turborepo · Husky · commitlint · GitHub Actions · Vercel
 
-Spec-Driven Development: cada funcionalidad empieza por una especificación con criterios de aceptación en `docs/specs`. Cuando se aprueba, se implementa, se prueba contra esos criterios y se documentan los cambios en la propia especificación.
+## How it is built
 
-## Licencia
+Spec-Driven Development: every feature starts with a specification with acceptance criteria in `docs/specs`. Once it is approved, it is implemented, tested against those criteria and the changes are recorded in the specification itself.
+
+## License
 
 [MIT](LICENSE) © 2026 Sandra Rodríguez
